@@ -117,7 +117,7 @@ abstract class AbsRecyclerViewFragment<A : RecyclerView.Adapter<*>, LM : Recycle
                 view.translationY = -top.toFloat()
                 insets
             }
-            ViewCompat.setOnApplyWindowInsetsListener(binding.appBarLayout.toolbar) { view, insets ->
+            ViewCompat.setOnApplyWindowInsetsListener(binding.appBarLayout) { view, insets ->
                 val top = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
                 view.setPadding(
                     view.paddingLeft,
@@ -125,7 +125,6 @@ abstract class AbsRecyclerViewFragment<A : RecyclerView.Adapter<*>, LM : Recycle
                     view.paddingRight,
                     view.paddingBottom
                 )
-                view.translationY = -top.toFloat()
                 insets
             }
         }
