@@ -97,10 +97,13 @@ class PlayingNotificationImpl24(
         setContentIntent(clickIntent)
         setDeleteIntent(deleteIntent)
         setShowWhen(false)
+        addAction(toggleFavorite)
         addAction(previousAction)
         addAction(playPauseAction)
         addAction(nextAction)
-        addAction(dismissAction)
+        if (VersionUtils.hasS()) {
+            addAction(dismissAction)
+        }
 
         setStyle(
             MediaStyle()
@@ -190,7 +193,7 @@ class PlayingNotificationImpl24(
     }
 
     override fun clear(context: Context) {
-        Glide.with(context.applicationContext).clear(currentTarget)
+        Glide.with(context).clear(currentTarget)
     }
 
     private fun retrievePlaybackAction(action: String): PendingIntent {
