@@ -112,21 +112,22 @@ abstract class AbsRecyclerViewFragment<A : RecyclerView.Adapter<*>, LM : Recycle
             binding.appBarLayout.pinWhenScrolled()
         }
         if (PreferenceUtil.isFullScreenMode) {
-            ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, insets ->
+           // ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, insets ->
+       //         val top = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
+        //        view.translationY = -top.toFloat()
+        //        insets
+       //     }
+            ViewCompat.setOnApplyWindowInsetsListener(binding.appBarLayout.toolbar) { view, insets ->
                 val top = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
+                view.setPadding(
+                    view.paddingLeft,
+                    top,
+                    view.paddingRight,
+                    view.paddingBottom
+                )
                 view.translationY = -top.toFloat()
                 insets
             }
-            //ViewCompat.setOnApplyWindowInsetsListener(binding.appBarLayout.toolbar) { view, insets ->
-               // val top = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
-        //        view.setPadding(
-       //             view.paddingLeft,
-       //             top,
-      //              view.paddingRight,
-     //               view.paddingBottom
-     //           )
-      //          insets
-          //  }
         }
         if (PreferenceUtil.hideHeader) {
             binding.appBarLayout.visibility = View.GONE
