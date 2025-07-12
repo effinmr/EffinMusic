@@ -112,7 +112,7 @@ abstract class AbsRecyclerViewFragment<A : RecyclerView.Adapter<*>, LM : Recycle
             binding.appBarLayout.pinWhenScrolled()
         }
         if (PreferenceUtil.isFullScreenMode) {
-            ViewCompat.setOnApplyWindowInsetsListener(binding.appBarLayout) { view, insets ->
+            ViewCompat.setOnApplyWindowInsetsListener(binding.toolbar) { view, insets ->
                 val top = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
                 view.setPadding(
                     view.paddingLeft,
