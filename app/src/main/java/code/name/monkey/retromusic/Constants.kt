@@ -18,13 +18,15 @@ import android.provider.BaseColumns
 import android.provider.MediaStore
 
 object Constants {
-    const val WEBSITE = "https://github.com/effinmr/Music"
-    const val GITHUB_PROJECT = "https://github.com/effinmr/Music"
+    const val WEBSITE = "https://github.com/effinmr/EffinMusic"
+    const val GITHUB_PROJECT = "https://github.com/effinmr/EffinMusic"
     const val USER_PROFILE = "profile.jpg"
     const val USER_BANNER = "banner.jpg"
-    const val FAQ_LINK = "https://github.com/effinmr/Music/blob/master/FAQ.md"
-    const val BUG = "https://github.com/effinmr/Music/issues/new?template=bug_report.md"
-    const val CHANGELOG = "https://github.com/effinmr/Music/releases"
+    const val FAQ_LINK = "https://github.com/effinmr/EffinMusic/blob/master/FAQ.md"
+    const val BUG = "https://github.com/effinmr/EffinMusic/issues/new?template=bug_report.md"
+    const val CHANGELOG = "https://github.com/effinmr/EffinMusic/releases"
+    const val DONATE_LINK = "https://coff.ee/dhruvit"
+    
 
 
     const val IS_MUSIC =
