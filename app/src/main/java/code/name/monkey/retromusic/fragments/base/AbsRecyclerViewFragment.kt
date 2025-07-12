@@ -117,16 +117,16 @@ abstract class AbsRecyclerViewFragment<A : RecyclerView.Adapter<*>, LM : Recycle
                 view.translationY = -top.toFloat()
                 insets
             }
-            ViewCompat.setOnApplyWindowInsetsListener(binding.appBarLayout.toolbar) { view, insets ->
-                val top = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
-                view.setPadding(
-                    view.paddingLeft,
-                    top,
-                    view.paddingRight,
-                    view.paddingBottom
-                )
-                insets
-            }
+            //ViewCompat.setOnApplyWindowInsetsListener(binding.appBarLayout.toolbar) { view, insets ->
+               // val top = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
+        //        view.setPadding(
+       //             view.paddingLeft,
+       //             top,
+      //              view.paddingRight,
+     //               view.paddingBottom
+     //           )
+      //          insets
+          //  }
         }
         if (PreferenceUtil.hideHeader) {
             binding.appBarLayout.visibility = View.GONE
