@@ -174,11 +174,11 @@
     <string name="disc_hint">Disc Number</string>
     <string name="do_you_want_to_clear_the_blacklist">Do you want to clear the blacklist?</string>
     <string name="do_you_want_to_remove_from_the_blacklist"><![CDATA[Do you want to remove <b>%1$s</b> from the blacklist?]]></string>
-    <string name="donate">Donate</string>
-    <string name="donate_summary">If you think I deserve to get paid for my work, you can leave some money here</string>
     <string name="donation_header">Buy me a:</string>
     <string name="done">Done</string>
     <string name="device">Device</string>
+    <string name="donate">Buy me a Coffee</string>
+    <string name="donate_summary">If you liked my work, Buy me a Coffee!</string>
     <string name="drive_mode">Drive mode</string>
     <string name="effects">Effects</string>
     <string name="edit_fab">Edit Button</string>
