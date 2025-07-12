@@ -29,7 +29,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <code.name.monkey.retromusic.views.ListItemView
-            android:id="@+id/appGithub"
+            android:id="@+id/donate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constrainedWidth="true"
@@ -37,6 +37,19 @@
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/sb2"
+            app:listItemIcon="@drawable/ic_buy_me_a_coffee"
+            app:listItemSummary="@string/donate_summary"
+            app:listItemTitle="@string/donate" />
+
+        <code.name.monkey.retromusic.views.ListItemView
+            android:id="@+id/appGithub"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/donate"
             app:listItemIcon="@drawable/ic_github_circle"
             app:listItemSummary="@string/git_hub_summary"
             app:listItemTitle="@string/git_hub" />
