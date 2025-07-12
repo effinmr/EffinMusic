@@ -52,6 +52,7 @@ class AboutFragment : Fragment(R.layout.fragment_about), View.OnClickListener {
     }
 
     private fun setUpView() {
+        binding.aboutContent.cardRetroInfo.donate.setOnClickListener(this)
         binding.aboutContent.cardRetroInfo.appGithub.setOnClickListener(this)
         binding.aboutContent.cardRetroInfo.faqLink.setOnClickListener(this)
         binding.aboutContent.cardRetroInfo.appShare.setOnClickListener(this)
@@ -62,6 +63,7 @@ class AboutFragment : Fragment(R.layout.fragment_about), View.OnClickListener {
 
     override fun onClick(view: View) {
         when (view.id) {
+            R.id.donate -> openUrl(Constants.DONATE_LINK)
             R.id.faqLink -> openUrl(Constants.FAQ_LINK)
             R.id.appGithub -> openUrl(Constants.GITHUB_PROJECT)
             R.id.appShare -> shareApp()
