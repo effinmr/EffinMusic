@@ -31,35 +31,7 @@
 - Sort by Recording date
 - Custom Library
 - Pro Features
--  Base 3 themes (Clearly White, Kinda Dark and AMOLED)
--  Chromecast support
--  Choose from 10+ now playing themes
--  Driving Mode
--  Headset/Bluetooth support
--  Music duration filter
--  Android Auto support
--  Wallpaper accent picker on Android 8.1+
--  Material You support on Android 12+
--  Monet themed icon support on Android 13+
--  Folder support - Play songs by folder
--  Gapless playback
--  Volume controls
--  Carousel effect for album covers
--  Home screen widgets
--  Lock screen playback controls
--  Lyrics screen (download and sync with music)
--  Sleep timer
--  Easy drag to sort playlist & play queue
--  Tag editor
--  Create, edit and import playlists
--  Playing queue with reorder
--  User profile
--  30+ languages support (help translate the project: [Translate](https://github.com/effinmr/EffinMusic/blob/main/CONTRIBUTING.md)
--  Browse and play your music by songs, albums, artists, playlists and
-  genres
--  Smart Playlists - Recently played, most played and history
--  Build your playlist on the go
--  Support for Lyrics over 100 Minutes
+- Everything that Retro has
 
 ___
 
