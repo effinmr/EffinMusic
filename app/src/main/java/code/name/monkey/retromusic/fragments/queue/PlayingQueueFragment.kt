@@ -38,6 +38,8 @@ import com.h6ah4i.android.widget.advrecyclerview.draggable.RecyclerViewDragDropM
 import com.h6ah4i.android.widget.advrecyclerview.swipeable.RecyclerViewSwipeManager
 import com.h6ah4i.android.widget.advrecyclerview.touchguard.RecyclerViewTouchActionGuardManager
 import com.h6ah4i.android.widget.advrecyclerview.utils.WrapperAdapterUtils
+import code.name.monkey.retromusic.extensions.surfaceColor
+import android.graphics.drawable.ColorDrawable
 
 class PlayingQueueFragment : AbsMusicServiceFragment(R.layout.fragment_playing_queue) {
 
@@ -67,6 +69,7 @@ class PlayingQueueFragment : AbsMusicServiceFragment(R.layout.fragment_playing_q
 
         setupToolbar()
         setUpRecyclerView()
+        binding.appBarLayout.background = ColorDrawable(surfaceColor())
 
         binding.clearQueue.setOnClickListener {
             MusicPlayerRemote.clearQueue()

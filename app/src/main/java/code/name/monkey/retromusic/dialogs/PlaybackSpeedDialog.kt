@@ -21,30 +21,35 @@ class PlaybackSpeedDialog : DialogFragment() {
         PreferenceUtil.playbackPitch.toString().also { binding.pitchValue.text = it }
         binding.playbackSpeedSlider.addOnChangeListener(Slider.OnChangeListener { _, value, _ ->
             binding.speedValue.text = "$value"
+            PreferenceUtil.playbackSpeed = value
         })
         binding.playbackPitchSlider.addOnChangeListener(Slider.OnChangeListener { _, value, _ ->
             binding.pitchValue.text = "$value"
+            PreferenceUtil.playbackPitch = value
         })
         binding.playbackSpeedSlider.value = PreferenceUtil.playbackSpeed
         binding.playbackPitchSlider.value = PreferenceUtil.playbackPitch
 
-        return materialDialog(R.string.playback_settings)
-            .setNegativeButton(android.R.string.cancel, null)
-            .setPositiveButton(R.string.save) { _, _ ->
-                updatePlaybackAndPitch(
-                    binding.playbackSpeedSlider.value,
-                    binding.playbackPitchSlider.value
-                )
-            }
-            .setNeutralButton(R.string.reset_action) {_, _ ->
-                updatePlaybackAndPitch(
-                    1F,
-                    1F
-                )
-            }
+        val dialog = materialDialog(R.string.playback_settings)
+            .setPositiveButton(android.R.string.ok, null)
+            .setNeutralButton(R.string.reset_action, null) // <- no lambda here
             .setView(binding.root)
             .create()
             .colorButtons()
+
+        dialog.setOnShowListener {
+            dialog.getButton(Dialog.BUTTON_NEUTRAL)?.setOnClickListener {
+                val resetSpeed = 1F
+                val resetPitch = 1F
+                binding.playbackSpeedSlider.value = resetSpeed
+                binding.playbackPitchSlider.value = resetPitch
+                binding.speedValue.text = "$resetSpeed"
+                binding.pitchValue.text = "$resetPitch"
+                PreferenceUtil.playbackSpeed = resetSpeed
+                PreferenceUtil.playbackPitch = resetPitch
+            }
+        }
+        return dialog
     }
 
     private fun updatePlaybackAndPitch(speed: Float, pitch: Float) {
