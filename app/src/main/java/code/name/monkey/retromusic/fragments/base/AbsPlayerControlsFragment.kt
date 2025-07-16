@@ -90,10 +90,13 @@ abstract class AbsPlayerControlsFragment(@LayoutRes layout: Int) : AbsMusicServi
 
     override fun onUpdateProgressViews(progress: Int, total: Int) {
         if (seekBar == null) {
+            val safeTotal = total.coerceAtLeast(0)
             progressSlider?.valueTo = total.toFloat()
 
-            progressSlider?.value =
-                progress.toFloat().coerceIn(progressSlider?.valueFrom, progressSlider?.valueTo)
+            val from = progressSlider?.valueFrom ?: 0f
+            val to = progressSlider?.valueTo ?: safeTotal.toFloat()
+
+            progressSlider?.value = progress.toFloat().coerceIn(from, to)
         } else {
             seekBar?.max = total
 
