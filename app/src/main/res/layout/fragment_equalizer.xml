@@ -118,7 +118,8 @@
                             android:valueFrom="-15"
                             android:valueTo="15"
                             android:value="0"
-                            android:stepSize="0.1" />
+                            android:stepSize="0.1" 
+                            app:tickVisible="false" />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:layout_width="wrap_content"
@@ -161,7 +162,8 @@
                             android:valueFrom="-15"
                             android:valueTo="15"
                             android:value="0"
-                            android:stepSize="0.1" />
+                            android:stepSize="0.1" 
+                            app:tickVisible="false" />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:layout_width="wrap_content"
@@ -204,7 +206,8 @@
                             android:valueFrom="-15"
                             android:valueTo="15"
                             android:value="0"
-                            android:stepSize="0.1" />
+                            android:stepSize="0.1" 
+                            app:tickVisible="false" />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:layout_width="wrap_content"
@@ -247,7 +250,8 @@
                             android:valueFrom="-15"
                             android:valueTo="15"
                             android:value="0"
-                            android:stepSize="0.1" />
+                            android:stepSize="0.1" 
+                            app:tickVisible="false" />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:layout_width="wrap_content"
@@ -290,7 +294,8 @@
                             android:valueFrom="-15"
                             android:valueTo="15"
                             android:value="0"
-                            android:stepSize="0.1" />
+                            android:stepSize="0.1" 
+                            app:tickVisible="false" />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:layout_width="wrap_content"
@@ -322,7 +327,8 @@
                         android:valueFrom="0"
                         android:valueTo="100"
                         android:value="0"
-                        android:stepSize="1" />
+                        android:stepSize="1" 
+                        app:tickVisible="false" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/virtualizerValue"
@@ -354,7 +360,8 @@
                         android:valueFrom="0"
                         android:valueTo="100"
                         android:value="0"
-                        android:stepSize="1" />
+                        android:stepSize="1" 
+                        app:tickVisible="false" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/bassBoostValue"
@@ -386,7 +393,8 @@
                         android:valueFrom="0"
                         android:valueTo="150"
                         android:value="0"
-                        android:stepSize="1" />
+                        android:stepSize="1" 
+                        app:tickVisible="false" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/amplifierValue"
