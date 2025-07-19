@@ -197,6 +197,7 @@
     <string name="expanded">Expanded</string>
     <string name="faq">FAQ</string>
     <string name="favorites">Favorites</string>
+    <string name="fetch_lyrics_online">Fetch Lyrics</string>
     <string name="file_already_exists">File already exists</string>
     <string name="finish_last_song">Finish last song</string>
     <string name="fit">Fit</string>

@@ -14,18 +14,23 @@
  */
 package code.name.monkey.retromusic.adapter.album
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.BundleCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import code.name.monkey.retromusic.fragments.lyrics.LyricsFragment
 import androidx.lifecycle.lifecycleScope
 import code.name.monkey.retromusic.R
 import code.name.monkey.retromusic.activities.MainActivity
+import code.name.monkey.retromusic.extensions.currentFragment
 import code.name.monkey.retromusic.fragments.AlbumCoverStyle
 import code.name.monkey.retromusic.fragments.NowPlayingScreen.*
 import code.name.monkey.retromusic.fragments.base.goToLyrics
@@ -39,6 +44,7 @@ import code.name.monkey.retromusic.util.MusicUtil
 import code.name.monkey.retromusic.util.PreferenceUtil
 import code.name.monkey.retromusic.util.color.MediaNotificationProcessor
 import code.name.monkey.retromusic.helper.MusicPlayerRemote
+import code.name.monkey.retromusic.lyrics.LyricsLoader
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestBuilder
 import android.net.Uri
@@ -132,21 +138,39 @@ class AlbumCoverPagerAdapter(
             return view
         }
 
-        private fun showLyricsDialog() {
+        private fun showLyricsDialog(lyrics: String? = null) {
             lifecycleScope.launch(Dispatchers.IO) {
-                val data: String? = MusicUtil.getLyrics(song)
+                val data = lyrics ?: MusicUtil.getLyrics(song)
                 withContext(Dispatchers.Main) {
-                    MaterialAlertDialogBuilder(
+                    val dialog = MaterialAlertDialogBuilder(
                         requireContext(),
                         com.google.android.material.R.style.ThemeOverlay_MaterialComponents_Dialog_Alert
-                    ).apply {
-                        setTitle(song.title)
-                        setMessage(if (data.isNullOrEmpty()) "No lyrics found" else data)
-                        setNegativeButton(R.string.synced_lyrics) { _, _ ->
-                            goToLyrics(requireActivity())
+                    )
+                        .setTitle(song.title)
+                        .setMessage(if (data.isNullOrEmpty()) "No lyrics found" else data)
+                        .setNeutralButton(R.string.fetch_lyrics_online, null)
+                        .setPositiveButton(R.string.synced_lyrics, null)
+                        .create()
+
+                        dialog.setOnShowListener {
+                            dialog.getButton(AlertDialog.BUTTON_POSITIVE)?.setOnClickListener {
+                                dialog.dismiss()
+                                goToLyrics(requireActivity())
+                            }
+                        
+                        dialog.getButton(AlertDialog.BUTTON_NEUTRAL)?.setOnClickListener {
+                            lifecycleScope.launch {
+                                val fetchedLyrics = LyricsLoader.loadLyrics(song, preferSynced = false)
+                                if (!fetchedLyrics.isNullOrBlank()) {
+                                    dialog.dismiss()
+                                    showLyricsDialog(fetchedLyrics)
+                                } else {
+                                    Toast.makeText(requireContext(), R.string.no_lyrics_found, Toast.LENGTH_SHORT).show()
+                                }
+                            }
                         }
-                        show()
                     }
+                    dialog.show()
                 }
             }
         }

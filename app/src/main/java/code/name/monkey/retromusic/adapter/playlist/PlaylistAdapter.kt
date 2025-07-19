@@ -18,6 +18,7 @@ import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.MenuItem
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
@@ -49,7 +50,8 @@ class PlaylistAdapter(
     override val activity: FragmentActivity,
     var dataSet: List<PlaylistWithSongs>,
     private var itemLayoutRes: Int,
-    private val listener: IPlaylistClickListener
+    private val listener: IPlaylistClickListener,
+    private val dragStartListener: ((ViewHolder) -> Unit)?
 ) : AbsMultiSelectAdapter<PlaylistAdapter.ViewHolder, PlaylistWithSongs>(
     activity,
     R.menu.menu_playlists_selection
@@ -122,6 +124,13 @@ class PlaylistAdapter(
                 .load(PlaylistPreview(playlist))
                 .playlistOptions()
                 .into(holder.image!!)
+        }
+        val dragHandle = holder.itemView.findViewById<View>(R.id.dragHandle)
+        dragHandle?.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                dragStartListener?.invoke(holder)
+            }
+            false
         }
     }
 

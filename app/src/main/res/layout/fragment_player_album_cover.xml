@@ -43,4 +43,16 @@
             app:lrcTimelineColor="@color/transparent"
             tools:visibility="visible" />
     </com.bosphere.fadingedgelayout.FadingEdgeLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/fetchLyricsText"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom"
+        android:text="@string/fetch_lyrics_online"
+        android:textAppearance="@style/TextViewButton"
+        android:textColor="?android:attr/textColorPrimary"
+        app:backgroundTint="?attr/colorSurface" 
+        android:visibility="gone" />
 </FrameLayout>

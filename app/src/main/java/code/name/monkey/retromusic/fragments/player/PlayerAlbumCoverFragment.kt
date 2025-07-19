@@ -20,8 +20,10 @@ import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.annotation.ColorInt
 import androidx.core.animation.doOnEnd
+import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
@@ -42,6 +44,7 @@ import code.name.monkey.retromusic.fragments.base.goToLyrics
 import code.name.monkey.retromusic.helper.MusicPlayerRemote
 import code.name.monkey.retromusic.helper.MusicProgressViewUpdateHelper
 import code.name.monkey.retromusic.lyrics.CoverLrcView
+import code.name.monkey.retromusic.lyrics.LyricsLoader
 import code.name.monkey.retromusic.model.lyrics.Lyrics
 import code.name.monkey.retromusic.transform.CarousalPagerTransformer
 import code.name.monkey.retromusic.transform.ParallaxPagerTransformer
@@ -85,9 +88,14 @@ class PlayerAlbumCoverFragment : AbsMusicServiceFragment(R.layout.fragment_playe
         }
     }
 
-    private fun updateLyrics() {
+    private fun updateLyrics(lyrics: String? = null) {
         val song = MusicPlayerRemote.currentSong
+        binding.fetchLyricsText.visibility = View.GONE
         lifecycleScope.launch(Dispatchers.IO) {
+            if (!lyrics.isNullOrBlank()) {
+                binding.lyricsView.loadLrc(lyrics)
+                return@launch
+            }
             val lrcFile = LyricUtil.getSyncedLyricsFile(song)
             if (lrcFile != null) {
                 binding.lyricsView.loadLrc(lrcFile)
@@ -99,14 +107,17 @@ class PlayerAlbumCoverFragment : AbsMusicServiceFragment(R.layout.fragment_playe
                     withContext(Dispatchers.Main) {
                         val binding = _binding ?: return@withContext
                         if (!viewDestroyed) {
+                            binding.lyricsView.visibility = View.VISIBLE
                             binding.lyricsView.reset()
                             binding.lyricsView.setLabel(context?.getString(R.string.no_lyrics_found))
+                            if (PreferenceUtil.showLyrics) {
+                                binding.fetchLyricsText.visibility = View.VISIBLE
+                            }
                         }
                     }
                 }
             }
         }
-
     }
 
     override fun onUpdateProgressViews(progress: Int, total: Int) {
@@ -141,6 +152,18 @@ class PlayerAlbumCoverFragment : AbsMusicServiceFragment(R.layout.fragment_playe
                             MusicPlayerRemote.resumePlaying()
                         }
                     }
+                }
+            }
+        }
+        binding.fetchLyricsText.visibility = View.GONE
+        binding.fetchLyricsText.setOnClickListener {
+            val song = MusicPlayerRemote.currentSong
+            lifecycleScope.launch {
+                val fetchedLyrics = LyricsLoader.loadLyrics(song)
+                if (!fetchedLyrics.isNullOrBlank()) {
+                    updateLyrics(fetchedLyrics)
+                } else {
+                    Toast.makeText(requireContext(), R.string.no_lyrics_found, Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -211,9 +234,11 @@ class PlayerAlbumCoverFragment : AbsMusicServiceFragment(R.layout.fragment_playe
         when (key) {
             SHOW_LYRICS -> {
                 if (PreferenceUtil.showLyrics) {
+                    updateLyrics()
                     maybeInitLyrics()
                 } else {
                     showLyrics(false)
+                    binding.fetchLyricsText.visibility = View.GONE
                     progressViewUpdateHelper?.stop()
                 }
             }

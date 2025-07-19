@@ -54,6 +54,12 @@
 -keep interface com.squareup.okhttp3.** { *; }
 -dontwarn com.squareup.okhttp3.**
 
+# lrclib
+-keep interface code.name.monkey.retromusic.lyrics.LrcLibApi { *; }
+-keep class code.name.monkey.retromusic.lyrics.LyricsResponse { *; }
+-keepclassmembers class code.name.monkey.retromusic.lyrics.LyricsResponse { *; }
+-keep class code.name.monkey.retromusic.lyrics.LyricsFetcher$1 { *; }
+
 #-dontwarn
 #-ignorewarnings
 

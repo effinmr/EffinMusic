@@ -55,6 +55,8 @@ class PlaylistsFragment :
     AbsRecyclerViewCustomGridSizeFragment<PlaylistAdapter, GridLayoutManager>(),
     IPlaylistClickListener {
 
+    private lateinit var itemTouchHelper: ItemTouchHelper
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         libraryViewModel.getPlaylists().observe(viewLifecycleOwner) {
@@ -66,9 +68,11 @@ class PlaylistsFragment :
         if (PreferenceUtil.playlistSortOrder == PlaylistSortOrder.PLAYLIST_CUSTOM) {
             setAndSaveSortOrder(PlaylistSortOrder.PLAYLIST_CUSTOM)
         }
-        val itemTouchHelper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
+        itemTouchHelper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
             ItemTouchHelper.UP or ItemTouchHelper.DOWN or
                     ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT, 0) {
+
+            override fun isLongPressDragEnabled(): Boolean = false
 
             override fun onMove(
                 recyclerView: RecyclerView,
@@ -115,7 +119,9 @@ class PlaylistsFragment :
             dataSet,
             itemLayoutRes(),
             this
-        )
+        ) { viewHolder -> 
+            itemTouchHelper.startDrag(viewHolder)
+        }
     }
 
     override fun onCreateMenu(menu: Menu, inflater: MenuInflater) {
@@ -417,7 +423,7 @@ class PlaylistsFragment :
     }
 
     override fun loadLayoutRes(): Int {
-        return R.layout.item_grid
+        return R.layout.layout_playlist
     }
 
     override fun saveLayoutRes(layoutRes: Int) {

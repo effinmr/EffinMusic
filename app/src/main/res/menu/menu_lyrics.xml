@@ -5,5 +5,10 @@
         android:id="@+id/action_search"
         android:icon="@drawable/ic_search"
         android:title="@string/action_search"
-        app:showAsAction="always" />
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_fetch_lyrics"
+        android:title="@string/fetch_lyrics_online"
+        app:showAsAction="never" />
 </menu>
