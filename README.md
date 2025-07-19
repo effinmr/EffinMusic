@@ -23,6 +23,7 @@
 
 ## 📦 Included Features
 - Major bugs fixed
+- LRCLIB Lyrics
 - Improved Search Bar
 - Minimal Artist
 - Settings Search Bar
