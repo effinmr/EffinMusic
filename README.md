@@ -14,7 +14,7 @@
 
 ## Development paused
 
-##will it continue?
+## will it continue?
 if there's good amount of interest 
 
 
