@@ -71,9 +71,6 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentFullBinding.bind(view)
 
-        mainActivity.setBottomNavVisibility(false)
-        mainActivity.collapsePanel()
-
         libraryViewModel.getSongs().observe(viewLifecycleOwner) { songs ->
             if (songs.isNotEmpty()) {
                 MusicPlayerRemote.openAndShuffleQueue(songs, true)
