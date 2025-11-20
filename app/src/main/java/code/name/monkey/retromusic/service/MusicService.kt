@@ -832,6 +832,21 @@ class MusicService : MediaBrowserServiceCompat(),
         }
     }
 
+    fun playSongAtFrom(position: Int, startMs: Int = 30000) {
+        serviceScope.launch(if (playbackManager.isLocalPlayback) Default else Main) {
+        // Prepare track but DO NOT PLAY automatically
+            openTrackAndPrepareNextAt(position) { success ->
+                if (!success) return@openTrackAndPrepareNextAt
+
+            // Seek first (no audio leaks)
+                playbackManager.seek(startMs)
+
+            // Then play
+                playbackManager.play()
+            }
+        }
+    }
+
     @Synchronized
     fun prepareNextImpl() {
         try {
