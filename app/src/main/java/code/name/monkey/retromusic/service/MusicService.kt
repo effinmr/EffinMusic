@@ -811,7 +811,7 @@ class MusicService : MediaBrowserServiceCompat(),
         playSongAt(getNextPosition(force))
     }
 
-    fun playNextSongFrom(startMs: Int = 30000) {
+    fun playNextSongFrom(force: Boolean, startMs: Int = 30000) {
         playSongAtFrom(getNextPosition(force), startMs)
     }
 
@@ -842,11 +842,9 @@ class MusicService : MediaBrowserServiceCompat(),
             openTrackAndPrepareNextAt(position) { success ->
                 if (!success) return@openTrackAndPrepareNextAt
 
-            // Seek first (no audio leaks)
-                playbackManager.seek(startMs)
+                seek(startMs, true)
 
-            // Then play
-                playbackManager.play()
+                play()
             }
         }
     }
