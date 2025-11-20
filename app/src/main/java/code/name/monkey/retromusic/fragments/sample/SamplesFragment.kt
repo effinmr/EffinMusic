@@ -72,6 +72,15 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentSamplesBinding.bind(view)
 
+        val coverFragment: PlayerAlbumCoverFragment = whichFragment(R.id.playerAlbumCoverFragment)
+        coverFragment.setCallbacks(object : PlayerAlbumCoverFragment.Callbacks {
+            override fun onSongSwiped(position: Int) {
+                // This logic only runs for SamplesFragment
+                MusicPlayerRemote.playNextSongFrom(30000)
+                hasSkipped = true
+            }
+        })
+
         (requireActivity() as? IMiniPlayerExpanded)?.showMiniPlayer(false)
 
         libraryViewModel.getSongs().observe(viewLifecycleOwner) { songs ->
