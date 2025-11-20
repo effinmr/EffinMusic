@@ -67,6 +67,7 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples) {
             // Now the adapter has the real dataset, open it in the player
             MusicPlayerRemote.openAndShuffleQueue(dataSetToUse, true)
             MusicPlayerRemote.seekTo(30000)
+            //MusicPlayerRemote.position
         }
 
         setUpSubFragments()
