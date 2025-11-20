@@ -124,7 +124,7 @@
         android:id="@+id/action_sample"
         android:name="code.name.monkey.retromusic.fragments.sample.SamplesFragment"
         android:label=""
-        tools:layout="@layout/fragment_full" />
+        tools:layout="@layout/fragment_samples" />
 
     <fragment
         android:id="@+id/user_info_fragment"
