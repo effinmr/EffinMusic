@@ -34,6 +34,7 @@ import code.name.monkey.retromusic.glide.RetroGlideExtension
 import code.name.monkey.retromusic.glide.RetroGlideExtension.artistImageOptions
 import code.name.monkey.retromusic.helper.MusicPlayerRemote
 import code.name.monkey.retromusic.helper.MusicProgressViewUpdateHelper
+import code.name.monkey.retromusic.interfaces.IMiniPlayerExpanded
 import code.name.monkey.retromusic.model.Song
 import code.name.monkey.retromusic.util.color.MediaNotificationProcessor
 import com.bumptech.glide.Glide
@@ -70,6 +71,8 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentFullBinding.bind(view)
+
+        (requireActivity() as? IMiniPlayerExpanded)?.showMiniPlayer(false)
 
         libraryViewModel.getSongs().observe(viewLifecycleOwner) { songs ->
             if (songs.isNotEmpty()) {
