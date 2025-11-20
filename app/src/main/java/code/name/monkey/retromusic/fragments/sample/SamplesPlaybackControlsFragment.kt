@@ -117,6 +117,9 @@ class SamplesPlaybackControlsFragment :
     public override fun show() {
     }
 
+    public override fun hide() {
+    }
+
     override fun onPlayingMetaChanged() {
         super.onPlayingMetaChanged()
         updateSong()
