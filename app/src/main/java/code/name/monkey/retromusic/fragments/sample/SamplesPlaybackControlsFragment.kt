@@ -12,7 +12,7 @@
  * See the GNU General Public License for more details.
  *
  */
-package code.name.monkey.retromusic.fragments.player.full
+package code.name.monkey.retromusic.fragments.sample
 
 import android.content.Intent
 import android.content.res.ColorStateList
@@ -57,7 +57,7 @@ import org.koin.androidx.viewmodel.ext.android.activityViewModel
  * Created by hemanths on 20/09/17.
  */
 
-class FullPlaybackControlsFragment :
+class SamplesPlaybackControlsFragment :
     AbsPlayerControlsFragment(R.layout.fragment_full_player_controls),
     PopupMenu.OnMenuItemClickListener {
 
