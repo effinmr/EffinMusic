@@ -45,6 +45,8 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
     private val binding get() = _binding!!
     private lateinit var progressViewUpdateHelper: MusicProgressViewUpdateHelper
 
+    private var hasSkipped = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         progressViewUpdateHelper = MusicProgressViewUpdateHelper(this)
@@ -165,8 +167,19 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
     }
 
     override fun onUpdateProgressViews(progress: Int, total: Int) {
-        if (progress >= 60000) {
+        if (progress < 30000) {
+            MusicPlayerRemote.seekTo(30000)
+            return
+        }
+        
+        if (!hasSkipped && progress >= 60000) {
             MusicPlayerRemote.playNextSong()
+            MusicPlayerRemote.seekTo(30000)
+            hasSkipped = true
+        }
+        
+        if (progress < 35000) { 
+            hasSkipped = false
         }
     }
 
