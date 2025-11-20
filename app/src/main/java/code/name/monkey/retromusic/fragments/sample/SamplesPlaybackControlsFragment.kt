@@ -65,6 +65,27 @@ class SamplesPlaybackControlsFragment :
     private val binding get() = _binding!!
 
     private var individualArtists: List<String> = emptyList()
+
+    override val seekBar: SeekBar
+        get() = null
+
+    override val shuffleButton: ImageButton
+        get() = null
+
+    override val repeatButton: ImageButton
+        get() = null
+
+    override val nextButton: ImageButton
+        get() = null
+
+    override val previousButton: ImageButton
+        get() = null
+
+    override val songTotalTime: TextView
+        get() = null
+
+    override val songCurrentProgress: TextView
+        get() = null
     
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
