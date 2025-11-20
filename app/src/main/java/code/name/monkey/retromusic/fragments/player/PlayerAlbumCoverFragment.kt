@@ -294,7 +294,7 @@ class PlayerAlbumCoverFragment : AbsMusicServiceFragment(R.layout.fragment_playe
             )
         }
         if (position != MusicPlayerRemote.position) {
-            MusicPlayerRemote.playSongAt(position)
+            callbacks?.onSongSwiped(position) ?: MusicPlayerRemote.playSongAt(position)
         }
     }
 
@@ -330,6 +330,8 @@ class PlayerAlbumCoverFragment : AbsMusicServiceFragment(R.layout.fragment_playe
     }
 
     interface Callbacks {
+
+        fun onSongSwiped(position: Int)
 
         fun onColorChanged(color: MediaNotificationProcessor)
 
