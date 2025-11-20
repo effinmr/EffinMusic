@@ -21,7 +21,7 @@ import android.view.View
 import androidx.appcompat.widget.Toolbar
 import code.name.monkey.appthemehelper.util.ToolbarContentTintHelper
 import code.name.monkey.retromusic.R
-import code.name.monkey.retromusic.databinding.FragmentFullBinding
+import code.name.monkey.retromusic.databinding.FragmentSamplesBinding
 import code.name.monkey.retromusic.extensions.drawAboveSystemBars
 import code.name.monkey.retromusic.extensions.hide
 import code.name.monkey.retromusic.extensions.show
@@ -42,7 +42,7 @@ import com.bumptech.glide.Glide
 class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
     MusicProgressViewUpdateHelper.Callback {
         
-    private var _binding: FragmentFullBinding? = null
+    private var _binding: FragmentSamplesBinding? = null
     private val binding get() = _binding!!
     private lateinit var progressViewUpdateHelper: MusicProgressViewUpdateHelper
 
@@ -70,7 +70,7 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        _binding = FragmentFullBinding.bind(view)
+        _binding = FragmentSamplesBinding.bind(view)
 
         (requireActivity() as? IMiniPlayerExpanded)?.showMiniPlayer(false)
 
