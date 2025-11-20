@@ -37,7 +37,7 @@ import code.name.monkey.retromusic.model.Song
 import code.name.monkey.retromusic.util.color.MediaNotificationProcessor
 import com.bumptech.glide.Glide
 
-class SamplesFragment : AbsPlayerFragment(R.layout.fragment_full) {
+class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples) {
     private var _binding: FragmentFullBinding? = null
     private val binding get() = _binding!!
 
