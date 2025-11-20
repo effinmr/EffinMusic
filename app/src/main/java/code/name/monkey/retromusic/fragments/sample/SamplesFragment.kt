@@ -174,17 +174,12 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
 
     override fun onUpdateProgressViews(progress: Int, total: Int) {
         if (progress < 30000) {
-            MusicPlayerRemote.pauseSong()
-            MusicPlayerRemote.seekTo(30000)
-            MusicPlayerRemote.resumePlaying()
+            MusicPlayerRemote.playNextSongFrom(30000)
             return
         }
         
         if (!hasSkipped && progress >= 60000) {
-            MusicPlayerRemote.playNextSong()
-            MusicPlayerRemote.pauseSong()
-            MusicPlayerRemote.seekTo(30000)
-            MusicPlayerRemote.resumePlaying()
+            MusicPlayerRemote.playNextSongFrom(30000)
             hasSkipped = true
         }
         
