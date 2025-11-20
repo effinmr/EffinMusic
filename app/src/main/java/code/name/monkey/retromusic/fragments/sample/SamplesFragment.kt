@@ -48,7 +48,7 @@ class FullPlayerFragment : AbsPlayerFragment(R.layout.fragment_full) {
     private var lastColor: Int = 0
     override val paletteColor: Int
         get() = lastColor
-    private lateinit var controlsFragment: FullPlaybackControlsFragment
+    private lateinit var controlsFragment: SamplesPlaybackControlsFragment
 
     private fun setUpPlayerToolbar() {
         binding.playerToolbar.apply {
