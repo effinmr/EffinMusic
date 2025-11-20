@@ -76,8 +76,9 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
 
         libraryViewModel.getSongs().observe(viewLifecycleOwner) { songs ->
             if (songs.isNotEmpty()) {
-                MusicPlayerRemote.openAndShuffleQueue(songs, true)
+                MusicPlayerRemote.openAndShuffleQueue(songs, false)
                 MusicPlayerRemote.seekTo(30000)
+                MusicPlayerRemote.resumePlaying()
             }
         }
 
@@ -148,6 +149,7 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
 
     override fun onDestroyView() {
         super.onDestroyView()
+        MusicPlayerRemote.clearQueue()
         _binding = null
     }
 
@@ -171,13 +173,17 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
 
     override fun onUpdateProgressViews(progress: Int, total: Int) {
         if (progress < 30000) {
+            MusicPlayerRemote.pauseSong()
             MusicPlayerRemote.seekTo(30000)
+            MusicPlayerRemote.resumePlaying()
             return
         }
         
         if (!hasSkipped && progress >= 60000) {
             MusicPlayerRemote.playNextSong()
+            MusicPlayerRemote.pauseSong()
             MusicPlayerRemote.seekTo(30000)
+            MusicPlayerRemote.resumePlaying()
             hasSkipped = true
         }
         
@@ -193,6 +199,7 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
 
     override fun onPause() {
         super.onPause()
+        MusicPlayerRemote.clearQueue()
         progressViewUpdateHelper.stop()
     }
 
