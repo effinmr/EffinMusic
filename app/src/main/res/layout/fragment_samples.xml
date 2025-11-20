@@ -33,7 +33,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/playbackControlsFragment"
-        android:name="code.name.monkey.retromusic.fragments.player.sample.SamplesPlaybackControlsFragment"
+        android:name="code.name.monkey.retromusic.fragments.sample.SamplesPlaybackControlsFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_gravity="bottom"
