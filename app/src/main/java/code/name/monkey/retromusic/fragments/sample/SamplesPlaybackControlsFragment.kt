@@ -67,12 +67,12 @@ class SamplesPlaybackControlsFragment :
     private var individualArtists: List<String> = emptyList()
 
     override val shuffleButton: ImageButton by lazy { ImageButton(requireContext()) }
-    override val prevButton: ImageButton by lazy { ImageButton(requireContext()) }
+    override val previousButton: ImageButton by lazy { ImageButton(requireContext()) }
     override val nextButton: ImageButton by lazy { ImageButton(requireContext()) }
-    override val playPauseButton: ImageButton by lazy { ImageButton(requireContext()) }
-    override val progressBar: SeekBar by lazy { SeekBar(requireContext()) }
-    override val titleText: TextView by lazy { TextView(requireContext()) }
-    override val artistText: TextView by lazy { TextView(requireContext()) }
+    override val repeatButton: ImageButton by lazy { ImageButton(requireContext()) }
+    override val seekBar: SeekBar by lazy { SeekBar(requireContext()) }
+    override val songTotalTime: TextView by lazy { TextView(requireContext()) }
+    override val songCurrentProgress: TextView by lazy { TextView(requireContext()) }
     
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
