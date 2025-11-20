@@ -12,7 +12,7 @@
  * See the GNU General Public License for more details.
  *
  */
-package code.name.monkey.retromusic.fragments.sample.SamplesFragment
+package code.name.monkey.retromusic.fragments.sample
 
 import android.content.res.ColorStateList
 import android.graphics.Color
@@ -37,7 +37,7 @@ import code.name.monkey.retromusic.model.Song
 import code.name.monkey.retromusic.util.color.MediaNotificationProcessor
 import com.bumptech.glide.Glide
 
-class FullPlayerFragment : AbsPlayerFragment(R.layout.fragment_full) {
+class SamplesFragment : AbsPlayerFragment(R.layout.fragment_full) {
     private var _binding: FragmentFullBinding? = null
     private val binding get() = _binding!!
 
