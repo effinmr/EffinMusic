@@ -31,7 +31,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import code.name.monkey.appthemehelper.util.ColorUtil
 import code.name.monkey.appthemehelper.util.VersionUtils
 import code.name.monkey.retromusic.R
-import code.name.monkey.retromusic.databinding.FragmentFullPlayerControlsBinding
+import code.name.monkey.retromusic.databinding.FragmentSamplesControlsBinding
 import code.name.monkey.retromusic.db.PlaylistEntity
 import code.name.monkey.retromusic.db.toSongEntity
 import code.name.monkey.retromusic.extensions.*
@@ -57,18 +57,18 @@ import org.koin.androidx.viewmodel.ext.android.activityViewModel
  */
 
 class SamplesPlaybackControlsFragment :
-    AbsPlayerControlsFragment(R.layout.fragment_full_player_controls),
+    AbsPlayerControlsFragment(R.layout.fragment_samples_controls),
     PopupMenu.OnMenuItemClickListener {
 
     private val libraryViewModel: LibraryViewModel by activityViewModel()
-    private var _binding: FragmentFullPlayerControlsBinding? = null
+    private var _binding: FragmentSamplesControlsBinding? = null
     private val binding get() = _binding!!
 
     private var individualArtists: List<String> = emptyList()
     
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        _binding = FragmentFullPlayerControlsBinding.bind(view)
+        _binding = FragmentSamplesControlsBinding.bind(view)
 
         setUpMusicControllers()
         binding.songTotalTime.setTextColor(Color.WHITE)
