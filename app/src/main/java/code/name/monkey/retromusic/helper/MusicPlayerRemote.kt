@@ -196,6 +196,9 @@ object MusicPlayerRemote : KoinComponent {
         musicService?.playNextSong(true)
     }
 
+    fun playNextSongFrom(startMs: Int = 30000) {
+        musicService?.playNextSongFrom(startMs)
+    }
     /**
      * Async
      */
