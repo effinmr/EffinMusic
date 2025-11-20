@@ -60,15 +60,13 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentFullBinding.bind(view)
 
-        libraryViewModel.getSongs().observe(viewLifecycleOwner) { songs ->
-            val dataSetToUse = if (songs.isNotEmpty()) songs else listOf()
-            adapter?.swapDataSet(dataSetToUse)
-
-            // Now the adapter has the real dataset, open it in the player
-            MusicPlayerRemote.openAndShuffleQueue(dataSetToUse, true)
-            MusicPlayerRemote.seekTo(30000)
-            //MusicPlayerRemote.position
-        }
+       libraryViewModel.getSongs().observe(viewLifecycleOwner) { songs ->
+           if (songs.isNotEmpty()) {
+               MusicPlayerRemote.openAndShuffleQueue(songs, true)
+               MusicPlayerRemote.play()
+               MusicPlayerRemote.seekTo(30000)
+           }
+       }
 
         setUpSubFragments()
         setUpPlayerToolbar()
