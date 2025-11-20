@@ -33,13 +33,22 @@ import code.name.monkey.retromusic.fragments.player.PlayerAlbumCoverFragment
 import code.name.monkey.retromusic.glide.RetroGlideExtension
 import code.name.monkey.retromusic.glide.RetroGlideExtension.artistImageOptions
 import code.name.monkey.retromusic.helper.MusicPlayerRemote
+import code.name.monkey.retromusic.helper.MusicProgressViewUpdateHelper
 import code.name.monkey.retromusic.model.Song
 import code.name.monkey.retromusic.util.color.MediaNotificationProcessor
 import com.bumptech.glide.Glide
 
-class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples) {
+class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
+    MusicProgressViewUpdateHelper.Callback {
+        
     private var _binding: FragmentFullBinding? = null
     private val binding get() = _binding!!
+    private lateinit var progressViewUpdateHelper: MusicProgressViewUpdateHelper
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        progressViewUpdateHelper = MusicProgressViewUpdateHelper(this)
+    }
 
     override fun playerToolbar(): Toolbar {
         return binding.playerToolbar
@@ -153,6 +162,22 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples) {
                 }
 
             }
+    }
+
+    override fun onUpdateProgressViews(progress: Int, total: Int) {
+        if (progress >= 60000) {
+            MusicPlayerRemote.playNextSong()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        progressViewUpdateHelper.start()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        progressViewUpdateHelper.stop()
     }
 
     override fun onQueueChanged() {
