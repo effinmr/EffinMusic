@@ -222,7 +222,7 @@ class SamplesPlaybackControlsFragment :
     }
 
     override fun onMenuItemClick(item: MenuItem?): Boolean {
-        return (parentFragment as FullPlayerFragment).onMenuItemClick(item!!)
+        return (parentFragment as SamplesFragment).onMenuItemClick(item!!)
     }
 
     override fun onRepeatModeChanged() {
