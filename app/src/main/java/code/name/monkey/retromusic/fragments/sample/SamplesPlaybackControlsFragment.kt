@@ -42,7 +42,6 @@ import code.name.monkey.retromusic.fragments.base.AbsPlayerFragment
 import code.name.monkey.retromusic.fragments.base.goToAlbum
 import code.name.monkey.retromusic.fragments.base.goToArtist
 import code.name.monkey.retromusic.helper.MusicPlayerRemote
-import code.name.monkey.retromusic.helper.PlayPauseButtonOnClickHandler
 import code.name.monkey.retromusic.model.Song
 import code.name.monkey.retromusic.service.MusicService
 import code.name.monkey.retromusic.util.PreferenceUtil
@@ -67,27 +66,6 @@ class SamplesPlaybackControlsFragment :
 
     private var individualArtists: List<String> = emptyList()
     
-    override val seekBar: SeekBar
-        get() = binding.progressSlider
-
-    override val shuffleButton: ImageButton
-        get() = binding.shuffleButton
-
-    override val repeatButton: ImageButton
-        get() = binding.repeatButton
-
-    override val nextButton: ImageButton
-        get() = binding.nextButton
-
-    override val previousButton: ImageButton
-        get() = binding.previousButton
-
-    override val songTotalTime: TextView
-        get() = binding.songTotalTime
-
-    override val songCurrentProgress: TextView
-        get() = binding.songCurrentProgress
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentFullPlayerControlsBinding.bind(view)
@@ -98,22 +76,6 @@ class SamplesPlaybackControlsFragment :
         binding.title.isSelected = true
     }
 
-    public override fun show() {
-        binding.playPauseButton.animate()
-            .scaleX(1f)
-            .scaleY(1f)
-            .setInterpolator(DecelerateInterpolator())
-            .start()
-    }
-
-    public override fun hide() {
-        binding.playPauseButton.apply {
-            scaleX = 0f
-            scaleY = 0f
-            rotation = 0f
-        }
-    }
-
     override fun setColor(color: MediaNotificationProcessor) {
         lastPlaybackControlsColor = color.primaryTextColor
         lastDisabledPlaybackControlsColor = ColorUtil.withAlpha(color.primaryTextColor, 0.3f)
@@ -121,26 +83,12 @@ class SamplesPlaybackControlsFragment :
         val tintList = ColorStateList.valueOf(color.primaryTextColor)
         binding.playerMenu.imageTintList = tintList
         binding.songFavourite.imageTintList = tintList
-        volumeFragment?.setTintableColor(color.primaryTextColor)
-        binding.progressSlider.applyColor(color.primaryTextColor)
         binding.title.setTextColor(color.primaryTextColor)
         binding.text.setTextColor(color.secondaryTextColor)
         binding.songInfo.setTextColor(color.secondaryTextColor)
-        binding.songCurrentProgress.setTextColor(color.secondaryTextColor)
-        binding.songTotalTime.setTextColor(color.secondaryTextColor)
-
-        binding.playPauseButton.backgroundTintList = tintList
-        binding.playPauseButton.imageTintList = ColorStateList.valueOf(color.backgroundColor)
-
-        updateRepeatState()
-        updateShuffleState()
-        updatePrevNextColor()
     }
 
     override fun onServiceConnected() {
-        updatePlayPauseDrawableState()
-        updateRepeatState()
-        updateShuffleState()
         updateSong()
     }
 
@@ -180,32 +128,7 @@ class SamplesPlaybackControlsFragment :
         updateSong()
     }
 
-    override fun onPlayStateChanged() {
-        updatePlayPauseDrawableState()
-        if (MusicPlayerRemote.isPlaying && PreferenceUtil.isSquiggly) {
-            squiggly.animate = true
-        } else {
-            squiggly.animate = false
-        }
-    }
-
-    private fun updatePlayPauseDrawableState() {
-        if (MusicPlayerRemote.isPlaying) {
-            binding.playPauseButton.setImageResource(R.drawable.ic_pause)
-        } else {
-            binding.playPauseButton.setImageResource(R.drawable.ic_play_arrow_white_32dp)
-        }
-    }
-
-    private fun setUpPlayPauseFab() {
-        binding.playPauseButton.setOnClickListener(PlayPauseButtonOnClickHandler())
-
-        binding.playPauseButton.pivotX = (binding.playPauseButton.width / 2).toFloat()
-        binding.playPauseButton.pivotY = (binding.playPauseButton.height / 2).toFloat()
-    }
-
     private fun setUpMusicControllers() {
-        setUpPlayPauseFab()
         setupFavourite()
         setupMenu()
     }
@@ -223,14 +146,6 @@ class SamplesPlaybackControlsFragment :
 
     override fun onMenuItemClick(item: MenuItem?): Boolean {
         return (parentFragment as SamplesFragment).onMenuItemClick(item!!)
-    }
-
-    override fun onRepeatModeChanged() {
-        updateRepeatState()
-    }
-
-    override fun onShuffleModeChanged() {
-        updateShuffleState()
     }
 
     private fun setupFavourite() {
