@@ -71,12 +71,15 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentFullBinding.bind(view)
 
-       libraryViewModel.getSongs().observe(viewLifecycleOwner) { songs ->
-           if (songs.isNotEmpty()) {
-               MusicPlayerRemote.openAndShuffleQueue(songs, true)
-               MusicPlayerRemote.seekTo(30000)
-           }
-       }
+        mainActivity.setBottomNavVisibility(false)
+        mainActivity.collapsePanel()
+
+        libraryViewModel.getSongs().observe(viewLifecycleOwner) { songs ->
+            if (songs.isNotEmpty()) {
+                MusicPlayerRemote.openAndShuffleQueue(songs, true)
+                MusicPlayerRemote.seekTo(30000)
+            }
+        }
 
         setUpSubFragments()
         setUpPlayerToolbar()
