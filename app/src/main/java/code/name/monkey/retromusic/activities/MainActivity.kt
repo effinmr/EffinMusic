@@ -104,6 +104,7 @@ class MainActivity : AbsCastActivity(), IMiniPlayerExpanded {
                 R.id.action_song,
                 R.id.action_album,
                 R.id.action_artist,
+                R.id.action_sample,
                 R.id.action_folder,
                 R.id.action_playlist,
                 R.id.action_genre,
