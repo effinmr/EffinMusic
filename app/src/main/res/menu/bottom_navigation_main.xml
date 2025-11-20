@@ -23,6 +23,11 @@
         android:icon="@drawable/ic_artist"
         android:title="@string/artists" />
     <item
+        android:id="@+id/action_sample"
+        android:enabled="true"
+        android:icon="@drawable/ic_home"
+        android:title="@string/samples" />
+    <item
         android:id="@+id/action_playlist"
         android:enabled="true"
         android:icon="@drawable/ic_queue_music"
