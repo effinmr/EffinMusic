@@ -12,7 +12,7 @@
     <fragment
         android:id="@+id/action_sample"
         android:name="code.name.monkey.retromusic.fragments.samples.SamplesFragment"
-        tools:layout="@layout/fragment_main_recycler" />
+        tools:layout="@layout/fragment_sample" />
 
     <fragment
         android:id="@+id/action_artist"
