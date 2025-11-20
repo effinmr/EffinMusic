@@ -63,7 +63,6 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples) {
        libraryViewModel.getSongs().observe(viewLifecycleOwner) { songs ->
            if (songs.isNotEmpty()) {
                MusicPlayerRemote.openAndShuffleQueue(songs, true)
-               MusicPlayerRemote.play()
                MusicPlayerRemote.seekTo(30000)
            }
        }
