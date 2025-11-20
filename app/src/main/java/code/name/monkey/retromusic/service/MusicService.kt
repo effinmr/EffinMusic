@@ -811,6 +811,10 @@ class MusicService : MediaBrowserServiceCompat(),
         playSongAt(getNextPosition(force))
     }
 
+    fun playNextSongFrom(startMs: Int = 30000) {
+        playSongAtFrom(getNextPosition(force), startMs)
+    }
+
     fun playPreviousSong(force: Boolean) {
         playSongAt(getPreviousPosition(force))
     }
