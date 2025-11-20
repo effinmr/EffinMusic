@@ -71,8 +71,6 @@ class SamplesPlaybackControlsFragment :
         _binding = FragmentSamplesControlsBinding.bind(view)
 
         setUpMusicControllers()
-        binding.songTotalTime.setTextColor(Color.WHITE)
-        binding.songCurrentProgress.setTextColor(Color.WHITE)
         binding.title.isSelected = true
     }
 
@@ -85,7 +83,6 @@ class SamplesPlaybackControlsFragment :
         binding.songFavourite.imageTintList = tintList
         binding.title.setTextColor(color.primaryTextColor)
         binding.text.setTextColor(color.secondaryTextColor)
-        binding.songInfo.setTextColor(color.secondaryTextColor)
     }
 
     override fun onServiceConnected() {
@@ -114,13 +111,10 @@ class SamplesPlaybackControlsFragment :
             .joinToString(", ")
         
         updateIsFavorite()
-        if (PreferenceUtil.isSongInfo) {
-            binding.songInfo.text = getSongInfo(song)
-            binding.songInfo.show()
-        } else {
-            binding.songInfo.hide()
-        }
         (requireParentFragment() as? AbsPlayerFragment)?.setupTitleAndArtistClicks(binding.title, binding.text, individualArtists)
+    }
+
+    public override fun show() {
     }
 
     override fun onPlayingMetaChanged() {
