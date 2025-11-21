@@ -72,7 +72,7 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
 
         (requireActivity() as? IMiniPlayerExpanded)?.showMiniPlayer(false)
 
-        val songs = libraryViewModel.getSongs().value
+        val songs: List<Song>? = libraryViewModel.getSongs().value
         if (songs.isNotEmpty()) {
             MusicPlayerRemote.openAndShuffleQueue(songs, false)
             MusicPlayerRemote.playSongAtFrom(0, 30000)
