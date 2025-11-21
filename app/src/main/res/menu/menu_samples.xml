@@ -2,15 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_toggle_favorite"
-        android:checkable="true"
-        android:icon="@drawable/ic_favorite"
-        android:orderInCategory="0"
-        android:title="@string/favorites"
-        app:showAsAction="always" />
-    <item
         android:id="@+id/action_navigate"
-        android:orderInCategory="1"
+        android:orderInCategory="0"
         android:title="@string/navigate">
         <menu>
             <item
@@ -30,15 +23,15 @@
 
     <item
         android:id="@+id/action_add_to_playlist"
-        android:orderInCategory="2"
+        android:orderInCategory="1"
         android:title="@string/action_add_to_playlist" />
     <item
         android:id="@+id/action_share"
-        android:orderInCategory="3"
+        android:orderInCategory="2"
         android:title="@string/action_share" />
     <item
         android:id="@+id/action_device_options"
-        android:orderInCategory="4"
+        android:orderInCategory="3"
         android:title="@string/device">
         <menu>
             <item
@@ -53,6 +46,6 @@
     </item>
     <item
         android:id="@+id/action_details"
-        android:orderInCategory="5"
+        android:orderInCategory="4"
         android:title="@string/action_details" />
 </menu>
