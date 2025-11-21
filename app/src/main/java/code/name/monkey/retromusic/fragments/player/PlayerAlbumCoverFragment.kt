@@ -296,7 +296,7 @@ class PlayerAlbumCoverFragment : AbsMusicServiceFragment(R.layout.fragment_playe
             )
         }
         if (position != MusicPlayerRemote.position) {
-            if (!disableAutoPlayOnPageChange) {
+            if (!skipOnSwipe) {
                 MusicPlayerRemote.playSongAt(position)
             } else {
                 MusicPlayerRemote.playSongAtFrom(position, 30000)
