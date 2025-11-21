@@ -145,8 +145,8 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
 
     override fun onDestroyView() {
         super.onDestroyView()
-        MusicPlayerRemote.clearQueue()
         (requireActivity() as? IMiniPlayerExpanded)?.showMiniPlayer(true)
+        MusicPlayerRemote.clearQueue()
         _binding = null
     }
 
@@ -162,6 +162,7 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
                     Glide.with(requireActivity())
                         .load(RetroGlideExtension.getArtistModel(artist))
                         .artistImageOptions(artist)
+                        .override(200, 200)
                         .into(binding.artistImage)
                 }
 

@@ -9,6 +9,8 @@ import android.view.View
 import androidx.core.view.doOnPreDraw
 import android.widget.PopupMenu
 import java.util.Locale
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
@@ -32,6 +34,7 @@ import code.name.monkey.retromusic.glide.playlistPreview.PlaylistPreview
 import code.name.monkey.retromusic.helper.MusicPlayerRemote
 import code.name.monkey.retromusic.helper.menu.PlaylistMenuHelper
 import code.name.monkey.retromusic.model.Song
+import code.name.monkey.retromusic.util.CustomPlaylistImageUtil
 import code.name.monkey.retromusic.util.MusicUtil
 import code.name.monkey.retromusic.util.PreferenceUtil
 import code.name.monkey.retromusic.util.ThemedFastScroller
@@ -94,10 +97,7 @@ class PlaylistDetailsFragment : AbsMainActivityFragment(R.layout.fragment_playli
         setupSongSortButton()
         viewModel.getPlaylist().observe(viewLifecycleOwner) { playlistWithSongs ->
             playlist = playlistWithSongs
-            Glide.with(this)
-                .load(PlaylistPreview(playlistWithSongs))
-                .playlistOptions()
-                .into(binding.image)
+            reloadPlaylistImage()
             binding.title.text = playlist.playlistEntity.playlistName
             binding.subtitle.text =
                 MusicUtil.getPlaylistInfoString(requireContext(), playlist.songs.toSongs())
@@ -261,8 +261,48 @@ class PlaylistDetailsFragment : AbsMainActivityFragment(R.layout.fragment_playli
         inflater.inflate(R.menu.menu_playlist_detail, menu)
     }
 
+    private val selectImageLauncher =
+    registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+        lifecycleScope.launch {
+            if (::playlist.isInitialized) {
+                uri?.let { 
+                    CustomPlaylistImageUtil.getInstance(requireContext())
+                        .setCustomPlaylistImage(playlist.playlistEntity, it) 
+                }
+                reloadPlaylistImage()
+            }
+        }
+    }
+
+    private fun reloadPlaylistImage() {
+        val customImageFile = CustomPlaylistImageUtil.getFile(playlist.playlistEntity)
+        val imageModel: Any = if (customImageFile.exists()) {
+            customImageFile
+        } else {
+            PlaylistPreview(playlist)
+        }
+        Glide.with(this)
+            .load(imageModel)
+            .playlistOptions()
+            .into(binding.image)
+    }
+
     override fun onMenuItemSelected(item: MenuItem): Boolean {
-        return PlaylistMenuHelper.handleMenuClick(requireActivity(), playlist, item)
+        when (item.itemId) {
+            R.id.action_set_playlist_image -> {
+                selectImageLauncher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+                return true
+            }
+            R.id.action_reset_playlist_image -> {
+                lifecycleScope.launch {
+                    CustomPlaylistImageUtil.getInstance(requireContext())
+                        .resetCustomPlaylistImage(playlist.playlistEntity)
+                    reloadPlaylistImage()
+                }
+                return true
+            }
+            else -> return PlaylistMenuHelper.handleMenuClick(requireActivity(), playlist, item)
+        }
     }
 
     private fun checkIsEmpty() {

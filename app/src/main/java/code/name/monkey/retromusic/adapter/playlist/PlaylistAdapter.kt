@@ -41,6 +41,7 @@ import code.name.monkey.retromusic.helper.menu.PlaylistMenuHelper
 import code.name.monkey.retromusic.helper.menu.SongsMenuHelper
 import code.name.monkey.retromusic.interfaces.IPlaylistClickListener
 import code.name.monkey.retromusic.model.Song
+import code.name.monkey.retromusic.util.CustomPlaylistImageUtil
 import code.name.monkey.retromusic.util.MusicUtil
 import code.name.monkey.retromusic.util.PreferenceUtil
 import com.bumptech.glide.Glide
@@ -120,8 +121,14 @@ class PlaylistAdapter(
             holder.image?.setPadding(activity.dipToPix(8F).toInt())
             holder.image?.setImageDrawable(getIconRes())
         } else {
+            val customImageFile = CustomPlaylistImageUtil.getFile(playlist.playlistEntity)
+            val imageModel: Any = if (customImageFile.exists()) {
+                customImageFile
+            } else {
+                PlaylistPreview(playlist)
+            }
             Glide.with(activity)
-                .load(PlaylistPreview(playlist))
+                .load(imageModel)
                 .playlistOptions()
                 .into(holder.image!!)
         }
