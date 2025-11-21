@@ -184,7 +184,6 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
 
     override fun onPause() {
         super.onPause()
-        (requireActivity() as? IMiniPlayerExpanded)?.showMiniPlayer(true)
         MusicPlayerRemote.pauseSong()
         //MusicPlayerRemote.clearQueue()
         progressViewUpdateHelper.stop()
