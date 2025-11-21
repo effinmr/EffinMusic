@@ -100,20 +100,7 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
     private fun setUpSubFragments() {
         controlsFragment = whichFragment(R.id.playbackControlsFragment)
         val coverFragment: PlayerAlbumCoverFragment = whichFragment(R.id.playerAlbumCoverFragment)
-        coverFragment.setCallbacks(object : PlayerAlbumCoverFragment.Callbacks {
-            override fun onColorChanged(color: MediaNotificationProcessor) {
-                this@SamplesFragment.onColorChanged(color)
-            }
-
-            override fun onFavoriteToggled() {
-                this@SamplesFragment.onFavoriteToggled()
-            }
-            
-            override fun onSongSwiped(position: Int) {
-                MusicPlayerRemote.playNextSongFrom(30000)
-                hasSkipped = true
-            }
-        })
+        coverFragment.setCallbacks(this)
         coverFragment.removeSlideEffect()
     }
 
