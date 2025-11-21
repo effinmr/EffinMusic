@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_toggle_favorite"
+        android:checkable="true"
+        android:icon="@drawable/ic_favorite"
+        android:orderInCategory="1"
+        android:title="@string/favorites"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_navigate"
+        android:orderInCategory="2"
+        android:title="@string/navigate">
+        <menu>
+            <item
+                android:id="@+id/action_go_to_album"
+                android:icon="@drawable/ic_album"
+                android:title="@string/action_go_to_album" />
+            <item
+                android:id="@+id/action_go_to_artist"
+                android:icon="@drawable/ic_artist"
+                android:title="@string/action_go_to_artist" />
+            <item
+                android:id="@+id/action_go_to_genre"
+                android:icon="@drawable/ic_genre"
+                android:title="@string/action_go_to_genre"/>
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/action_add_to_playlist"
+        android:orderInCategory="3"
+        android:title="@string/action_add_to_playlist" />
+    <item
+        android:id="@+id/action_share"
+        android:orderInCategory="4"
+        android:title="@string/action_share" />
+    <item
+        android:id="@+id/action_device_options"
+        android:orderInCategory="5"
+        android:title="@string/device">
+        <menu>
+            <item
+                android:id="@+id/action_set_as_ringtone"
+                android:icon="@drawable/ic_phonelink_ring"
+                android:title="@string/action_set_as_ringtone" />
+            <item
+                android:id="@+id/action_delete_from_device"
+                android:icon="@drawable/ic_delete"
+                android:title="@string/action_delete_from_device" />
+        </menu>
+    </item>
+    <item
+        android:id="@+id/action_details"
+        android:orderInCategory="6"
+        android:title="@string/action_details" />
+</menu>
