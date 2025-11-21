@@ -151,6 +151,7 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
     }
 
     override fun onDestroy() {
+        super.onDestroy()
         MusicPlayerRemote.clearQueue()
     }
 
