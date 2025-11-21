@@ -74,12 +74,11 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
 
         (requireActivity() as? IMiniPlayerExpanded)?.showMiniPlayer(false)
 
-        libraryViewModel.getSongs().observe(viewLifecycleOwner) { songs ->
-            if (songs.isNotEmpty()) {
-                MusicPlayerRemote.openAndShuffleQueue(songs, false)
-                MusicPlayerRemote.seekTo(30000)
-                MusicPlayerRemote.resumePlaying()
-            }
+        val songs = libraryViewModel.repository.songs(PreferenceUtil.hideDuplicateSongs)
+        if (songs.isNotEmpty()) {
+            MusicPlayerRemote.openAndShuffleQueue(songs, false)
+            MusicPlayerRemote.seekTo(30000)
+            MusicPlayerRemote.resumePlaying()
         }
 
         setUpSubFragments()
