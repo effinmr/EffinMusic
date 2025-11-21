@@ -109,6 +109,10 @@ class LibraryViewModel(
         songs.postValue(repository.songs(PreferenceUtil.hideDuplicateSongs))
     }
 
+    fun getCachedSongs(): List<Song> {
+        return repository.songs(PreferenceUtil.hideDuplicateSongs)
+    }
+
     private suspend fun fetchAlbums() {
         albums.postValue(repository.fetchAlbums())
     }
