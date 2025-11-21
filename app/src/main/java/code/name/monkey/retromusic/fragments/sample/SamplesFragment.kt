@@ -162,6 +162,7 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
                     Glide.with(requireActivity())
                         .load(RetroGlideExtension.getArtistModel(artist))
                         .artistImageOptions(artist)
+                        .override(200, 200)
                         .into(binding.artistImage)
                 }
 
