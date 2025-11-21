@@ -67,6 +67,8 @@ class PlayerAlbumCoverFragment : AbsMusicServiceFragment(R.layout.fragment_playe
     private var currentPosition: Int = 0
     val viewPager get() = binding.viewPager
 
+    var skipOnSwipe: Boolean = false
+
     private val colorReceiver = object : AlbumCoverFragment.ColorReceiver {
         override fun onColorReady(color: MediaNotificationProcessor, request: Int) {
             if (currentPosition == request) {
@@ -294,7 +296,11 @@ class PlayerAlbumCoverFragment : AbsMusicServiceFragment(R.layout.fragment_playe
             )
         }
         if (position != MusicPlayerRemote.position) {
-            MusicPlayerRemote.playSongAt(position)
+            if (!disableAutoPlayOnPageChange) {
+                MusicPlayerRemote.playSongAt(position)
+            } else {
+                MusicPlayerRemote.playSongAtFrom(position, 30000)
+            }
         }
     }
 
