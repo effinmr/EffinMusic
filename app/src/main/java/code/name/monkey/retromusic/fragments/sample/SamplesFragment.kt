@@ -145,10 +145,9 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
 
     override fun onDestroyView() {
         super.onDestroyView()
+        progressViewUpdateHelper.stop()
         (requireActivity() as? IMiniPlayerExpanded)?.showMiniPlayer(true)
-        view?.post {
-            MusicPlayerRemote.clearQueue()
-        }
+        MusicPlayerRemote.clearQueue()
         _binding = null
     }
 
@@ -179,7 +178,6 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
 
     override fun onResume() {
         super.onResume()
-        (requireActivity() as? IMiniPlayerExpanded)?.showMiniPlayer(false)
         MusicPlayerRemote.resumePlaying()
         progressViewUpdateHelper.start()
     }
