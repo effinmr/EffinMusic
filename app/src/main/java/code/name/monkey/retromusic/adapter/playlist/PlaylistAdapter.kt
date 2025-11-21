@@ -41,6 +41,7 @@ import code.name.monkey.retromusic.helper.menu.PlaylistMenuHelper
 import code.name.monkey.retromusic.helper.menu.SongsMenuHelper
 import code.name.monkey.retromusic.interfaces.IPlaylistClickListener
 import code.name.monkey.retromusic.model.Song
+import code.name.monkey.retromusic.util.CustomPlaylistImageUtil
 import code.name.monkey.retromusic.util.MusicUtil
 import code.name.monkey.retromusic.util.PreferenceUtil
 import com.bumptech.glide.Glide
@@ -120,10 +121,7 @@ class PlaylistAdapter(
             holder.image?.setPadding(activity.dipToPix(8F).toInt())
             holder.image?.setImageDrawable(getIconRes())
         } else {
-            Glide.with(activity)
-                .load(PlaylistPreview(playlist))
-                .playlistOptions()
-                .into(holder.image!!)
+            loadPlaylistImage(playlist)
         }
         val dragHandle = holder.itemView.findViewById<View>(R.id.dragHandle)
         dragHandle?.setOnTouchListener { _, event ->
@@ -146,6 +144,19 @@ class PlaylistAdapter(
         mutableList.add(toPosition, movedItem)
         dataSet = mutableList
         notifyItemMoved(fromPosition, toPosition)
+    }
+
+    private fun loadPlaylistImage(playlist: PlaylistEntity) {
+        val customImageFile = CustomPlaylistImageUtil.getFile(playlist.playlistEntity)
+        val imageModel: Any = if (customImageFile.exists()) {
+            customImageFile
+        } else {
+            PlaylistPreview(playlist)
+        }
+        Glide.with(activity)
+            .load(imageModel)
+            .playlistOptions()
+            .into(holder.image!!)
     }
 
     override fun getItemCount(): Int {
