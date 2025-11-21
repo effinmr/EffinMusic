@@ -83,6 +83,8 @@ class EqualizerFragment : Fragment(R.layout.fragment_equalizer) {
         setupSlider(binding.amplifierSlider, binding.amplifierValue, "amplifier_strength")
 
         setSlidersEnabled(binding.enableEqualizerSwitch.isChecked)
+        selectedPresetIndex = prefs.getInt("selected_preset", 0)
+        applyPreset(selectedPresetIndex)
         updatePresetSelectorText()
     }
 
@@ -91,6 +93,7 @@ class EqualizerFragment : Fragment(R.layout.fragment_equalizer) {
             .setTitle(R.string.select_preset)
             .setSingleChoiceItems(presets, selectedPresetIndex) { dialog, which ->
                 selectedPresetIndex = which
+                prefs.edit().putInt("selected_preset", which).apply()
                 applyPreset(which)
                 updatePresetSelectorText()
                 dialog.dismiss()
