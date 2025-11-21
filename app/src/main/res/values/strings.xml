@@ -42,6 +42,8 @@
     <string name="action_search">Search</string>
     <string name="search_settings_hint">Search settings</string>
     <string name="action_set">Start</string>
+    <string name="action_set_playlist_image">Set playlist image</string>
+    <string name="action_reset_playlist_image">Reset playlist image</string>
     <string name="action_set_as_ringtone">Set as ringtone</string>
     <string name="action_set_as_start_directory">Set as start directory</string>
     <string name="action_settings">Settings</string>
