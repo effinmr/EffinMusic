@@ -74,7 +74,7 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
 
         (requireActivity() as? IMiniPlayerExpanded)?.showMiniPlayer(false)
 
-        val songs = libraryViewModel.repository.songs(PreferenceUtil.hideDuplicateSongs)
+        val songs = libraryViewModel.getCachedSongs()
         if (songs.isNotEmpty()) {
             MusicPlayerRemote.openAndShuffleQueue(songs, false)
             MusicPlayerRemote.seekTo(30000)
