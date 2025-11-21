@@ -34,7 +34,7 @@ data class CategoryInfo(
         Songs(R.id.action_song, R.string.songs, R.drawable.asld_music_note),
         Albums(R.id.action_album, R.string.albums, R.drawable.asld_album),
         Artists(R.id.action_artist, R.string.artists, R.drawable.asld_artist),
-        Samples(R.id.action_sample, R.string.samples, R.drawable.asld_face),
+        Samples(R.id.action_sample, R.string.samples, R.drawable.ic_play_arrow),
         Playlists(R.id.action_playlist, R.string.playlists, R.drawable.asld_playlist),
         Genres(R.id.action_genre, R.string.genres, R.drawable.asld_guitar),
         Folder(R.id.action_folder, R.string.folders, R.drawable.asld_folder),
