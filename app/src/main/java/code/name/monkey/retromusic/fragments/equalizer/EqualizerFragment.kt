@@ -83,14 +83,18 @@ class EqualizerFragment : Fragment(R.layout.fragment_equalizer) {
         setupSlider(binding.amplifierSlider, binding.amplifierValue, "amplifier_strength")
 
         setSlidersEnabled(binding.enableEqualizerSwitch.isChecked)
+        selectedPresetIndex = prefs.getInt("selected_preset", 0)
+        applyPreset(selectedPresetIndex)
         updatePresetSelectorText()
     }
 
     private fun showPresetDialog() {
+        val prefs = requireContext().getSharedPreferences("equalizer_prefs", android.content.Context.MODE_PRIVATE)
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.select_preset)
             .setSingleChoiceItems(presets, selectedPresetIndex) { dialog, which ->
                 selectedPresetIndex = which
+                prefs.edit().putInt("selected_preset", which).apply()
                 applyPreset(which)
                 updatePresetSelectorText()
                 dialog.dismiss()
