@@ -29,7 +29,7 @@ import code.name.monkey.retromusic.extensions.whichFragment
 import code.name.monkey.retromusic.fragments.base.AbsPlayerFragment
 import code.name.monkey.retromusic.fragments.base.goToArtist
 import code.name.monkey.retromusic.fragments.player.CoverLyricsFragment
-import code.name.monkey.retromusic.fragments.player.PlayerAlbumCoverFragment
+import code.name.monkey.retromusic.fragments.player.SamplesPlayerAlbumCoverFragment
 import code.name.monkey.retromusic.glide.RetroGlideExtension
 import code.name.monkey.retromusic.glide.RetroGlideExtension.artistImageOptions
 import code.name.monkey.retromusic.helper.MusicPlayerRemote
@@ -99,7 +99,7 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
 
     private fun setUpSubFragments() {
         controlsFragment = whichFragment(R.id.playbackControlsFragment)
-        val coverFragment: PlayerAlbumCoverFragment = whichFragment(R.id.playerAlbumCoverFragment)
+        val coverFragment: SamplesPlayerAlbumCoverFragment = whichFragment(R.id.samplesPlayerAlbumCoverFragment)
         coverFragment.setCallbacks(this)
         coverFragment.removeSlideEffect()
     }
