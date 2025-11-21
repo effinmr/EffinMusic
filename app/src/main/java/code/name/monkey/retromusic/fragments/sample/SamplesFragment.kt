@@ -145,7 +145,7 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
 
     override fun onDestroyView() {
         super.onDestroyView()
-        (requireActivity() as? IMiniPlayerExpanded)?.showMiniPlayer(false)
+        (requireActivity() as? IMiniPlayerExpanded)?.showMiniPlayer(true)
         MusicPlayerRemote.clearQueue()
         _binding = null
     }
