@@ -9,6 +9,8 @@ import android.view.View
 import androidx.core.view.doOnPreDraw
 import android.widget.PopupMenu
 import java.util.Locale
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
@@ -32,6 +34,7 @@ import code.name.monkey.retromusic.glide.playlistPreview.PlaylistPreview
 import code.name.monkey.retromusic.helper.MusicPlayerRemote
 import code.name.monkey.retromusic.helper.menu.PlaylistMenuHelper
 import code.name.monkey.retromusic.model.Song
+import code.name.monkey.retromusic.util.CustomPlaylistImageUtil
 import code.name.monkey.retromusic.util.MusicUtil
 import code.name.monkey.retromusic.util.PreferenceUtil
 import code.name.monkey.retromusic.util.ThemedFastScroller
@@ -273,17 +276,15 @@ class PlaylistDetailsFragment : AbsMainActivityFragment(R.layout.fragment_playli
 
     private fun reloadPlaylistImage() {
         val customImageFile = CustomPlaylistImageUtil.getFile(playlist.playlistEntity)
-        if (customImageFile.exists()) {
-            Glide.with(this)
-                .load(customImageFile)
-                .playlistOptions()
-                .into(binding.image)
+        val imageModel: Any = if (customImageFile.exists()) {
+            customImageFile
         } else {
-            Glide.with(this)
-                .load(PlaylistPreview(playlist))
-                .playlistOptions()
-                .into(binding.image)
+            PlaylistPreview(playlist)
         }
+        Glide.with(this)
+            .load(imageModel)
+            .playlistOptions()
+            .into(binding.image)
     }
 
     override fun onMenuItemSelected(item: MenuItem): Boolean {
