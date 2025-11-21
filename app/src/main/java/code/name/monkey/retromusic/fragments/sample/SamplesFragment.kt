@@ -146,9 +146,13 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
     override fun onDestroyView() {
         super.onDestroyView()
         progressViewUpdateHelper.stop()
+        _binding = null
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
         (requireActivity() as? IMiniPlayerExpanded)?.showMiniPlayer(true)
         MusicPlayerRemote.clearQueue()
-        _binding = null
     }
 
     private fun updateArtistImage() {
