@@ -112,7 +112,8 @@ class MainActivity : AbsCastActivity(), IMiniPlayerExpanded {
                     setBottomNavVisibility(visible = true, animate = true)
                 }
 
-                R.id.playing_queue_fragment -> {
+                R.id.playing_queue_fragment,
+                R.id.action_sample -> {
                     setBottomNavVisibility(visible = false, hideBottomSheet = true)
                 }
 

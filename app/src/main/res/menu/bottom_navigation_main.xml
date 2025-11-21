@@ -13,10 +13,10 @@
         android:icon="@drawable/ic_audiotrack"
         android:title="@string/songs" />
     <item
-        android:id="@+id/action_album"
+        android:id="@+id/action_samples"
         android:enabled="true"
-        android:icon="@drawable/ic_album"
-        android:title="@string/albums" />
+        android:icon="@drawable/ic_play_arrow"
+        android:title="@string/samples" />
     <item
         android:id="@+id/action_artist"
         android:enabled="true"

@@ -447,6 +447,7 @@
     <string name="saf_guide_slide3_description">Do not open any sub-folders</string>
     <string name="saf_guide_slide3_title">Tap \'select\' button at the bottom of the screen</string>
     <string name="saf_write_failed">File write failed: %s</string>
+    <string name="samples">Samples</string>
     <string name="save">Save</string>
     <!-- SAF -->
     <!-- SAF guide -->

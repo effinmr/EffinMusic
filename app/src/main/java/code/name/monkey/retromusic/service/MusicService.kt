@@ -811,6 +811,10 @@ class MusicService : MediaBrowserServiceCompat(),
         playSongAt(getNextPosition(force))
     }
 
+    fun playNextSongFrom(force: Boolean, startMs: Int = 30000) {
+        playSongAtFrom(getNextPosition(force), startMs)
+    }
+
     fun playPreviousSong(force: Boolean) {
         playSongAt(getPreviousPosition(force))
     }
@@ -827,6 +831,19 @@ class MusicService : MediaBrowserServiceCompat(),
         
         serviceScope.launch(if (playbackManager.isLocalPlayback) Default else Main) {
             openTrackAndPrepareNextAt(position) { success ->
+                play()
+            }
+        }
+    }
+
+    fun playSongAtFrom(position: Int, startMs: Int = 30000) {
+        serviceScope.launch(if (playbackManager.isLocalPlayback) Default else Main) {
+        // Prepare track but DO NOT PLAY automatically
+            openTrackAndPrepareNextAt(position) { success ->
+                if (!success) return@openTrackAndPrepareNextAt
+
+                seek(startMs, true)
+
                 play()
             }
         }
