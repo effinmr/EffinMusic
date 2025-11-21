@@ -10,8 +10,8 @@
     <include layout="@layout/status_bar" />
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/samplesPlayerAlbumCoverFragment"
-        android:name="code.name.monkey.retromusic.fragments.player.SamplesPlayerAlbumCoverFragment"
+        android:id="@+id/playerAlbumCoverFragment"
+        android:name="code.name.monkey.retromusic.fragments.player.PlayerAlbumCoverFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
