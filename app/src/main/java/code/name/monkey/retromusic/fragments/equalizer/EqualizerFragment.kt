@@ -89,6 +89,7 @@ class EqualizerFragment : Fragment(R.layout.fragment_equalizer) {
     }
 
     private fun showPresetDialog() {
+        val prefs = requireContext().getSharedPreferences("equalizer_prefs", android.content.Context.MODE_PRIVATE)
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.select_preset)
             .setSingleChoiceItems(presets, selectedPresetIndex) { dialog, which ->
