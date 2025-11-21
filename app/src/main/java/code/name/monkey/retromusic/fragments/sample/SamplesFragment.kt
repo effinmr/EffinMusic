@@ -147,6 +147,7 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
         super.onDestroyView()
         progressViewUpdateHelper.stop()
         (requireActivity() as? IMiniPlayerExpanded)?.showMiniPlayer(true)
+        MusicPlayerRemote.clearQueue()
         _binding = null
     }
 
