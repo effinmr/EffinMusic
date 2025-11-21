@@ -11,20 +11,18 @@ class PlaylistPreview(val playlistWithSongs: PlaylistWithSongs) {
     val songs: List<Song> get() = playlistWithSongs.songs.toSongs()
 
     override fun equals(other: Any?): Boolean {
-        println("Glide equals $this $other")
         if (this === other) return true
-        if (javaClass != other?.javaClass) return false
+        if (other !is PlaylistPreview) return false
 
-        other as PlaylistPreview
         if (other.playlistEntity.playListId != playlistEntity.playListId) return false
-        if (other.songs.size != songs.size) return false
-        return true
+
+    // compare song IDs in order
+        return songs.map { it.id } == other.songs.map { it.id }
     }
 
     override fun hashCode(): Int {
         var result = playlistEntity.playListId.hashCode()
-        result = 31 * result + playlistWithSongs.songs.size
-        println("Glide $result")
+        result = 31 * result + songs.map { it.id }.hashCode()
         return result
     }
 }
