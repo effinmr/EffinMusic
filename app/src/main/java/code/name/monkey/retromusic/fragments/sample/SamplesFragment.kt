@@ -149,13 +149,7 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
         _binding = null
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        (requireActivity() as? IMiniPlayerExpanded)?.showMiniPlayer(true)
-        MusicPlayerRemote.clearQueue()
-    }
-
-    private fun updateArtistImage() {
+   private fun updateArtistImage() {
         val song = MusicPlayerRemote.currentSong
         val ids = song.artistIds?.split(",")?.mapNotNull { it.trim().toLongOrNull() } ?: emptyList()
         if (ids.isEmpty()) {
