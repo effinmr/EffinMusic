@@ -36,6 +36,10 @@
         android:id="@+id/action_set_playlist_image"
         android:title="@string/action_set_playlist_image" />
     <item
+        android:id="@+id/action_reset_playlist_image"
+        android:title="@string/action_reset_playlist_image"
+        app:showAsAction="never"/>
+    <item
         android:id="@+id/action_rename_playlist"
         android:title="@string/action_rename"
         app:showAsAction="never" />
