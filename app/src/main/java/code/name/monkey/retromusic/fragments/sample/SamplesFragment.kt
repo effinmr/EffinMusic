@@ -146,6 +146,7 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
     override fun onDestroyView() {
         super.onDestroyView()
         progressViewUpdateHelper.stop()
+        (requireActivity() as? IMiniPlayerExpanded)?.showMiniPlayer(true)
         _binding = null
     }
 
