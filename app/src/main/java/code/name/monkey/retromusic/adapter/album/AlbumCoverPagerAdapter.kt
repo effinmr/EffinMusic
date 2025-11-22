@@ -182,16 +182,14 @@ class AlbumCoverPagerAdapter(
                 } else {
                     // delay single tap action to see if double tap happens
                     singleTapRunnable = Runnable {
+                         getForcedScreen()?.let {
+                             togglePlayPause()
+                             return@Runnable
+                         }
                         when (PreferenceUtil.artworkClickAction) {
                             0 -> showLyricsDialog()
                             1 -> { /* Do nothing */ }
-                            2 -> {
-                                if (MusicPlayerRemote.isPlaying) {
-                                    MusicPlayerRemote.pauseSong()
-                                } else {
-                                    MusicPlayerRemote.resumePlaying()
-                                }
-                            }
+                            2 -> togglePlayPause()
                         }
                     }
                     view.postDelayed(singleTapRunnable!!, doubleTapTimeout)
@@ -200,6 +198,11 @@ class AlbumCoverPagerAdapter(
                 lastTapTime = now
             }
             return view
+        }
+
+        private fun togglePlayPause() {
+            if (MusicPlayerRemote.isPlaying) MusicPlayerRemote.pauseSong()
+            else MusicPlayerRemote.resumePlaying()
         }
 
         private fun showLyricsDialog(lyrics: String? = null) {
