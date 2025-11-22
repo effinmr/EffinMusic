@@ -70,8 +70,6 @@ class PlayerAlbumCoverFragment : AbsMusicServiceFragment(R.layout.fragment_playe
 
     var skipOnSwipe: Boolean = false
 
-    var forcedPlayerScreen: NowPlayingScreen? = null
-
     private val colorReceiver = object : AlbumCoverFragment.ColorReceiver {
         override fun onColorReady(color: MediaNotificationProcessor, request: Int) {
             if (currentPosition == request) {
@@ -127,6 +125,13 @@ class PlayerAlbumCoverFragment : AbsMusicServiceFragment(R.layout.fragment_playe
 
     override fun onUpdateProgressViews(progress: Int, total: Int) {
         binding.lyricsView.updateTime(progress.toLong())
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.getString(ARG_FORCED_PLAYER_SCREEN)?.let {
+            forcedPlayerScreen = NowPlayingScreen.valueOf(it)
+        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -347,6 +352,18 @@ class PlayerAlbumCoverFragment : AbsMusicServiceFragment(R.layout.fragment_playe
 
     companion object {
         val TAG: String = PlayerAlbumCoverFragment::class.java.simpleName
+        
+        private const val ARG_FORCED_PLAYER_SCREEN = "arg_forced_player_screen"
+
+        fun newInstance(forcedPlayerScreen: NowPlayingScreen? = null): PlayerAlbumCoverFragment {
+            val fragment = PlayerAlbumCoverFragment()
+            val args = Bundle()
+            if (forcedPlayerScreen != null) {
+                args.putString(ARG_FORCED_PLAYER_SCREEN, forcedPlayerScreen.name)
+            }
+            fragment.arguments = args
+            return fragment
+        }
     }
 
     private val lyricViewNpsList =
