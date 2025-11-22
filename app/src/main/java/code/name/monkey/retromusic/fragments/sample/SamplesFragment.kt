@@ -93,11 +93,15 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
 
     private fun setUpSubFragments() {
         controlsFragment = whichFragment(R.id.playbackControlsFragment)
-        val coverFragment: PlayerAlbumCoverFragment = whichFragment(R.id.playerAlbumCoverFragment)
+        val coverFragment = PlayerAlbumCoverFragment.newInstance(NowPlayingScreen.Full)
+        
+        childFragmentManager.beginTransaction()
+            .replace(R.id.playerAlbumCoverFragment, coverFragment)
+            .commitNow()
+
         coverFragment.skipOnSwipe = true
         coverFragment.setCallbacks(this)
         coverFragment.removeSlideEffect()
-        coverFragment.forcedPlayerScreen = NowPlayingScreen.Full
     }
 
     override fun onShow() {
