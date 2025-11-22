@@ -97,7 +97,7 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
         
         childFragmentManager.beginTransaction()
             .replace(R.id.playerAlbumCoverFragment, coverFragment)
-            .commitNow()
+            .commitNowAllowingStateLoss()
 
         coverFragment.skipOnSwipe = true
         coverFragment.setCallbacks(this)
