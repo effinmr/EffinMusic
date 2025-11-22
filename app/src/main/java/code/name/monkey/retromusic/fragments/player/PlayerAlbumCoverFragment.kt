@@ -287,7 +287,7 @@ class PlayerAlbumCoverFragment : AbsMusicServiceFragment(R.layout.fragment_playe
 
     private fun updatePlayingQueue() {
         binding.viewPager.apply {
-            adapter = AlbumCoverPagerAdapter(parentFragmentManager, MusicPlayerRemote.playingQueue)
+            adapter = AlbumCoverPagerAdapter(parentFragmentManager, MusicPlayerRemote.playingQueue, forcedPlayerScreen)
             setCurrentItem(MusicPlayerRemote.position, true)
             onPageSelected(MusicPlayerRemote.position)
         }
