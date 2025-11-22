@@ -327,7 +327,6 @@ class PlaylistDetailsFragment : AbsMainActivityFragment(R.layout.fragment_playli
 
     override fun onPause() {
         binding.playlistSearchView.clearText()
-        playlistSongAdapter.saveSongs(playlist.playlistEntity)
         super.onPause()
     }
 
