@@ -141,6 +141,7 @@ class AlbumCoverPagerAdapter(
                 val now = System.currentTimeMillis()
                 singleTapRunnable?.let { view.removeCallbacks(it) }
                 if (now - lastTapTime < doubleTapTimeout) {
+                    Toast.makeText(requireContext(), "Double Tap!", Toast.LENGTH_SHORT).show()
                     // double tap detected
                     if (!PreferenceUtil.isDoubleTapFavorite) return@setOnClickListener
                     lifecycleScope.launch(Dispatchers.IO) {
@@ -180,6 +181,7 @@ class AlbumCoverPagerAdapter(
                 } else {
                     // delay single tap action to see if double tap happens
                     singleTapRunnable = Runnable {
+                        Toast.makeText(requireContext(), "Single Tap!", Toast.LENGTH_SHORT).show()
                         if (mainActivity.getBottomSheetBehavior().state == STATE_EXPANDED) {
                             when (PreferenceUtil.artworkClickAction) {
                                 0 -> showLyricsDialog()
