@@ -304,6 +304,10 @@ class AlbumCoverPagerAdapter(
             }
         }
 
+        private fun getForcedScreen(): NowPlayingScreen? {
+            return arguments?.getString(ARG_FORCED_PLAYER_SCREEN)?.let { NowPlayingScreen.valueOf(it) }
+        }
+
         internal fun receiveColor(colorReceiver: ColorReceiver, request: Int) {
             if (isColorReady) {
                 colorReceiver.onColorReady(color, request)
@@ -331,10 +335,6 @@ class AlbumCoverPagerAdapter(
                 }
                 frag.arguments = args
                 return frag
-            }
-
-            private fun getForcedScreen(): NowPlayingScreen? {
-                return arguments?.getString(ARG_FORCED_PLAYER_SCREEN)?.let { NowPlayingScreen.valueOf(it) }
             }
         }
     }
