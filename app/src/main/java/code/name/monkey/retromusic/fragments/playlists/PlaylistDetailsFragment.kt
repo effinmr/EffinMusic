@@ -340,6 +340,7 @@ class PlaylistDetailsFragment : AbsMainActivityFragment(R.layout.fragment_playli
         if (songs.isNotEmpty()) {
             playlistSongAdapter.swapDataSet(songs)
         } else {
+            playlistSongAdapter.swapDataSet(mutableListOf())
             showEmptyView()
         }
     }
