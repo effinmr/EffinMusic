@@ -69,6 +69,8 @@ class PlayerAlbumCoverFragment : AbsMusicServiceFragment(R.layout.fragment_playe
 
     var skipOnSwipe: Boolean = false
 
+    var forcedPlayerScreen: NowPlayingScreen? = null
+
     private val colorReceiver = object : AlbumCoverFragment.ColorReceiver {
         override fun onColorReady(color: MediaNotificationProcessor, request: Int) {
             if (currentPosition == request) {
@@ -158,7 +160,7 @@ class PlayerAlbumCoverFragment : AbsMusicServiceFragment(R.layout.fragment_playe
 
     private fun setupViewPager() {
         binding.viewPager.addOnPageChangeListener(this)
-        val nps = PreferenceUtil.nowPlayingScreen
+        val nps = forcedPlayerScreen ?: PreferenceUtil.nowPlayingScreen
 
         if (nps == Full || nps == Classic || nps == Fit || nps == Gradient) {
             binding.viewPager.offscreenPageLimit = 2
@@ -264,7 +266,7 @@ class PlayerAlbumCoverFragment : AbsMusicServiceFragment(R.layout.fragment_playe
     }
 
     private fun maybeInitLyrics() {
-        val nps = PreferenceUtil.nowPlayingScreen
+        val nps = forcedPlayerScreen ?: PreferenceUtil.nowPlayingScreen
         // Don't show lyrics container for below conditions
         if (lyricViewNpsList.contains(nps) && PreferenceUtil.showLyrics) {
             showLyrics(true)
