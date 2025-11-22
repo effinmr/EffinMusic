@@ -70,8 +70,6 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentSamplesBinding.bind(view)
 
-        (requireActivity() as? IMiniPlayerExpanded)?.showMiniPlayer(false)
-
         libraryViewModel.getSongs().observe(viewLifecycleOwner) { songs ->
             MusicPlayerRemote.openAndShuffleQueue(songs, false)
             MusicPlayerRemote.playSongAtFrom(0, 30000)
@@ -146,7 +144,6 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
     override fun onDestroyView() {
         super.onDestroyView()
         progressViewUpdateHelper.stop()
-        (requireActivity() as? IMiniPlayerExpanded)?.showMiniPlayer(true)
         MusicPlayerRemote.clearQueue()
         _binding = null
     }
