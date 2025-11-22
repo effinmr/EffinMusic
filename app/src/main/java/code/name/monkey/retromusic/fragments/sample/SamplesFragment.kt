@@ -68,15 +68,15 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         _binding = FragmentSamplesBinding.bind(view)
-
+        setUpSubFragments()
+        super.onViewCreated(view, savedInstanceState)
+        
         libraryViewModel.getSongs().observe(viewLifecycleOwner) { songs ->
             MusicPlayerRemote.openAndShuffleQueue(songs, false)
             MusicPlayerRemote.playSongAtFrom(0, 30000)
         }
 
-        setUpSubFragments()
         setUpPlayerToolbar()
         setupArtist()
         binding.nextSong.isSelected = true
