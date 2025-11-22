@@ -49,6 +49,7 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setUpSubFragments()
         progressViewUpdateHelper = MusicProgressViewUpdateHelper(this)
     }
 
@@ -65,11 +66,6 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
         binding.playerToolbar.apply {
             setNavigationOnClickListener { requireActivity().onBackPressedDispatcher.onBackPressed() }
         }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setUpSubFragments()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
