@@ -70,7 +70,8 @@ import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
 class AlbumCoverPagerAdapter(
     fragmentManager: FragmentManager,
-    private val dataSet: List<Song>
+    private val dataSet: List<Song>,
+    private val forcedScreen: NowPlayingScreen? = null
 ) : CustomFragmentStatePagerAdapter(fragmentManager) {
 
     private var currentColorReceiver: AlbumCoverFragment.ColorReceiver? = null
@@ -238,7 +239,8 @@ class AlbumCoverPagerAdapter(
         }
 
         private fun getLayoutWithPlayerTheme(): Int {
-            return when (PreferenceUtil.nowPlayingScreen) {
+            val screen = getForcedScreen() ?: PreferenceUtil.nowPlayingScreen
+            return when (screen) {
                 Card, Fit, Tiny, Classic, Gradient, Full -> R.layout.fragment_album_full_cover
                 Peek -> R.layout.fragment_peek_album_cover
                 else -> {
@@ -319,10 +321,20 @@ class AlbumCoverPagerAdapter(
 
             private const val SONG_ARG = "song"
 
-            fun newInstance(song: Song): AlbumCoverFragment {
+            private const val ARG_FORCED_PLAYER_SCREEN = "arg_forced_player_screen"
+
+            fun newInstance(song: Song, forcedScreen: NowPlayingScreen? = null): AlbumCoverFragment {
                 val frag = AlbumCoverFragment()
                 frag.arguments = bundleOf(SONG_ARG to song)
+                if (forcedScreen != null) {
+                    args.putString(ARG_FORCED_PLAYER_SCREEN, forcedScreen.name)
+                }
+                frag.arguments = args
                 return frag
+            }
+
+            private fun getForcedScreen(): NowPlayingScreen? {
+                return arguments?.getString(ARG_FORCED_PLAYER_SCREEN)?.let { NowPlayingScreen.valueOf(it) }
             }
         }
     }
