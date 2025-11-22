@@ -41,6 +41,7 @@ import code.name.monkey.retromusic.db.toSongEntity
 import code.name.monkey.retromusic.extensions.currentFragment
 import code.name.monkey.retromusic.fragments.AlbumCoverStyle
 import code.name.monkey.retromusic.fragments.LibraryViewModel
+import code.name.monkey.retromusic.fragments.NowPlayingScreen
 import code.name.monkey.retromusic.fragments.NowPlayingScreen.*
 import code.name.monkey.retromusic.fragments.ReloadType
 import code.name.monkey.retromusic.fragments.base.goToLyrics
