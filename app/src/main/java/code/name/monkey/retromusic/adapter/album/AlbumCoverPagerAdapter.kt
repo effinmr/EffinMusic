@@ -78,7 +78,7 @@ class AlbumCoverPagerAdapter(
     private var currentColorReceiverPosition = -1
 
     override fun getItem(position: Int): Fragment {
-        return AlbumCoverFragment.newInstance(dataSet[position])
+        return AlbumCoverFragment.newInstance(dataSet[position], forcedScreen)
     }
 
     override fun getCount(): Int {
