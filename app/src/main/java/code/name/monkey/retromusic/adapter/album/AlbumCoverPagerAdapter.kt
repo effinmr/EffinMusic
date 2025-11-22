@@ -325,7 +325,7 @@ class AlbumCoverPagerAdapter(
 
             fun newInstance(song: Song, forcedScreen: NowPlayingScreen? = null): AlbumCoverFragment {
                 val frag = AlbumCoverFragment()
-                frag.arguments = bundleOf(SONG_ARG to song)
+                val args = bundleOf(SONG_ARG to song)
                 if (forcedScreen != null) {
                     args.putString(ARG_FORCED_PLAYER_SCREEN, forcedScreen.name)
                 }
