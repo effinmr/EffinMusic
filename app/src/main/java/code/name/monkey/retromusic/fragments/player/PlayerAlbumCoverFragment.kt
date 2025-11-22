@@ -70,6 +70,8 @@ class PlayerAlbumCoverFragment : AbsMusicServiceFragment(R.layout.fragment_playe
 
     var skipOnSwipe: Boolean = false
 
+    private var forcedPlayerScreen: NowPlayingScreen? = null
+
     private val colorReceiver = object : AlbumCoverFragment.ColorReceiver {
         override fun onColorReady(color: MediaNotificationProcessor, request: Int) {
             if (currentPosition == request) {
