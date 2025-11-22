@@ -22,6 +22,7 @@ import android.view.LayoutInflater
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewConfiguration
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
@@ -40,6 +41,7 @@ import code.name.monkey.retromusic.db.toSongEntity
 import code.name.monkey.retromusic.extensions.currentFragment
 import code.name.monkey.retromusic.fragments.AlbumCoverStyle
 import code.name.monkey.retromusic.fragments.LibraryViewModel
+import code.name.monkey.retromusic.fragments.NowPlayingScreen
 import code.name.monkey.retromusic.fragments.NowPlayingScreen.*
 import code.name.monkey.retromusic.fragments.ReloadType
 import code.name.monkey.retromusic.fragments.base.goToLyrics
@@ -69,14 +71,15 @@ import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
 class AlbumCoverPagerAdapter(
     fragmentManager: FragmentManager,
-    private val dataSet: List<Song>
+    private val dataSet: List<Song>,
+    private val forcedScreen: NowPlayingScreen? = null
 ) : CustomFragmentStatePagerAdapter(fragmentManager) {
 
     private var currentColorReceiver: AlbumCoverFragment.ColorReceiver? = null
     private var currentColorReceiverPosition = -1
 
     override fun getItem(position: Int): Fragment {
-        return AlbumCoverFragment.newInstance(dataSet[position])
+        return AlbumCoverFragment.newInstance(dataSet[position], forcedScreen)
     }
 
     override fun getCount(): Int {
@@ -132,27 +135,16 @@ class AlbumCoverPagerAdapter(
             savedInstanceState: Bundle?
         ): View? {
             val view = inflater.inflate(getLayoutWithPlayerTheme(), container, false)
-            val gestureDetector = GestureDetector(requireContext(), object : GestureDetector.SimpleOnGestureListener() {
-                override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
-                    if (mainActivity.getBottomSheetBehavior().state == STATE_EXPANDED) {
-                        when (PreferenceUtil.artworkClickAction) {
-                            0 -> showLyricsDialog()
-                            1 -> { /* Do nothing */ }
-                            2 -> {
-                                if (MusicPlayerRemote.isPlaying) {
-                                    MusicPlayerRemote.pauseSong()
-                                } else {
-                                    MusicPlayerRemote.resumePlaying()
-                                }
-                            }
-                        }
-                    }
-                    return true
-                }
-                override fun onDoubleTap(e: MotionEvent): Boolean {
-                    if (!PreferenceUtil.isDoubleTapFavorite) {
-                        return false
-                    }
+            var lastTapTime = 0L
+            val doubleTapTimeout = ViewConfiguration.getDoubleTapTimeout().toLong()
+            var singleTapRunnable: Runnable? = null
+            
+            view.setOnClickListener {
+                val now = System.currentTimeMillis()
+                singleTapRunnable?.let { view.removeCallbacks(it) }
+                if (now - lastTapTime < doubleTapTimeout) {
+                    // double tap detected
+                    if (!PreferenceUtil.isDoubleTapFavorite) return@setOnClickListener
                     lifecycleScope.launch(Dispatchers.IO) {
                         val song = MusicPlayerRemote.currentSong
                         val playlist: PlaylistEntity = libraryViewModel.favoritePlaylist()
@@ -187,15 +179,30 @@ class AlbumCoverPagerAdapter(
                                 .sendBroadcast(Intent(MusicService.FAVORITE_STATE_CHANGED))
                         }
                     }
-                    return true
-                }
-            })
+                } else {
+                    // delay single tap action to see if double tap happens
+                    singleTapRunnable = Runnable {
+                         getForcedScreen()?.let {
+                             togglePlayPause()
+                             return@Runnable
+                         }
+                        when (PreferenceUtil.artworkClickAction) {
+                            0 -> showLyricsDialog()
+                            1 -> { /* Do nothing */ }
+                            2 -> togglePlayPause()
+                        }
+                    }
+                    view.postDelayed(singleTapRunnable!!, doubleTapTimeout)
 
-            view.setOnTouchListener { _, motionEvent ->
-                gestureDetector.onTouchEvent(motionEvent)
-                true
+                }
+                lastTapTime = now
             }
             return view
+        }
+
+        private fun togglePlayPause() {
+            if (MusicPlayerRemote.isPlaying) MusicPlayerRemote.pauseSong()
+            else MusicPlayerRemote.resumePlaying()
         }
 
         private fun showLyricsDialog(lyrics: String? = null) {
@@ -236,7 +243,8 @@ class AlbumCoverPagerAdapter(
         }
 
         private fun getLayoutWithPlayerTheme(): Int {
-            return when (PreferenceUtil.nowPlayingScreen) {
+            val screen = getForcedScreen() ?: PreferenceUtil.nowPlayingScreen
+            return when (screen) {
                 Card, Fit, Tiny, Classic, Gradient, Full -> R.layout.fragment_album_full_cover
                 Peek -> R.layout.fragment_peek_album_cover
                 else -> {
@@ -300,6 +308,10 @@ class AlbumCoverPagerAdapter(
             }
         }
 
+        private fun getForcedScreen(): NowPlayingScreen? {
+            return arguments?.getString(ARG_FORCED_PLAYER_SCREEN)?.let { NowPlayingScreen.valueOf(it) }
+        }
+
         internal fun receiveColor(colorReceiver: ColorReceiver, request: Int) {
             if (isColorReady) {
                 colorReceiver.onColorReady(color, request)
@@ -317,9 +329,15 @@ class AlbumCoverPagerAdapter(
 
             private const val SONG_ARG = "song"
 
-            fun newInstance(song: Song): AlbumCoverFragment {
+            private const val ARG_FORCED_PLAYER_SCREEN = "arg_forced_player_screen"
+
+            fun newInstance(song: Song, forcedScreen: NowPlayingScreen? = null): AlbumCoverFragment {
                 val frag = AlbumCoverFragment()
-                frag.arguments = bundleOf(SONG_ARG to song)
+                val args = bundleOf(SONG_ARG to song)
+                if (forcedScreen != null) {
+                    args.putString(ARG_FORCED_PLAYER_SCREEN, forcedScreen.name)
+                }
+                frag.arguments = args
                 return frag
             }
         }

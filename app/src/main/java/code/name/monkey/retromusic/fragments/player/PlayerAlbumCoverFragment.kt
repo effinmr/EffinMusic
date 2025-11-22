@@ -38,6 +38,7 @@ import code.name.monkey.retromusic.adapter.album.AlbumCoverPagerAdapter.AlbumCov
 import code.name.monkey.retromusic.databinding.FragmentPlayerAlbumCoverBinding
 import code.name.monkey.retromusic.extensions.isColorLight
 import code.name.monkey.retromusic.extensions.surfaceColor
+import code.name.monkey.retromusic.fragments.NowPlayingScreen
 import code.name.monkey.retromusic.fragments.NowPlayingScreen.*
 import code.name.monkey.retromusic.fragments.base.AbsMusicServiceFragment
 import code.name.monkey.retromusic.fragments.base.goToLyrics
@@ -68,6 +69,8 @@ class PlayerAlbumCoverFragment : AbsMusicServiceFragment(R.layout.fragment_playe
     val viewPager get() = binding.viewPager
 
     var skipOnSwipe: Boolean = false
+
+    private var forcedPlayerScreen: NowPlayingScreen? = null
 
     private val colorReceiver = object : AlbumCoverFragment.ColorReceiver {
         override fun onColorReady(color: MediaNotificationProcessor, request: Int) {
@@ -126,6 +129,13 @@ class PlayerAlbumCoverFragment : AbsMusicServiceFragment(R.layout.fragment_playe
         binding.lyricsView.updateTime(progress.toLong())
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.getString(ARG_FORCED_PLAYER_SCREEN)?.let {
+            forcedPlayerScreen = NowPlayingScreen.valueOf(it)
+        }
+    }
+
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -158,7 +168,7 @@ class PlayerAlbumCoverFragment : AbsMusicServiceFragment(R.layout.fragment_playe
 
     private fun setupViewPager() {
         binding.viewPager.addOnPageChangeListener(this)
-        val nps = PreferenceUtil.nowPlayingScreen
+        val nps = forcedPlayerScreen ?: PreferenceUtil.nowPlayingScreen
 
         if (nps == Full || nps == Classic || nps == Fit || nps == Gradient) {
             binding.viewPager.offscreenPageLimit = 2
@@ -264,7 +274,7 @@ class PlayerAlbumCoverFragment : AbsMusicServiceFragment(R.layout.fragment_playe
     }
 
     private fun maybeInitLyrics() {
-        val nps = PreferenceUtil.nowPlayingScreen
+        val nps = forcedPlayerScreen ?: PreferenceUtil.nowPlayingScreen
         // Don't show lyrics container for below conditions
         if (lyricViewNpsList.contains(nps) && PreferenceUtil.showLyrics) {
             showLyrics(true)
@@ -279,7 +289,7 @@ class PlayerAlbumCoverFragment : AbsMusicServiceFragment(R.layout.fragment_playe
 
     private fun updatePlayingQueue() {
         binding.viewPager.apply {
-            adapter = AlbumCoverPagerAdapter(parentFragmentManager, MusicPlayerRemote.playingQueue)
+            adapter = AlbumCoverPagerAdapter(parentFragmentManager, MusicPlayerRemote.playingQueue, forcedPlayerScreen)
             setCurrentItem(MusicPlayerRemote.position, true)
             onPageSelected(MusicPlayerRemote.position)
         }
@@ -344,6 +354,18 @@ class PlayerAlbumCoverFragment : AbsMusicServiceFragment(R.layout.fragment_playe
 
     companion object {
         val TAG: String = PlayerAlbumCoverFragment::class.java.simpleName
+        
+        private const val ARG_FORCED_PLAYER_SCREEN = "arg_forced_player_screen"
+
+        fun newInstance(forcedPlayerScreen: NowPlayingScreen? = null): PlayerAlbumCoverFragment {
+            val fragment = PlayerAlbumCoverFragment()
+            val args = Bundle()
+            if (forcedPlayerScreen != null) {
+                args.putString(ARG_FORCED_PLAYER_SCREEN, forcedPlayerScreen.name)
+            }
+            fragment.arguments = args
+            return fragment
+        }
     }
 
     private val lyricViewNpsList =

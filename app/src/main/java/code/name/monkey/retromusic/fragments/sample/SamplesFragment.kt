@@ -28,6 +28,7 @@ import code.name.monkey.retromusic.extensions.show
 import code.name.monkey.retromusic.extensions.whichFragment
 import code.name.monkey.retromusic.fragments.base.AbsPlayerFragment
 import code.name.monkey.retromusic.fragments.base.goToArtist
+import code.name.monkey.retromusic.fragments.NowPlayingScreen
 import code.name.monkey.retromusic.fragments.player.CoverLyricsFragment
 import code.name.monkey.retromusic.fragments.player.PlayerAlbumCoverFragment
 import code.name.monkey.retromusic.glide.RetroGlideExtension
@@ -69,7 +70,7 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentSamplesBinding.bind(view)
-
+        
         libraryViewModel.getSongs().observe(viewLifecycleOwner) { songs ->
             MusicPlayerRemote.openAndShuffleQueue(songs, false)
             MusicPlayerRemote.playSongAtFrom(0, 30000)
@@ -92,7 +93,12 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
 
     private fun setUpSubFragments() {
         controlsFragment = whichFragment(R.id.playbackControlsFragment)
-        val coverFragment: PlayerAlbumCoverFragment = whichFragment(R.id.playerAlbumCoverFragment)
+        val coverFragment = PlayerAlbumCoverFragment.newInstance(NowPlayingScreen.Full)
+        
+        childFragmentManager.beginTransaction()
+            .replace(R.id.playerAlbumCoverFragment, coverFragment)
+            .commitNowAllowingStateLoss()
+
         coverFragment.skipOnSwipe = true
         coverFragment.setCallbacks(this)
         coverFragment.removeSlideEffect()
