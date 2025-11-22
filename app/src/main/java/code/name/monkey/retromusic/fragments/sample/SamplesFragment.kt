@@ -28,6 +28,7 @@ import code.name.monkey.retromusic.extensions.show
 import code.name.monkey.retromusic.extensions.whichFragment
 import code.name.monkey.retromusic.fragments.base.AbsPlayerFragment
 import code.name.monkey.retromusic.fragments.base.goToArtist
+import code.name.monkey.retromusic.fragments.NowPlayingScreen
 import code.name.monkey.retromusic.fragments.player.CoverLyricsFragment
 import code.name.monkey.retromusic.fragments.player.PlayerAlbumCoverFragment
 import code.name.monkey.retromusic.glide.RetroGlideExtension
@@ -96,6 +97,7 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
         coverFragment.skipOnSwipe = true
         coverFragment.setCallbacks(this)
         coverFragment.removeSlideEffect()
+        coverFragment.forcedPlayerScreen = NowPlayingScreen.Full
     }
 
     override fun onShow() {
