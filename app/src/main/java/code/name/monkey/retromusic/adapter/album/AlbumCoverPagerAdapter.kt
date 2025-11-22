@@ -22,6 +22,7 @@ import android.view.LayoutInflater
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewConfiguration
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
@@ -133,18 +134,66 @@ class AlbumCoverPagerAdapter(
         ): View? {
             val view = inflater.inflate(getLayoutWithPlayerTheme(), container, false)
             var lastTapTime = 0L
-            val doubleTapTimeout = 300L
+            val doubleTapTimeout = ViewConfiguration.getDoubleTapTimeout().toLong()
             var singleTapRunnable: Runnable? = null
             
             view.setOnClickListener {
                 val now = System.currentTimeMillis()
+                singleTapRunnable?.let { view.removeCallbacks(it) }
                 if (now - lastTapTime < doubleTapTimeout) {
                     // double tap detected
-                    singleTapRunnable?.let { view.removeCallbacks(it) }
-                    toggleFavorite()
+                    if (!PreferenceUtil.isDoubleTapFavorite) return@setOnClickListener
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        val song = MusicPlayerRemote.currentSong
+                        val playlist: PlaylistEntity = libraryViewModel.favoritePlaylist()
+                        val songEntity = song.toSongEntity(playlist.playListId)
+                        if (!libraryViewModel.isSongFavorite(song.id)) {
+                            libraryViewModel.insertSongs(listOf(songEntity))
+                            withContext(Dispatchers.Main) {
+                                val heart = view.findViewById<ImageView>(R.id.heartView)
+                                heart.visibility = View.VISIBLE
+                                heart.setImageResource(R.drawable.heart_pop_anim)
+                                val anim = heart.drawable as AnimatedVectorDrawable
+                                anim.start()
+                                lifecycleScope.launch {
+                                    delay(400) 
+                                    heart.visibility = View.GONE
+                                }
+                            }
+                            libraryViewModel.forceReload(ReloadType.Playlists)
+                            LocalBroadcastManager.getInstance(requireContext())
+                                .sendBroadcast(Intent(MusicService.FAVORITE_STATE_CHANGED))
+                        } else {
+                            libraryViewModel.removeSongFromPlaylist(songEntity)
+                            withContext(Dispatchers.Main) {
+                                val heart = view.findViewById<ImageView>(R.id.heartView)
+                                heart.visibility = View.VISIBLE
+                                heart.setImageResource(R.drawable.heart_break_anim)
+                                val anim = heart.drawable as AnimatedVectorDrawable
+                                anim.start()
+                            }
+                            libraryViewModel.forceReload(ReloadType.Playlists)
+                            LocalBroadcastManager.getInstance(requireContext())
+                                .sendBroadcast(Intent(MusicService.FAVORITE_STATE_CHANGED))
+                        }
+                    }
                 } else {
                     // delay single tap action to see if double tap happens
-                    singleTapRunnable = Runnable { showLyricsDialog() }
+                    singleTapRunnable = Runnable {
+                        if (mainActivity.getBottomSheetBehavior().state == STATE_EXPANDED) {
+                            when (PreferenceUtil.artworkClickAction) {
+                                0 -> showLyricsDialog()
+                                1 -> { /* Do nothing */ }
+                                2 -> {
+                                    if (MusicPlayerRemote.isPlaying) {
+                                        MusicPlayerRemote.pauseSong()
+                                    } else {
+                                        MusicPlayerRemote.resumePlaying()
+                                    }
+                                }
+                            }
+                        }
+                    }
                     view.postDelayed(singleTapRunnable!!, doubleTapTimeout)
 
                 }
