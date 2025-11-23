@@ -102,6 +102,7 @@ import code.name.monkey.retromusic.fragments.player.tiny.TinyPlayerFragment
 import code.name.monkey.retromusic.fragments.queue.PlayingQueueFragment
 import code.name.monkey.retromusic.fragments.sample.SamplesFragment
 import code.name.monkey.retromusic.helper.MusicPlayerRemote
+import code.name.monkey.retromusic.interfaces.IMiniPlayerExpanded
 import code.name.monkey.retromusic.model.CategoryInfo
 import code.name.monkey.retromusic.util.PreferenceUtil
 import code.name.monkey.retromusic.util.ViewUtil
@@ -436,7 +437,7 @@ abstract class AbsSlidingMusicPanelActivity : AbsMusicServiceActivity(),
         if (currentFragment(R.id.fragment_container) !is PlayingQueueFragment && currentFragment(R.id.fragment_container) !is SamplesFragment) {
             hideBottomSheet(MusicPlayerRemote.playingQueue.isEmpty())
         }
-        showMiniPlayer(MusicPlayerRemote.playingQueue.isNotEmpty())
+        IMiniPlayerExpanded.showMiniPlayer(MusicPlayerRemote.playingQueue.isNotEmpty())
     }
 
     private fun handleBackPress(): Boolean {
