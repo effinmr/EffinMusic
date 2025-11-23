@@ -55,7 +55,6 @@ class LibraryViewModel(
     private val _paletteColor = MutableLiveData<Int>()
     private val home = MutableLiveData<List<Home>>()
     private val suggestions = MutableLiveData<List<Song>>()
-    private val samples = MutableLiveData<List<Song>>()
     private val albums = MutableLiveData<List<Album>>()
     private val songs = MutableLiveData<List<Song>>()
     val artists = MutableLiveData<List<Artist>>()
@@ -79,7 +78,6 @@ class LibraryViewModel(
             fetchHomeSections()
             awaitAll(
                 async { fetchSuggestions() },
-                async { fetchSamples() },
                 async { fetchSongs() },
                 async { fetchAlbums() },
                 async { fetchArtists() },
@@ -104,8 +102,6 @@ class LibraryViewModel(
     fun getHome(): LiveData<List<Home>> = home
 
     fun getSuggestions(): LiveData<List<Song>> = suggestions
-
-    fun getSamples(): LiveData<List<Song>> = samples
 
     fun getFabMargin(): LiveData<Int> = fabMargin
 
@@ -141,12 +137,6 @@ class LibraryViewModel(
 
     private suspend fun fetchSuggestions() {
         suggestions.postValue(repository.suggestions())
-    }
-
-    private suspend fun fetchSamples() {
-        val all = repository.suggestions()
-        val fastLoad = if (all.size > 100) all.take(100) else all
-        samples.postValue(fastLoad)
     }
 
     fun search(query: String?, filter: Filter) =
@@ -214,7 +204,6 @@ class LibraryViewModel(
             Playlists -> fetchPlaylists()
             Genres -> fetchGenres()
             Suggestions -> fetchSuggestions()
-            Samples -> fetchSamples()
         }
     }
 
@@ -472,6 +461,5 @@ enum class ReloadType {
     HomeSections,
     Playlists,
     Genres,
-    Suggestions,
-    Samples
+    Suggestions
 }
