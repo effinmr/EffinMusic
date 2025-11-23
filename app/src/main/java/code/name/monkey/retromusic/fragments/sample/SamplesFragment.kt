@@ -72,7 +72,7 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
         setUpSubFragments()
         super.onViewCreated(view, savedInstanceState)
         
-        libraryViewModel.getSamples().observe(viewLifecycleOwner) { songs ->
+        libraryViewModel.getSongs().observe(viewLifecycleOwner) { songs ->
             MusicPlayerRemote.openAndShuffleQueue(songs, false)
             MusicPlayerRemote.playSongAtFrom(0, 30000)
         }
