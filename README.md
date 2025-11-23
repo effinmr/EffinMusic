@@ -25,6 +25,7 @@
 ## 📦 Included Features
 - Fast!
 - Major bugs fixed
+- Samples
 - LRCLIB Lyrics
 - Improved Search Bar
 - Minimal Artist
