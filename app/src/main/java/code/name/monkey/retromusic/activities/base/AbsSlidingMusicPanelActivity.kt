@@ -437,7 +437,7 @@ abstract class AbsSlidingMusicPanelActivity : AbsMusicServiceActivity(),
         if (currentFragment(R.id.fragment_container) !is PlayingQueueFragment && currentFragment(R.id.fragment_container) !is SamplesFragment) {
             hideBottomSheet(MusicPlayerRemote.playingQueue.isEmpty())
         }
-        IMiniPlayerExpanded.showMiniPlayer(MusicPlayerRemote.playingQueue.isNotEmpty())
+        (requireActivity() as? IMiniPlayerExpanded)?.showMiniPlayer(MusicPlayerRemote.playingQueue.isNotEmpty())
     }
 
     private fun handleBackPress(): Boolean {
