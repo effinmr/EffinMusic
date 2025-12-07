@@ -135,7 +135,9 @@ open class AlbumAdapter(
 
         val model = RetroGlideExtension.getSongModel(song)
 
-        if (PreferenceUtil.isIgnoreMediaStoreArtwork) {
+        val style = GridStyle.fromId(PreferenceUtil.albumGridStyle)
+
+        if (PreferenceUtil.isIgnoreMediaStoreArtwork || style == GridStyle.ColoredCard || style == GridStyle.GradientImage) {
             val requestOptions = RequestOptions()
                 .format(DecodeFormat.PREFER_RGB_565)
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
@@ -146,7 +148,11 @@ open class AlbumAdapter(
                 .albumCoverOptions(song)
                 .load(model)
                 .apply(requestOptions)
-                .into(imageView)
+                .into(object : RetroMusicColoredTarget(imageView) {
+                    override fun onColorReady(colors: MediaNotificationProcessor) {
+                        setColors(colors, holder)
+                    }
+                })
             return
         }
         
