@@ -13,11 +13,6 @@ enum class GridStyle constructor(
     Circular(R.layout.item_grid_circle, 3),
     Image(R.layout.image, 4),
     GradientImage(R.layout.item_image_gradient, 5),
-    NoImage(R.layout.item_list_no_image, 6);
-
-    companion object {
-        fun fromId(id: Int): GridStyle {
-            return values().firstOrNull { it.id == id } ?: Grid
-        }
-    }
+    NoImage(R.layout.item_list_no_image, 6)
+    
 }
