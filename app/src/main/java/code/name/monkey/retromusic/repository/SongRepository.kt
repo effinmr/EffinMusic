@@ -75,13 +75,7 @@ class RealSongRepository(private val context: Context) : SongRepository {
     }
 
     fun songs(cursor: Cursor?, hideDuplicates: Boolean): List<Song> {
-        val songs = arrayListOf<Song>()
-        if (cursor != null && cursor.moveToFirst()) {
-            do {
-                songs.add(getSongFromCursorImpl(cursor))
-            } while (cursor.moveToNext())
-        }
-        cursor?.close()
+        val songs = songs(cursor)
         return if (hideDuplicates) {
             songs.deduplicateByKey()
         } else {
