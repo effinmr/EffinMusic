@@ -14,5 +14,4 @@ enum class GridStyle constructor(
     Image(R.layout.image, 4),
     GradientImage(R.layout.item_image_gradient, 5),
     NoImage(R.layout.item_list_no_image, 6)
-    
 }
