@@ -75,11 +75,11 @@ class RealSongRepository(private val context: Context) : SongRepository {
     }
 
     fun songs(cursor: Cursor?, hideDuplicates: Boolean): List<Song> {
-        val allSongs = sortedSongs(cursor)
+        val songs = songs(cursor)
         return if (hideDuplicates) {
-            allSongs.deduplicateByKey()
+            songs.deduplicateByKey()
         } else {
-            allSongs
+            songs
         }
     }
 

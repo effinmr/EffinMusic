@@ -24,6 +24,7 @@ import androidx.fragment.app.FragmentActivity
 import code.name.monkey.retromusic.R
 import code.name.monkey.retromusic.adapter.base.AbsMultiSelectAdapter
 import code.name.monkey.retromusic.adapter.base.MediaEntryViewHolder
+import code.name.monkey.retromusic.fragments.GridStyle
 import code.name.monkey.retromusic.glide.RetroGlideExtension
 import code.name.monkey.retromusic.glide.RetroGlideExtension.albumCoverOptions
 import code.name.monkey.retromusic.glide.RetroGlideExtension.asBitmapPalette
@@ -135,18 +136,24 @@ open class AlbumAdapter(
 
         val model = RetroGlideExtension.getSongModel(song)
 
-        if (PreferenceUtil.isIgnoreMediaStoreArtwork) {
+        val style = PreferenceUtil.albumGridStyle
+
+        if (PreferenceUtil.isIgnoreMediaStoreArtwork || style == GridStyle.ColoredCard || style == GridStyle.GradientImage) {
             val requestOptions = RequestOptions()
                 .format(DecodeFormat.PREFER_RGB_565)
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .skipMemoryCache(false)
                 .override(overrideSize, overrideSize)
             Glide.with(imageView)
-                .asBitmap()
+                .asBitmapPalette()
                 .albumCoverOptions(song)
                 .load(model)
                 .apply(requestOptions)
-                .into(imageView)
+                .into(object : RetroMusicColoredTarget(imageView) {
+                    override fun onColorReady(colors: MediaNotificationProcessor) {
+                        setColors(colors, holder)
+                    }
+                })
             return
         }
         
