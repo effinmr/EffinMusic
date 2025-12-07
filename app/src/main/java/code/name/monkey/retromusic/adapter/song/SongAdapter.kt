@@ -29,6 +29,7 @@ import code.name.monkey.retromusic.EXTRA_ALBUM_ID
 import code.name.monkey.retromusic.R
 import code.name.monkey.retromusic.adapter.base.AbsMultiSelectAdapter
 import code.name.monkey.retromusic.adapter.base.MediaEntryViewHolder
+import code.name.monkey.retromusic.fragments.GridStyle
 import code.name.monkey.retromusic.glide.RetroGlideExtension
 import code.name.monkey.retromusic.glide.RetroGlideExtension.asBitmapPalette
 import code.name.monkey.retromusic.glide.RetroGlideExtension.songCoverOptions
@@ -158,7 +159,9 @@ open class SongAdapter(
 
         val model = RetroGlideExtension.getSongModel(song)
 
-        if (PreferenceUtil.isIgnoreMediaStoreArtwork) {
+        val style = GridStyle.fromId(PreferenceUtil.albumGridStyle)
+
+        if (PreferenceUtil.isIgnoreMediaStoreArtwork || style == GridStyle.ColoredCard || style == GridStyle.GradientImage) {
             val requestOptions = RequestOptions()
                 .format(DecodeFormat.PREFER_RGB_565)
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
@@ -169,7 +172,11 @@ open class SongAdapter(
                 .songCoverOptions(song)
                 .load(model)
                 .apply(requestOptions)
-                .into(imageView)
+                .into(object : RetroMusicColoredTarget(imageView) {
+                    override fun onColorReady(colors: MediaNotificationProcessor) {
+                        setColors(colors, holder)
+                    }
+                })
             return
         }
 
