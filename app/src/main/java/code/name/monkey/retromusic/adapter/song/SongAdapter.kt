@@ -172,7 +172,7 @@ open class SongAdapter(
                 .songCoverOptions(song)
                 .load(model)
                 .apply(requestOptions)
-                .into(object : RetroMusicColoredTarget(imageView) {
+                .into(object : RetroMusicColoredTarget(holder.image!!) {
                     override fun onColorReady(colors: MediaNotificationProcessor) {
                         setColors(colors, holder)
                     }
