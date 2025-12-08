@@ -63,7 +63,10 @@ class RealGenreRepository(
     }
 
     private fun getSongCount(genreId: Long): Int {
-        return songs(genreId).size
+        val cursor = makeGenreSongCursor(genreId)
+        val count = cursor?.count ?: 0
+        cursor?.close()
+        return count
     }
 
     private fun getGenreFromCursor(cursor: Cursor): Genre {
