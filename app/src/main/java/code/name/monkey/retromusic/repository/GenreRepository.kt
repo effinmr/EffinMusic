@@ -17,6 +17,7 @@ package code.name.monkey.retromusic.repository
 import android.content.ContentResolver
 import android.database.Cursor
 import android.provider.BaseColumns
+import android.provider.MediaStore
 import android.provider.MediaStore.Audio.Genres
 import code.name.monkey.retromusic.Constants.IS_MUSIC
 import code.name.monkey.retromusic.Constants.baseProjection
