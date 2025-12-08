@@ -17,6 +17,7 @@ package code.name.monkey.retromusic.repository
 import android.content.ContentResolver
 import android.database.Cursor
 import android.provider.BaseColumns
+import android.provider.MediaStore
 import android.provider.MediaStore.Audio.Genres
 import code.name.monkey.retromusic.Constants.IS_MUSIC
 import code.name.monkey.retromusic.Constants.baseProjection
@@ -62,15 +63,10 @@ class RealGenreRepository(
     }
 
     private fun getSongCount(genreId: Long): Int {
-        contentResolver.query(
-            Genres.Members.getContentUri("external", genreId),
-            null,
-            null,
-            null,
-            null
-        ).use {
-            return it?.count ?: 0
-        }
+        val cursor = makeGenreSongCursor(genreId)
+        val count = cursor?.count ?: 0
+        cursor?.close()
+        return count
     }
 
     private fun getGenreFromCursor(cursor: Cursor): Genre {
@@ -87,17 +83,27 @@ class RealGenreRepository(
     }
 
     private fun makeGenreSongCursor(genreId: Long): Cursor? {
-        return try {
-            contentResolver.query(
-                Genres.Members.getContentUri("external", genreId),
-                baseProjection,
-                IS_MUSIC,
-                null,
-                PreferenceUtil.songSortOrder
-            )
-        } catch (e: SecurityException) {
-            return null
+        val ids = mutableListOf<String>()
+
+        contentResolver.query(
+            Genres.Members.getContentUri("external", genreId),
+            arrayOf(Genres.Members.AUDIO_ID),
+            IS_MUSIC,
+            null,
+            null
+        )?.use { cursor ->
+            val idIndex = cursor.getColumnIndexOrThrow(Genres.Members.AUDIO_ID)
+            while (cursor.moveToNext()) {
+                ids += cursor.getLong(idIndex).toString()
+            }
         }
+
+        if (ids.isEmpty()) return null
+
+        val placeholders = ids.joinToString(",") { "?" }
+        val selection = "${MediaStore.Audio.AudioColumns._ID} IN ($placeholders)"
+
+        return songRepository.makeSongCursor(selection, ids.toTypedArray())
     }
 
     private fun getGenresFromCursor(cursor: Cursor?): ArrayList<Genre> {
