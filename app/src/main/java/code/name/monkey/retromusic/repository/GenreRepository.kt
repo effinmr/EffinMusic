@@ -87,17 +87,27 @@ class RealGenreRepository(
     }
 
     private fun makeGenreSongCursor(genreId: Long): Cursor? {
-        return try {
-            contentResolver.query(
-                Genres.Members.getContentUri("external", genreId),
-                baseProjection,
-                IS_MUSIC,
-                null,
-                PreferenceUtil.songSortOrder
-            )
-        } catch (e: SecurityException) {
-            return null
+        val ids = mutableListOf<String>()
+
+        contentResolver.query(
+            Genres.Members.getContentUri("external", genreId),
+            arrayOf(Genres.Members.AUDIO_ID),
+            IS_MUSIC,
+            null,
+            null
+        )?.use { cursor ->
+            val idIndex = cursor.getColumnIndexOrThrow(Genres.Members.AUDIO_ID)
+            while (cursor.moveToNext()) {
+                ids += cursor.getLong(idIndex).toString()
+            }
         }
+
+        if (ids.isEmpty()) return null
+
+        val placeholders = ids.joinToString(",") { "?" }
+        val selection = "${MediaStore.Audio.AudioColumns._ID} IN ($placeholders)"
+
+        return songRepository.makeSongCursor(selection, ids.toTypedArray())
     }
 
     private fun getGenresFromCursor(cursor: Cursor?): ArrayList<Genre> {
