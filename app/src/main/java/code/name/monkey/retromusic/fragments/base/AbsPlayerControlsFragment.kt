@@ -346,13 +346,20 @@ abstract class AbsPlayerControlsFragment(@LayoutRes layout: Int) : AbsMusicServi
     protected var volumeFragment: VolumeFragment? = null
 
     private fun hideVolumeIfAvailable() {
+        val containerView = view?.findViewById<View>(R.id.volumeFragmentContainer) ?: run {
+            volumeFragment = null
+            return
+        }
+        
         if (PreferenceUtil.isVolumeVisibilityMode) {
             childFragmentManager.commit {
-                replace<VolumeFragment>(R.id.volumeFragmentContainer)
+                replace<VolumeFragment>(containerView.id)
             }
             childFragmentManager.executePendingTransactions()
+            volumeFragment = whichFragment(containerView.id)
+        } else {
+            volumeFragment = null
         }
-        volumeFragment = whichFragment(R.id.volumeFragmentContainer)
     }
 
     override fun onResume() {
