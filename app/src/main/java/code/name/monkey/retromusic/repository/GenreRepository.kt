@@ -63,15 +63,7 @@ class RealGenreRepository(
     }
 
     private fun getSongCount(genreId: Long): Int {
-        contentResolver.query(
-            Genres.Members.getContentUri("external", genreId),
-            null,
-            null,
-            null,
-            null
-        ).use {
-            return it?.count ?: 0
-        }
+        return songs(genreId).size
     }
 
     private fun getGenreFromCursor(cursor: Cursor): Genre {
