@@ -1,5 +1,3 @@
-(Updates on pause, will resume if there is enough interest)
-
 <p align="center">
   <a href="https://github.com/effinmr/EffinMusic/">
     <img src="app\src\main\ic_launcher.svg" height="256">
