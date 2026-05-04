@@ -1,18 +1,23 @@
 <p align="center">
   <a href="https://github.com/effinmr/EffinMusic/">
-    <img src="app\src\main\ic_launcher.svg" height="256">
-    <h1 align="center">Effin Music Player</h1>
+    <img src="app/src/main/ic_launcher.svg" height="200" alt="Effin Music Player Logo">
   </a>
 </p>
+
+<h1 align="center">Effin Music Player</h1>
+
 <p align="center">
-  <a href="https://github.com/effinmr/EffinMusic/" style="text-decoration:none" area-label="Android">
-    <img src="https://img.shields.io/badge/Platform-Android-green.svg">
-  </a>
+  Minimal • Fast • Material You
+</p>
 
+<p align="center">
+  <a href="https://github.com/effinmr/EffinMusic/">
+    <img src="https://img.shields.io/badge/Platform-Android-green.svg" alt="Android">
+  </a>
+</p>
 
 </p>
 
-## 🆕 Material You Design Music Player for Android music lovers 
 
 ## Download
 [<img src="https://raw.githubusercontent.com/effinmr/EffinMusic/refs/heads/dev/app/src/main/assets/get-it-on-github.png"
