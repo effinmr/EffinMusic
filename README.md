@@ -23,6 +23,27 @@
 
 </p>
 
+<p align="center">
+  
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/3.jpg" width="200"/> 
+
+<img src="screenshots/songs.jpg" width="200"/>
+
+<img src="screenshots/synced_over_dark.jpg" width="200"/>
+<img src="screenshots/synced_replace_dark.jpg" width="200"/>
+</p>
+  
+</p>
+
+### 10+ Now playing themes
+| <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/1.jpg" width="200"/>	|<img src="screenshots/fit.jpg" width="200"/>|   <img src="screenshots/flat.jpg" width="200"/>  	|    <img src="screenshots/color.jpg" width="200"/> 	|     <img src="screenshots/material.jpg" width="200"/>	|
+|:-----:	|:-----:	|:-----:	|:-----:	|:-----:	|
+| Normal 	| Fit 	| Flat 	| Color 	| Material 	|
+
+| <img src="screenshots/classic.jpg" width="200"/>	|<img src="screenshots/adaptive.jpg" width="200"/>|   <img src="screenshots/blur.jpg" width="200"/>  	|    <img src="screenshots/tiny.jpg" width="200"/> 	|     <img src="screenshots/peek.jpg" width="200"/>	|
+|:-----:	|:-----:	|:-----:	|:-----:	|:-----:	|
+| Classic 	| Adaptive 	| Blur 	| Tiny 	| Peek 	|
+
 
 ## Download
 [<img src="https://raw.githubusercontent.com/effinmr/EffinMusic/refs/heads/dev/app/src/main/assets/get-it-on-github.png"
@@ -50,29 +71,6 @@
 - Pro Features
 - Everything that Retro has
 
-___
-<p align="center">
-  
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/3.jpg" width="200"/> 
-
-<img src="screenshots/songs.jpg" width="200"/>
-
-<img src="screenshots/synced_over_dark.jpg" width="200"/>
-<img src="screenshots/synced_replace_dark.jpg" width="200"/>
-</p>
-  
-</p>
-
-### 10+ Now playing themes
-| <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/1.jpg" width="200"/>	|<img src="screenshots/fit.jpg" width="200"/>|   <img src="screenshots/flat.jpg" width="200"/>  	|    <img src="screenshots/color.jpg" width="200"/> 	|     <img src="screenshots/material.jpg" width="200"/>	|
-|:-----:	|:-----:	|:-----:	|:-----:	|:-----:	|
-| Normal 	| Fit 	| Flat 	| Color 	| Material 	|
-
-| <img src="screenshots/classic.jpg" width="200"/>	|<img src="screenshots/adaptive.jpg" width="200"/>|   <img src="screenshots/blur.jpg" width="200"/>  	|    <img src="screenshots/tiny.jpg" width="200"/> 	|     <img src="screenshots/peek.jpg" width="200"/>	|
-|:-----:	|:-----:	|:-----:	|:-----:	|:-----:	|
-| Classic 	| Adaptive 	| Blur 	| Tiny 	| Peek 	|
-
-___
 
 ## ❓ FAQ
 Please read the FAQ [here](https://github.com/effinmr/EffinMusic/blob/main/FAQ.md)
