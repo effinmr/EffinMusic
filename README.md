@@ -18,7 +18,7 @@
 
 <p align="center">
 <a href="https://github.com/dhruvitpokharna/EffinMusic/releases">
-        <img src="https://img.shields.io/github/downloads/dhruvitpokharna/effinmusic/total?logo=github&style=for-the-badge" alt="Total Downloads">
+        <img src="https://img.shields.io/github/downloads/dhruvitpokharna/effinmusic/total" alt="Total Downloads">
 </a>
 
 </p>
