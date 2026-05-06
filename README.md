@@ -25,12 +25,12 @@
 
 <p align="center">
   
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/3.jpg" width="200"/> 
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/3.jpg" width="145"/> 
 
-<img src="screenshots/songs.jpg" width="200"/>
+<img src="screenshots/songs.jpg" width="145"/>
 
-<img src="screenshots/synced_over_dark.jpg" width="200"/>
-<img src="screenshots/synced_replace_dark.jpg" width="200"/>
+<img src="screenshots/synced_over_dark.jpg" width="145"/>
+<img src="screenshots/synced_replace_dark.jpg" width="145"/>
 </p>
   
 </p>
