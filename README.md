@@ -31,6 +31,7 @@
 
 <img src="screenshots/synced_over_dark.jpg" width="145"/>
 <img src="screenshots/synced_replace_dark.jpg" width="145"/>
+<img src="screenshots/samples.jpg" width="145"/>
 </p>
   
 </p>
