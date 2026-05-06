@@ -7,7 +7,7 @@
 <h1 align="center">Effin Music Player</h1>
 
 <p align="center">
-  Minimal • Fast • Material You
+  Minimal • Fast • Highly Customizable • Material You
 </p>
 
 <p align="center">
@@ -58,37 +58,36 @@
 
 ---
 
-## 📦 Features
+## ✨ Features
 
 ### ⚡ Performance
-- Fast and lightweight
-- Major bugs fixed
+Fast, lightweight, and optimized for smooth playback with critical bug fixes.
 
-### 🎧 Playback
-- Sample support
-- ReplayGain support
-- Built-in equalizer
-- LRCLIB lyrics integration
+### 🎵 Music & Playback
+- Youtube Shorts like Samples
+- ReplayGain for consistent volume  
+- Built-in equalizer  
+- LRCLIB lyrics integration  
 
-### 🔍 Search & Library
-- Improved search experience
-- Settings search bar
-- Custom library support
-- Sort by recording date
+### 🔎 Library & Search
+- Improved search experience  
+- Settings search bar  
+- Custom library support  
+- Sort by recording date  
 
 ### 🎨 UI / UX
-- Minimal artist view
-- Artist delimiter support
-- Smooth wavy slider UI
-- Highly customizable interface
+- Minimal artist view  
+- Artist delimiter
+- Fluid wavy slider UI  
+- Highly customizable Material You design  
 
 ### ❤️ Interaction
-- Double-tap to favorite
-- Playlist drag-and-drop support
+- Double-tap to favorite songs  
+- Drag-and-drop playlist management  
 
 ### 🚀 Extras
-- Pro features included
-- Everything from Retro
+- Pro features included  
+- Based on Retro Music Player features  
 
 ---
 
