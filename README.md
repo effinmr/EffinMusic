@@ -17,67 +17,95 @@
 </p>
 
 <p align="center">
-<a href="https://github.com/dhruvitpokharna/EffinMusic/releases">
-        <img src="https://img.shields.io/github/downloads/dhruvitpokharna/effinmusic/total?logo=github&style=for-the-badge&v=2" alt="Total Downloads">
-</a>
-
+  <a href="https://github.com/dhruvitpokharna/EffinMusic/releases">
+    <img src="https://img.shields.io/github/downloads/dhruvitpokharna/effinmusic/total?logo=github&style=for-the-badge" alt="Downloads">
+  </a>
 </p>
+
+---
+
+## 📱 Screenshots
 
 <p align="center">
-  
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/3.jpg" width="145"/> 
-
-<img src="screenshots/songs.jpg" width="145"/>
-<img src="screenshots/synced_over_dark.jpg" width="145"/>
-<img src="screenshots/synced_replace_dark.jpg" width="145"/>
-<img src="screenshots/samples.jpg" width="145"/>
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/1.jpg" width="145"/>	
-<img src="screenshots/fit.jpg" width="145"/> 
-<img src="screenshots/flat.jpg" width="145"/>  
-<img src="screenshots/color.jpg" width="145"/> 
-<img src="screenshots/material.jpg" width="145"/>
-<img src="screenshots/classic.jpg" width="145"/>	
-<img src="screenshots/adaptive.jpg" width="145"/>
-<img src="screenshots/blur.jpg" width="145"/>
-<img src="screenshots/tiny.jpg" width="145"/>
-<img src="screenshots/peek.jpg" width="145"/>	
+  <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/3.jpg" width="145"/>
+  <img src="screenshots/songs.jpg" width="145"/>
+  <img src="screenshots/synced_over_dark.jpg" width="145"/>
+  <img src="screenshots/synced_replace_dark.jpg" width="145"/>
+  <img src="screenshots/samples.jpg" width="145"/>
+  <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/1.jpg" width="145"/>
+  <img src="screenshots/fit.jpg" width="145"/>
+  <img src="screenshots/flat.jpg" width="145"/>
+  <img src="screenshots/color.jpg" width="145"/>
+  <img src="screenshots/material.jpg" width="145"/>
+  <img src="screenshots/classic.jpg" width="145"/>
+  <img src="screenshots/adaptive.jpg" width="145"/>
+  <img src="screenshots/blur.jpg" width="145"/>
+  <img src="screenshots/tiny.jpg" width="145"/>
+  <img src="screenshots/peek.jpg" width="145"/>
 </p>
 
-## Download
-[<img src="https://raw.githubusercontent.com/effinmr/EffinMusic/refs/heads/dev/app/src/main/assets/get-it-on-github.png"
-      alt='Get it on GitHub'
-      height="80">](https://github.com/effinmr/EffinMusic/releases/latest)
+---
 
+## ⬇️ Download
 
-## 📦 Included Features
-- Fast!
+<p>
+  <a href="https://github.com/effinmr/EffinMusic/releases/latest">
+    <img src="https://raw.githubusercontent.com/effinmr/EffinMusic/refs/heads/dev/app/src/main/assets/get-it-on-github.png"
+         alt="Download Latest Release"
+         height="80">
+  </a>
+</p>
+
+---
+
+## 📦 Features
+
+### ⚡ Performance
+- Fast and lightweight
 - Major bugs fixed
-- Samples
-- LRCLIB Lyrics
-- Improved Search Bar
-- Minimal Artist
-- Artist Delimiter
-- Wavy Slider
-- ReplayGain
-- Settings Search Bar
-- Double Tap to Favorite
-- Built-in Equalizer
-- Playlist Drag-Drop
-- Sort by Recording date
-- Custom Library
-- Highly Customizable
-- Pro Features
-- Everything that Retro has
 
+### 🎧 Playback
+- Sample support
+- ReplayGain support
+- Built-in equalizer
+- LRCLIB lyrics integration
+
+### 🔍 Search & Library
+- Improved search experience
+- Settings search bar
+- Custom library support
+- Sort by recording date
+
+### 🎨 UI / UX
+- Minimal artist view
+- Artist delimiter support
+- Smooth wavy slider UI
+- Highly customizable interface
+
+### ❤️ Interaction
+- Double-tap to favorite
+- Playlist drag-and-drop support
+
+### 🚀 Extras
+- Pro features included
+- Everything from Retro
+
+---
 
 ## ❓ FAQ
+
 Please read the FAQ [here](https://github.com/effinmr/EffinMusic/blob/main/FAQ.md)
 
-In any case, if you find or notice any bugs please report them by creating an issue or by contacting us in the [Report a Bug](https://github.com/effinmr/EffinMusic/issues/new?template=bug_report.md).
-If you have any feature suggestions, please create an issue with detailed information or by contacting us in the [Request a new feature](https://github.com/effinmr/EffinMusic/issues/new?template=feature_request.md).
+If you encounter bugs:
+- Open an issue using the bug template
+- Or report it via GitHub issues
 
+Feature requests:
+- Use GitHub issues with clear descriptions
 
-## 🗂️ License
+---
 
-Retro Music Player is released under the GNU General Public License v3.0
-(GPLv3), which can be found [here](LICENSE.md)
+## 📄 License
+
+Effin Music Player is licensed under the GNU General Public License v3.0 (GPLv3).  
+See the [LICENSE](LICENSE.md) file for details.
