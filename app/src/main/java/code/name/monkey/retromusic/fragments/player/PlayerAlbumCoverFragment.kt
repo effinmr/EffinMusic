@@ -116,11 +116,9 @@ class PlayerAlbumCoverFragment : AbsMusicServiceFragment(R.layout.fragment_playe
                         if (!viewDestroyed) {
                             binding.lyricsView.reset()
                             binding.lyricsView.setLabel(context?.getString(R.string.no_lyrics_found))
-                            if (PreferenceUtil.showLyrics) {
+                            if (PreferenceUtil.showLyrics && forcedPlayerScreen == null) {
                                 binding.lyricsView.visibility = View.VISIBLE
-                                if (forcedPlayerScreen == null) {
-                                    binding.fetchLyricsText.visibility = View.VISIBLE
-                                }
+                                binding.fetchLyricsText.visibility = View.VISIBLE
                             }
                         }
                     }
