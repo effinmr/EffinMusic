@@ -131,7 +131,5 @@
         android:tag="force_lyrics"
         app:layout_constraintBottom_toTopOf="@+id/playbackControlsFragment"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:clickable="false"
-        android:focusable="false" />
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
