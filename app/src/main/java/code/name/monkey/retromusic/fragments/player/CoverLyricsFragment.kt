@@ -39,13 +39,15 @@ class CoverLyricsFragment : AbsMusicServiceFragment(R.layout.fragment_cover_lyri
     private val lyricsLine1: TextView get() = binding.playerLyricsLine1
     private val lyricsLine2: TextView get() = binding.playerLyricsLine2
 
+    private var isForced = false
+
     private var lyrics: Lyrics? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentCoverLyricsBinding.bind(view)
         
-        val isForced = _binding?.root?.tag?.toString() == "force_lyrics"
+        isForced = ((view.parent as? View)?.tag?.toString() == "force_lyrics")
         
         progressViewUpdateHelper = MusicProgressViewUpdateHelper(this, 500, 1000)
         if (isForced || PreferenceUtil.showLyrics) {
@@ -75,7 +77,7 @@ class CoverLyricsFragment : AbsMusicServiceFragment(R.layout.fragment_cover_lyri
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
-        if (key == SHOW_LYRICS) {
+        if (isForced || key == SHOW_LYRICS) {
             if (sharedPreferences.getBoolean(key, false) == true) {
                 progressViewUpdateHelper?.start()
                 binding.root.isVisible = true
@@ -89,7 +91,6 @@ class CoverLyricsFragment : AbsMusicServiceFragment(R.layout.fragment_cover_lyri
 
     override fun onPlayingMetaChanged() {
         super.onPlayingMetaChanged()
-        val isForced = _binding?.root?.tag?.toString() == "force_lyrics"
         if (isForced || PreferenceUtil.showLyrics) {
             updateLyrics()
         }
@@ -97,7 +98,6 @@ class CoverLyricsFragment : AbsMusicServiceFragment(R.layout.fragment_cover_lyri
 
     override fun onServiceConnected() {
         super.onServiceConnected()
-        val isForced = _binding?.root?.tag?.toString() == "force_lyrics"
         if (isForced || PreferenceUtil.showLyrics) {
             updateLyrics()
         }
