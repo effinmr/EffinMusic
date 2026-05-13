@@ -130,5 +130,7 @@
         android:elevation="20dp"
         app:layout_constraintBottom_toTopOf="@+id/playbackControlsFragment"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:clickable="false"
+        android:focusable="false" />
 </androidx.constraintlayout.widget.ConstraintLayout>
