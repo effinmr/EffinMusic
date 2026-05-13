@@ -44,13 +44,16 @@ class CoverLyricsFragment : AbsMusicServiceFragment(R.layout.fragment_cover_lyri
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentCoverLyricsBinding.bind(view)
+        
+        val isForced = view.tag?.toString() == "force_lyrics"
+        
         progressViewUpdateHelper = MusicProgressViewUpdateHelper(this, 500, 1000)
-        if (PreferenceUtil.showLyrics) {
+        if (isForced || PreferenceUtil.showLyrics) {
             progressViewUpdateHelper?.start()
         }
         // Remove background on Fit theme
         val nps = PreferenceUtil.nowPlayingScreen
-        if (nps == NowPlayingScreen.Fit || nps == NowPlayingScreen.Full) {
+        if (isForced || nps == NowPlayingScreen.Fit || nps == NowPlayingScreen.Full) {
             binding.root.background = null
         }
         binding.playerLyricsLine2.setOnClickListener {
