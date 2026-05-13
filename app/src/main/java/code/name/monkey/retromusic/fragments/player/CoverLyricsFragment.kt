@@ -48,6 +48,17 @@ class CoverLyricsFragment : AbsMusicServiceFragment(R.layout.fragment_cover_lyri
         _binding = FragmentCoverLyricsBinding.bind(view)
         
         isForced = ((view.parent as? View)?.tag?.toString() == "force_lyrics")
+
+        if (isForced) {
+            binding.root.isClickable = false
+            binding.root.isFocusable = false
+
+            binding.playerLyrics.isClickable = false
+            binding.playerLyrics.isFocusable = false
+
+            binding.playerLyricsLine1.isClickable = false
+            binding.playerLyricsLine2.isClickable = false
+        }
         
         progressViewUpdateHelper = MusicProgressViewUpdateHelper(this, 500, 1000)
         if (isForced || PreferenceUtil.showLyrics) {
