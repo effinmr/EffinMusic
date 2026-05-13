@@ -280,7 +280,7 @@ class PlayerAlbumCoverFragment : AbsMusicServiceFragment(R.layout.fragment_playe
     private fun maybeInitLyrics() {
         val nps = forcedPlayerScreen ?: PreferenceUtil.nowPlayingScreen
         // Don't show lyrics container for below conditions
-        if (lyricViewNpsList.contains(nps) && (PreferenceUtil.showLyrics || forcedPlayerScreen != null)) {
+        if (lyricViewNpsList.contains(nps) && PreferenceUtil.showLyrics) {
             showLyrics(true)
             if (PreferenceUtil.lyricsType == CoverLyricsType.REPLACE_COVER) {
                 progressViewUpdateHelper?.start()
