@@ -39,22 +39,40 @@ class CoverLyricsFragment : AbsMusicServiceFragment(R.layout.fragment_cover_lyri
     private val lyricsLine1: TextView get() = binding.playerLyricsLine1
     private val lyricsLine2: TextView get() = binding.playerLyricsLine2
 
+    private var isForced = false
+
     private var lyrics: Lyrics? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentCoverLyricsBinding.bind(view)
+        
+        isForced = ((view.parent as? View)?.tag?.toString() == "force_lyrics")
+
+        if (isForced) {
+            binding.root.isClickable = false
+            binding.root.isFocusable = false
+
+            binding.playerLyrics.isClickable = false
+            binding.playerLyrics.isFocusable = false
+
+            binding.playerLyricsLine1.isClickable = false
+            binding.playerLyricsLine2.isClickable = false
+        }
+        
         progressViewUpdateHelper = MusicProgressViewUpdateHelper(this, 500, 1000)
-        if (PreferenceUtil.showLyrics) {
+        if (isForced || PreferenceUtil.showLyrics) {
             progressViewUpdateHelper?.start()
         }
         // Remove background on Fit theme
         val nps = PreferenceUtil.nowPlayingScreen
-        if (nps == NowPlayingScreen.Fit || nps == NowPlayingScreen.Full) {
+        if (isForced || nps == NowPlayingScreen.Fit || nps == NowPlayingScreen.Full) {
             binding.root.background = null
         }
-        binding.playerLyricsLine2.setOnClickListener {
-            goToLyrics(requireActivity())
+        if (!isForced) {
+            binding.playerLyricsLine2.setOnClickListener {
+               goToLyrics(requireActivity())
+            }
         }
     }
 
@@ -70,28 +88,32 @@ class CoverLyricsFragment : AbsMusicServiceFragment(R.layout.fragment_cover_lyri
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
-        if (key == SHOW_LYRICS) {
-            if (sharedPreferences.getBoolean(key, false) == true) {
-                progressViewUpdateHelper?.start()
-                binding.root.isVisible = true
-                updateLyrics()
-            } else {
-                progressViewUpdateHelper?.stop()
-                binding.root.isVisible = false
-            }
+        if (key != SHOW_LYRICS && !isForced) return
+        val showLyrics = if (key == SHOW_LYRICS) {
+            sharedPreferences.getBoolean(SHOW_LYRICS, false)
+        } else {
+            true
+        }
+        if (showLyrics) {
+            progressViewUpdateHelper?.start()
+            binding.root.isVisible = true
+            updateLyrics()
+        } else {
+            progressViewUpdateHelper?.stop()
+            binding.root.isVisible = false
         }
     }
 
     override fun onPlayingMetaChanged() {
         super.onPlayingMetaChanged()
-        if (PreferenceUtil.showLyrics) {
+        if (isForced || PreferenceUtil.showLyrics) {
             updateLyrics()
         }
     }
 
     override fun onServiceConnected() {
         super.onServiceConnected()
-        if (PreferenceUtil.showLyrics) {
+        if (isForced || PreferenceUtil.showLyrics) {
             updateLyrics()
         }
     }
