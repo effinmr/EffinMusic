@@ -68,6 +68,8 @@ class PlayerAlbumCoverFragment : AbsMusicServiceFragment(R.layout.fragment_playe
     private var currentPosition: Int = 0
     val viewPager get() = binding.viewPager
 
+    var removeFetchLyrics: Boolean = false
+
     var skipOnSwipe: Boolean = false
 
     private var forcedPlayerScreen: NowPlayingScreen? = null
@@ -116,7 +118,9 @@ class PlayerAlbumCoverFragment : AbsMusicServiceFragment(R.layout.fragment_playe
                             binding.lyricsView.setLabel(context?.getString(R.string.no_lyrics_found))
                             if (PreferenceUtil.showLyrics) {
                                 binding.lyricsView.visibility = View.VISIBLE
-                                binding.fetchLyricsText.visibility = View.VISIBLE
+                                if (forcedPlayerScreen == null) {
+                                    binding.fetchLyricsText.visibility = View.VISIBLE
+                                }
                             }
                         }
                     }
@@ -276,7 +280,7 @@ class PlayerAlbumCoverFragment : AbsMusicServiceFragment(R.layout.fragment_playe
     private fun maybeInitLyrics() {
         val nps = forcedPlayerScreen ?: PreferenceUtil.nowPlayingScreen
         // Don't show lyrics container for below conditions
-        if (lyricViewNpsList.contains(nps) && PreferenceUtil.showLyrics) {
+        if (lyricViewNpsList.contains(nps) && (PreferenceUtil.showLyrics || forcedPlayerScreen != null)) {
             showLyrics(true)
             if (PreferenceUtil.lyricsType == CoverLyricsType.REPLACE_COVER) {
                 progressViewUpdateHelper?.start()
