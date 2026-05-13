@@ -128,6 +128,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:elevation="20dp"
+        android:tag="force_lyrics"
         app:layout_constraintBottom_toTopOf="@+id/playbackControlsFragment"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
