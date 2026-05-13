@@ -88,15 +88,19 @@ class CoverLyricsFragment : AbsMusicServiceFragment(R.layout.fragment_cover_lyri
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
-        if (isForced || key == SHOW_LYRICS) {
-            if (sharedPreferences.getBoolean(key, false) == true) {
-                progressViewUpdateHelper?.start()
-                binding.root.isVisible = true
-                updateLyrics()
-            } else {
-                progressViewUpdateHelper?.stop()
-                binding.root.isVisible = false
-            }
+        if (key != SHOW_LYRICS && !isForced) return
+        val showLyrics = if (key == SHOW_LYRICS) {
+            sharedPreferences.getBoolean(SHOW_LYRICS, false)
+        } else {
+            true
+        }
+        if (showLyrics) {
+            progressViewUpdateHelper?.start()
+            binding.root.isVisible = true
+            updateLyrics()
+        } else {
+            progressViewUpdateHelper?.stop()
+            binding.root.isVisible = false
         }
     }
 
