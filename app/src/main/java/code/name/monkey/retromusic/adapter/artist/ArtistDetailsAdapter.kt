@@ -203,7 +203,7 @@ class ArtistDetailsAdapter(
             binding.artistSamplesContainer.setOnClickListener {
                 binding.root.findNavController().navigate(
                     R.id.action_sample,
-                    bundleOf(EXTRA_ARTIST_ID to artist.id)
+                    bundleOf("extra_artist_id" to artist.id)
                 )
             }
         }
