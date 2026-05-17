@@ -14,6 +14,7 @@ import code.name.monkey.retromusic.adapter.base.AbsMultiSelectAdapter
 import code.name.monkey.retromusic.databinding.ItemArtistAlbumsBinding
 import code.name.monkey.retromusic.databinding.ItemArtistBiographyBinding
 import code.name.monkey.retromusic.databinding.ItemArtistHeaderBinding
+import code.name.monkey.retromusic.databinding.ItemArtistSamplesBinding
 import code.name.monkey.retromusic.databinding.ItemArtistSongsHeaderBinding
 import code.name.monkey.retromusic.databinding.ItemArtistSongBinding
 import code.name.monkey.retromusic.databinding.ItemArtistStatsBinding
@@ -43,6 +44,7 @@ class ArtistDetailsAdapter(
     private var albumClickListener: IAlbumClickListener,
     private val onAlbumSortClicked: (View) -> Unit,
     private val onSongSortClicked: (View) -> Unit,
+    private val onSamplesClick: () -> Unit,
     private val transitionName: String
 ) : AbsMultiSelectAdapter<RecyclerView.ViewHolder, Song> (
     activity,
@@ -55,11 +57,12 @@ class ArtistDetailsAdapter(
 
     companion object {
         private const val TYPE_HEADER = 0
-        private const val TYPE_ALBUMS = 1
-        private const val TYPE_SONGS_HEADER = 2
-        private const val TYPE_SONG = 3
-        private const val TYPE_BIOGRAPHY = 4
-        private const val TYPE_STATS = 5
+        private const val TYPE_SAMPLES = 1
+        private const val TYPE_ALBUMS = 2
+        private const val TYPE_SONGS_HEADER = 3
+        private const val TYPE_SONG = 4
+        private const val TYPE_BIOGRAPHY = 5
+        private const val TYPE_STATS = 6
     }
 
     override fun getItemId(position: Int): Long {
@@ -71,6 +74,7 @@ class ArtistDetailsAdapter(
 
     override fun getItemViewType(position: Int): Int = when (items[position]) {
         is ArtistItem.Header -> TYPE_HEADER
+        is ArtistItem.Samples -> TYPE_SAMPLES
         is ArtistItem.Albums -> TYPE_ALBUMS
         is ArtistItem.SongsHeader -> TYPE_SONGS_HEADER
         is ArtistItem.SongItem -> TYPE_SONG
@@ -102,6 +106,10 @@ class ArtistDetailsAdapter(
                 ItemArtistHeaderBinding.inflate(LayoutInflater.from(parent.context), parent, false), 
                 transitionName
             )
+            TYPE_SAMPLES -> SamplesViewHolder(
+                ItemArtistSamplesBinding.inflate(LayoutInflater.from(parent.context), parent, false), 
+                onSamplesClick
+            )
             TYPE_ALBUMS -> AlbumsViewHolder(
                 ItemArtistAlbumsBinding.inflate(LayoutInflater.from(parent.context), parent, false),
                 albumClickListener, onAlbumSortClicked
@@ -128,6 +136,7 @@ class ArtistDetailsAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (val item = items[position]) {
             is ArtistItem.Header -> (holder as HeaderViewHolder).bind(item)
+            is ArtistItem.Samples -> (holder as SamplesViewHolder).bind(item)
             is ArtistItem.Albums -> (holder as AlbumsViewHolder).bind(item)
             is ArtistItem.SongsHeader -> (holder as SongsHeaderViewHolder).bind(item)
             is ArtistItem.SongItem -> (holder as SongViewHolder).bind(item)
@@ -180,6 +189,28 @@ class ArtistDetailsAdapter(
                         }
                     })
             }
+        }
+    }
+
+    class SamplesViewHolder(
+        private val binding: ItemArtistSamplesBinding,
+        private val onSamplesClick: () -> Unit
+    ) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(item: ArtistItem.Samples) {
+            loadSamplesImage(item.artist)
+            binding.artistSamplesContainer.setOnClickListener {
+                onSamplesClick()
+            }
+        }
+
+        private fun loadSamplesImage(artist: Artist) {
+            val glideRequest = Glide.with(binding.image.context)
+                .asBitmapPalette()
+                .artistImageOptions(artist)
+
+            glideRequest.load(RetroGlideExtension.getArtistModel(artist))
+                    .dontAnimate()
+                    .into(binding.image)
         }
     }
 
