@@ -6,6 +6,8 @@ import android.view.View
 import androidx.core.view.isVisible
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
+import androidx.navigation.findNavController
+import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -44,7 +46,6 @@ class ArtistDetailsAdapter(
     private var albumClickListener: IAlbumClickListener,
     private val onAlbumSortClicked: (View) -> Unit,
     private val onSongSortClicked: (View) -> Unit,
-    private val onSamplesClick: () -> Unit,
     private val transitionName: String
 ) : AbsMultiSelectAdapter<RecyclerView.ViewHolder, Song> (
     activity,
@@ -107,8 +108,7 @@ class ArtistDetailsAdapter(
                 transitionName
             )
             TYPE_SAMPLES -> SamplesViewHolder(
-                ItemArtistSamplesBinding.inflate(LayoutInflater.from(parent.context), parent, false), 
-                onSamplesClick
+                ItemArtistSamplesBinding.inflate(LayoutInflater.from(parent.context), parent, false)
             )
             TYPE_ALBUMS -> AlbumsViewHolder(
                 ItemArtistAlbumsBinding.inflate(LayoutInflater.from(parent.context), parent, false),
@@ -193,24 +193,28 @@ class ArtistDetailsAdapter(
     }
 
     class SamplesViewHolder(
-        private val binding: ItemArtistSamplesBinding,
-        private val onSamplesClick: () -> Unit
+        private val binding: ItemArtistSamplesBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ArtistItem.Samples) {
+            val artist = item.artist
+            
             loadSamplesImage(item.artist)
+            
             binding.artistSamplesContainer.setOnClickListener {
-                onSamplesClick()
+                binding.root.findNavController().navigate(
+                    R.id.action_sample,
+                    bundleOf("extra_artist_id" to artist.id)
+                )
             }
         }
 
         private fun loadSamplesImage(artist: Artist) {
-            val glideRequest = Glide.with(binding.image.context)
+            Glide.with(binding.image.context)
                 .asBitmapPalette()
                 .artistImageOptions(artist)
-
-            glideRequest.load(RetroGlideExtension.getArtistModel(artist))
-                    .dontAnimate()
-                    .into(binding.image)
+                .load(RetroGlideExtension.getArtistModel(artist))
+                .dontAnimate()
+                .into(binding.image)
         }
     }
 
