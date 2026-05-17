@@ -210,10 +210,13 @@ class ArtistDetailsAdapter(
 
         private fun loadSamplesImage(artist: Artist) {
             Glide.with(binding.image.context)
+                .asBitmapPalette()
                 .artistImageOptions(artist)
                 .load(RetroGlideExtension.getArtistModel(artist))
                 .dontAnimate()
-                .into(binding.image)
+                .into(object : SingleColorTarget(binding.image) {
+                    override fun onColorReady(color: Int) { }
+                })
         }
     }
 
