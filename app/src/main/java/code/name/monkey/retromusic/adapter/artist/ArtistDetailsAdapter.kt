@@ -220,7 +220,7 @@ class ArtistDetailsAdapter(
                 .simpleSongCoverOptions(song)
                 .transform(
                     BlurTransformation.Builder(binding.image.context)
-                        .blurRadius(25)
+                        .blurRadius(25f)
                         .build()
                 )
                 .error(R.drawable.ic_artist)
