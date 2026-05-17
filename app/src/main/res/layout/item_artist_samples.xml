@@ -9,7 +9,7 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/artistSamplesContainer"
         android:layout_width="0dp"
-        android:layout_height="76dp"
+        android:layout_height="65dp"
         android:layout_marginTop="8dp"
         android:background="#66000000"
         android:clickable="true"
