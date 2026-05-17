@@ -72,9 +72,32 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
         setUpSubFragments()
         super.onViewCreated(view, savedInstanceState)
         
-        libraryViewModel.getSongs().observe(viewLifecycleOwner) { songs ->
-            MusicPlayerRemote.openAndShuffleQueue(songs, false)
-            MusicPlayerRemote.playSongAtFrom(0, 30000)
+        val artistId = arguments?.getLong(EXTRA_ARTIST_ID, -1L) ?: -1L
+        
+        if (artistId != -1L) {
+            libraryViewModel.artist(artistId)
+                .observe(viewLifecycleOwner) { artist ->
+
+                    val samples = artist.songs
+                        .shuffled()
+                        .take(10)
+
+                    if (samples.isNotEmpty()) {
+                        MusicPlayerRemote.openQueue(samples, 0, true)
+                        MusicPlayerRemote.playSongAtFrom(0, 30000)
+                    }
+                }
+        } else {
+            libraryViewModel.getSongs()
+                .observe(viewLifecycleOwner) { songs ->
+
+                    val samples = songs
+                        .shuffled()
+                        .take(20)
+                    
+                    MusicPlayerRemote.openQueue(samples, 0, true)
+                    MusicPlayerRemote.playSongAtFrom(0, 30000)
+                }
         }
 
         setUpPlayerToolbar()
@@ -212,6 +235,21 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
             binding.nextSong.apply {
                 text = title
                 show()
+            }
+        }
+    }
+        
+    companion object {
+
+        private const val EXTRA_ARTIST_ID = "extra_artist_id"
+        
+        fun newInstance(artistId: Long? = null): SamplesFragment {
+            return SamplesFragment().apply {
+                arguments = Bundle().apply {
+                    artistId?.let {
+                        putLong(EXTRA_ARTIST_ID, it)
+                    }
+                }
             }
         }
     }
