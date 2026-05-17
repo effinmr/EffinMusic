@@ -166,6 +166,7 @@ abstract class AbsArtistDetailsFragment : AbsMainActivityFragment(R.layout.fragm
         
         return mutableListOf<ArtistItem>().apply {
             add(ArtistItem.Header(artist))
+            add(ArtistItem.Samples(artist))
             add(ArtistItem.Albums(artist.sortedAlbums))
             add(ArtistItem.SongsHeader("Songs"))
             artist.sortedSongs.forEach { add(ArtistItem.SongItem(it)) }
