@@ -1,18 +1,10 @@
 name: Release
 
 on:
-  pull_request:
-    branches:
-      - dev
-    types:
-      - closed
-
-permissions:
-  contents: write
+  workflow_dispatch: 
 
 jobs:
   build:
-    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
     strategy:
@@ -22,47 +14,15 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
-          distribution: temurin
+          distribution: 'temurin'
           java-version: 21
 
       - name: Grant execute permission to gradlew
         run: chmod +x gradlew
-
-      - name: Increment version
-        run: |
-          FILE=app/build.gradle.kts
-
-          VERSION_CODE=$(grep "versionCode" $FILE | awk '{print $3}')
-          NEW_VERSION_CODE=$((VERSION_CODE + 1))
-
-          VERSION_NAME=$(grep 'versionName' $FILE | head -1 | sed 's/.*"\(.*\)"/\1/')
-
-          IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION_NAME"
-          PATCH=$((PATCH + 1))
-
-          NEW_VERSION_NAME="$MAJOR.$MINOR.$PATCH"
-
-          sed -i "s/versionCode = $VERSION_CODE/versionCode = $NEW_VERSION_CODE/" $FILE
-          sed -i "s/versionName = \"$VERSION_NAME\"/versionName = \"$NEW_VERSION_NAME\"/" $FILE
-
-          echo "NEW_VERSION_NAME=$NEW_VERSION_NAME" >> $GITHUB_ENV
-          echo "NEW_VERSION_CODE=$NEW_VERSION_CODE" >> $GITHUB_ENV
-
-      - name: Commit version bump
-        run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
-
-          git add app/build.gradle.kts
-          git commit -m "Bump version to $NEW_VERSION_NAME" || echo "No changes"
-
-          git push
 
       - name: Decode Keystore
         run: |
@@ -80,48 +40,6 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: app-${{ matrix.variant }}
-          path: app/build/outputs/apk/*/release/*.apk
-
-  release:
-    needs: build
-    runs-on: ubuntu-latest
-
-    permissions:
-      contents: write
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Download artifacts
-        uses: actions/download-artifact@v4
-        with:
-          path: artifacts
-
-      - name: Generate release notes
-        id: notes
-        run: |
-          LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
-
-          if [ -z "$LAST_TAG" ]; then
-            NOTES=$(git log --pretty=format:"- %s")
-          else
-            NOTES=$(git log ${LAST_TAG}..HEAD --pretty=format:"- %s")
-          fi
-
-          echo "NOTES<<EOF" >> $GITHUB_OUTPUT
-          echo "$NOTES" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
-
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: v${{ github.run_number }}
-          name: Release v${{ github.run_number }}
-          body: ${{ steps.notes.outputs.NOTES }}
-          files: artifacts/**/*.apk
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          name: app-signed-${{ matrix.variant }}-${{ github.run_number }}.apk
+          path: |
+            app/build/outputs/apk/${{ matrix.variant == 'NormalRelease' && 'normal' || 'fdroid' }}/release/*.apk
