@@ -223,8 +223,6 @@ class ArtistDetailsAdapter(
                         .blurRadius(8f)
                         .build()
                 )
-                .error(R.drawable.ic_artist)
-                .placeholder(R.drawable.ic_artist)
                 .dontAnimate()
                 .into(binding.image)
         }
