@@ -9,13 +9,13 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/artistSamplesContainer"
         android:layout_width="0dp"
-        android:layout_height="38dp"
+        android:layout_height="57dp"
         android:layout_marginTop="8dp"
         android:background="#66000000"
         android:clickable="true"
         android:focusable="true"
         android:foreground="?attr/selectableItemBackground"
-        app:cardCornerRadius="@dimen/m3_card_large_radius"
+        app:cardCornerRadius="@dimen/m3_card_medium_radius"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -24,12 +24,14 @@
             android:id="@+id/image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:alpha="0.6"
             android:scaleType="centerCrop"/>
 
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:text="Samples"
             android:textColor="@android:color/white"
             android:textStyle="bold"
@@ -37,10 +39,6 @@
             android:shadowColor="#80000000"
             android:shadowDx="0"
             android:shadowDy="2"
-            android:shadowRadius="4"
-            app:layout_constraintTop_toTopOf="@id/artistSamplesContainer"
-            app:layout_constraintBottom_toBottomOf="@id/artistSamplesContainer"
-            app:layout_constraintStart_toStartOf="@id/artistSamplesContainer"
-            app:layout_constraintEnd_toEndOf="@id/artistSamplesContainer"/>
+            android:shadowRadius="4" />
     </com.google.android.material.card.MaterialCardView>
 </code.name.monkey.retromusic.views.insets.InsetsConstraintLayout>
