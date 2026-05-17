@@ -21,6 +21,7 @@ import code.name.monkey.retromusic.databinding.ItemArtistSongsHeaderBinding
 import code.name.monkey.retromusic.databinding.ItemArtistSongBinding
 import code.name.monkey.retromusic.databinding.ItemArtistStatsBinding
 import code.name.monkey.retromusic.fragments.artists.ArtistItem
+import code.name.monkey.retromusic.glide.BlurTransformation
 import code.name.monkey.retromusic.glide.RetroGlideExtension
 import code.name.monkey.retromusic.glide.RetroGlideExtension.albumCoverOptions
 import code.name.monkey.retromusic.glide.RetroGlideExtension.artistImageOptions
@@ -216,7 +217,12 @@ class ArtistDetailsAdapter(
             
             Glide.with(binding.image.context)
                 .load(model)
-                .albumCoverOptions(song)
+                .simpleSongCoverOptions(song)
+                .transform(
+                    BlurTransformation.Builder(binding.image.context)
+                        .blurRadius(25)
+                        .build()
+                )
                 .error(R.drawable.ic_artist)
                 .placeholder(R.drawable.ic_artist)
                 .dontAnimate()
