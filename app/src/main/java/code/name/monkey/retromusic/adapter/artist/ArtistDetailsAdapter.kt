@@ -23,7 +23,7 @@ import code.name.monkey.retromusic.databinding.ItemArtistStatsBinding
 import code.name.monkey.retromusic.fragments.artists.ArtistItem
 import code.name.monkey.retromusic.glide.BlurTransformation
 import code.name.monkey.retromusic.glide.RetroGlideExtension
-import code.name.monkey.retromusic.glide.RetroGlideExtension.simpleSongCoverOptions
+import code.name.monkey.retromusic.glide.RetroGlideExtension.albumCoverOptions
 import code.name.monkey.retromusic.glide.RetroGlideExtension.artistImageOptions
 import code.name.monkey.retromusic.glide.RetroGlideExtension.asBitmapPalette
 import code.name.monkey.retromusic.glide.SingleColorTarget
@@ -217,7 +217,7 @@ class ArtistDetailsAdapter(
             
             Glide.with(binding.image.context)
                 .load(model)
-                .simpleSongCoverOptions(song)
+                .albumCoverOptions(song)
                 .transform(
                     BlurTransformation.Builder(binding.image.context)
                         .blurRadius(8f)
