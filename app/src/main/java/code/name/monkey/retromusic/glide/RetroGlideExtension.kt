@@ -135,7 +135,7 @@ object RetroGlideExtension {
             .signature(createSignature(song))
     }
 
-    fun <T> RequestBuilder<T>.samplesCoverOptions(
+    fun <T> RequestBuilder<T>.samplesImageOptions(
         song: Song
     ): RequestBuilder<T> {
         return diskCacheStrategy(DEFAULT_DISK_CACHE_STRATEGY)
