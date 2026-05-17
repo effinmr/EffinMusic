@@ -80,7 +80,6 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
 
                     val samples = artist.songs
                         .shuffled()
-                        .take(10)
 
                     if (samples.isNotEmpty()) {
                         MusicPlayerRemote.openQueue(samples, 0, true)
@@ -93,7 +92,6 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
 
                     val samples = songs
                         .shuffled()
-                        .take(20)
                     
                     MusicPlayerRemote.openQueue(samples, 0, true)
                     MusicPlayerRemote.playSongAtFrom(0, 30000)
