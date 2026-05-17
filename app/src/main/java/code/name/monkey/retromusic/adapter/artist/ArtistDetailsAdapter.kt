@@ -173,21 +173,18 @@ class ArtistDetailsAdapter(
         }
 
         private fun loadArtistImage(artist: Artist) {
+
+            val song = artist.songs.firstOrNull() ?: return
+            
+            val model = RetroGlideExtension.getSongModel(song)
+            
             val glideRequest = Glide.with(binding.image.context)
-                .asBitmapPalette()
-                .artistImageOptions(artist)
+                .load(model)
+                .albumCoverOptions(song)
                 .error(R.drawable.ic_artist)
                 .placeholder(R.drawable.ic_artist)
-
-            binding.image?.let { imageView ->
-                glideRequest.load(RetroGlideExtension.getArtistModel(artist))
-                    .dontAnimate()
-                    .into(object : SingleColorTarget(binding.image) {
-                        override fun onColorReady(color: Int) {
-                            binding.shuffleAction.applyColor(color)
-                            binding.playAction.applyOutlineColor(color)
-                        }
-                    })
+                .dontAnimate()
+                .into(binding.image)
             }
         }
     }
