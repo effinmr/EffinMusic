@@ -9,13 +9,13 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/artistSamplesContainer"
         android:layout_width="0dp"
-        android:layout_height="57dp"
+        android:layout_height="76dp"
         android:layout_marginTop="8dp"
         android:background="#66000000"
         android:clickable="true"
         android:focusable="true"
         android:foreground="?attr/selectableItemBackground"
-        app:cardCornerRadius="@dimen/m3_card_medium_radius"
+        app:cardCornerRadius="@dimen/m3_card_corner_radius"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
