@@ -173,18 +173,22 @@ class ArtistDetailsAdapter(
         }
 
         private fun loadArtistImage(artist: Artist) {
-
-            val song = artist.songs.firstOrNull() ?: return
-            
-            val model = RetroGlideExtension.getSongModel(song)
-            
+            private fun loadArtistImage(artist: Artist) {
             val glideRequest = Glide.with(binding.image.context)
-                .load(model)
-                .albumCoverOptions(song)
+                .asBitmapPalette()
+                .artistImageOptions(artist)
                 .error(R.drawable.ic_artist)
                 .placeholder(R.drawable.ic_artist)
-                .dontAnimate()
-                .into(binding.image)
+
+            binding.image?.let { imageView ->
+                glideRequest.load(RetroGlideExtension.getArtistModel(artist))
+                    .dontAnimate()
+                    .into(object : SingleColorTarget(binding.image) {
+                        override fun onColorReady(color: Int) {
+                            binding.shuffleAction.applyColor(color)
+                            binding.playAction.applyOutlineColor(color)
+                        }
+                    })
             }
         }
     }
@@ -206,14 +210,17 @@ class ArtistDetailsAdapter(
         }
 
         private fun loadSamplesImage(artist: Artist) {
+            val song = artist.songs.firstOrNull() ?: return
+            
+            val model = RetroGlideExtension.getSongModel(song)
+            
             Glide.with(binding.image.context)
-                .asBitmapPalette()
-                .artistImageOptions(artist)
-                .load(RetroGlideExtension.getArtistModel(artist))
+                .load(model)
+                .albumCoverOptions(song)
+                .error(R.drawable.ic_artist)
+                .placeholder(R.drawable.ic_artist)
                 .dontAnimate()
-                .into(object : SingleColorTarget(binding.image) {
-                    override fun onColorReady(color: Int) { }
-                })
+                .into(binding.image)
         }
     }
 
