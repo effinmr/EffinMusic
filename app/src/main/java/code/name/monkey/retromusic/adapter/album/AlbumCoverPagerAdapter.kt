@@ -47,6 +47,7 @@ import code.name.monkey.retromusic.fragments.ReloadType
 import code.name.monkey.retromusic.fragments.base.goToLyrics
 import code.name.monkey.retromusic.glide.RetroGlideExtension
 import code.name.monkey.retromusic.glide.RetroGlideExtension.asBitmapPalette
+import code.name.monkey.retromusic.glide.RetroGlideExtension.samplesImageOptions
 import code.name.monkey.retromusic.glide.RetroGlideExtension.songCoverOptions
 import code.name.monkey.retromusic.glide.RetroMusicColoredTarget
 import code.name.monkey.retromusic.misc.CustomFragmentStatePagerAdapter
@@ -277,7 +278,7 @@ class AlbumCoverPagerAdapter(
         private fun loadAlbumCover(albumCover: ImageView) {
             val primaryRequest = Glide.with(this)
                 .asBitmapPalette()
-                .songCoverOptions(song)
+                .samplesImageOptions(song)
                 .load(RetroGlideExtension.getSongModel(song))
                 .dontAnimate()
 
@@ -285,7 +286,7 @@ class AlbumCoverPagerAdapter(
             if (!customArtworkUri.isNullOrEmpty()) {
                 val fallbackRequest: RequestBuilder<BitmapPaletteWrapper> = Glide.with(this)
                     .asBitmapPalette()
-                    .songCoverOptions(song)
+                    .samplesImageOptions(song)
                     .load(Uri.parse(customArtworkUri))
                     .dontAnimate()
 

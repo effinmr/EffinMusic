@@ -6,6 +6,8 @@ import android.view.View
 import androidx.core.view.isVisible
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
+import androidx.navigation.findNavController
+import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,11 +16,14 @@ import code.name.monkey.retromusic.adapter.base.AbsMultiSelectAdapter
 import code.name.monkey.retromusic.databinding.ItemArtistAlbumsBinding
 import code.name.monkey.retromusic.databinding.ItemArtistBiographyBinding
 import code.name.monkey.retromusic.databinding.ItemArtistHeaderBinding
+import code.name.monkey.retromusic.databinding.ItemArtistSamplesBinding
 import code.name.monkey.retromusic.databinding.ItemArtistSongsHeaderBinding
 import code.name.monkey.retromusic.databinding.ItemArtistSongBinding
 import code.name.monkey.retromusic.databinding.ItemArtistStatsBinding
 import code.name.monkey.retromusic.fragments.artists.ArtistItem
+import code.name.monkey.retromusic.glide.BlurTransformation
 import code.name.monkey.retromusic.glide.RetroGlideExtension
+import code.name.monkey.retromusic.glide.RetroGlideExtension.samplesImageOptions
 import code.name.monkey.retromusic.glide.RetroGlideExtension.artistImageOptions
 import code.name.monkey.retromusic.glide.RetroGlideExtension.asBitmapPalette
 import code.name.monkey.retromusic.glide.SingleColorTarget
@@ -55,11 +60,12 @@ class ArtistDetailsAdapter(
 
     companion object {
         private const val TYPE_HEADER = 0
-        private const val TYPE_ALBUMS = 1
-        private const val TYPE_SONGS_HEADER = 2
-        private const val TYPE_SONG = 3
-        private const val TYPE_BIOGRAPHY = 4
-        private const val TYPE_STATS = 5
+        private const val TYPE_SAMPLES = 1
+        private const val TYPE_ALBUMS = 2
+        private const val TYPE_SONGS_HEADER = 3
+        private const val TYPE_SONG = 4
+        private const val TYPE_BIOGRAPHY = 5
+        private const val TYPE_STATS = 6
     }
 
     override fun getItemId(position: Int): Long {
@@ -71,6 +77,7 @@ class ArtistDetailsAdapter(
 
     override fun getItemViewType(position: Int): Int = when (items[position]) {
         is ArtistItem.Header -> TYPE_HEADER
+        is ArtistItem.Samples -> TYPE_SAMPLES
         is ArtistItem.Albums -> TYPE_ALBUMS
         is ArtistItem.SongsHeader -> TYPE_SONGS_HEADER
         is ArtistItem.SongItem -> TYPE_SONG
@@ -102,6 +109,9 @@ class ArtistDetailsAdapter(
                 ItemArtistHeaderBinding.inflate(LayoutInflater.from(parent.context), parent, false), 
                 transitionName
             )
+            TYPE_SAMPLES -> SamplesViewHolder(
+                ItemArtistSamplesBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            )
             TYPE_ALBUMS -> AlbumsViewHolder(
                 ItemArtistAlbumsBinding.inflate(LayoutInflater.from(parent.context), parent, false),
                 albumClickListener, onAlbumSortClicked
@@ -128,6 +138,7 @@ class ArtistDetailsAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (val item = items[position]) {
             is ArtistItem.Header -> (holder as HeaderViewHolder).bind(item)
+            is ArtistItem.Samples -> (holder as SamplesViewHolder).bind(item)
             is ArtistItem.Albums -> (holder as AlbumsViewHolder).bind(item)
             is ArtistItem.SongsHeader -> (holder as SongsHeaderViewHolder).bind(item)
             is ArtistItem.SongItem -> (holder as SongViewHolder).bind(item)
@@ -180,6 +191,40 @@ class ArtistDetailsAdapter(
                         }
                     })
             }
+        }
+    }
+
+    class SamplesViewHolder(
+        private val binding: ItemArtistSamplesBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(item: ArtistItem.Samples) {
+            val artist = item.artist
+            
+            loadSamplesImage(item.artist)
+            
+            binding.artistSamplesContainer.setOnClickListener {
+                binding.root.findNavController().navigate(
+                    R.id.action_sample,
+                    bundleOf("extra_artist_id" to artist.id)
+                )
+            }
+        }
+
+        private fun loadSamplesImage(artist: Artist) {
+            val song = artist.songs.firstOrNull() ?: return
+            
+            val model = RetroGlideExtension.getSongModel(song)
+            
+            Glide.with(binding.image.context)
+                .load(model)
+                .samplesImageOptions(song)
+                .transform(
+                    BlurTransformation.Builder(binding.image.context)
+                        .blurRadius(8f)
+                        .build()
+                )
+                .dontAnimate()
+                .into(binding.image)
         }
     }
 
