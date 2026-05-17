@@ -22,6 +22,7 @@ import code.name.monkey.retromusic.databinding.ItemArtistSongBinding
 import code.name.monkey.retromusic.databinding.ItemArtistStatsBinding
 import code.name.monkey.retromusic.fragments.artists.ArtistItem
 import code.name.monkey.retromusic.glide.RetroGlideExtension
+import code.name.monkey.retromusic.glide.RetroGlideExtension.albumCoverOptions
 import code.name.monkey.retromusic.glide.RetroGlideExtension.artistImageOptions
 import code.name.monkey.retromusic.glide.RetroGlideExtension.asBitmapPalette
 import code.name.monkey.retromusic.glide.SingleColorTarget
