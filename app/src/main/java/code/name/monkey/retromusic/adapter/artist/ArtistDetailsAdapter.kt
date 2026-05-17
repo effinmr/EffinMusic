@@ -173,7 +173,6 @@ class ArtistDetailsAdapter(
         }
 
         private fun loadArtistImage(artist: Artist) {
-            private fun loadArtistImage(artist: Artist) {
             val glideRequest = Glide.with(binding.image.context)
                 .asBitmapPalette()
                 .artistImageOptions(artist)
