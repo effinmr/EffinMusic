@@ -22,6 +22,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up JDK
         uses: actions/setup-java@v4
@@ -31,6 +33,36 @@ jobs:
 
       - name: Grant execute permission to gradlew
         run: chmod +x gradlew
+
+      - name: Increment version
+        run: |
+          FILE=app/build.gradle.kts
+
+          VERSION_CODE=$(grep "versionCode" $FILE | awk '{print $3}')
+          NEW_VERSION_CODE=$((VERSION_CODE + 1))
+
+          VERSION_NAME=$(grep 'versionName' $FILE | head -1 | sed 's/.*"\(.*\)"/\1/')
+
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION_NAME"
+          PATCH=$((PATCH + 1))
+
+          NEW_VERSION_NAME="$MAJOR.$MINOR.$PATCH"
+
+          sed -i "s/versionCode = $VERSION_CODE/versionCode = $NEW_VERSION_CODE/" $FILE
+          sed -i "s/versionName = \"$VERSION_NAME\"/versionName = \"$NEW_VERSION_NAME\"/" $FILE
+
+          echo "NEW_VERSION_NAME=$NEW_VERSION_NAME" >> $GITHUB_ENV
+          echo "NEW_VERSION_CODE=$NEW_VERSION_CODE" >> $GITHUB_ENV
+
+      - name: Commit version bump
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+          git add app/build.gradle.kts
+          git commit -m "Bump version to $NEW_VERSION_NAME" || echo "No changes"
+
+          git push
 
       - name: Decode Keystore
         run: |
@@ -45,21 +77,13 @@ jobs:
           KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
 
-      - name: Rename APK
-        run: |
-          mkdir release
-
-          APK_PATH=$(find app/build/outputs/apk/${{ matrix.variant == 'NormalRelease' && 'normal' || 'fdroid' }}/release -name "*.apk" | head -n 1)
-
-          cp "$APK_PATH" release/app-${{ matrix.variant }}.apk
-
-      - name: Upload APK Artifact
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: app-${{ matrix.variant }}
-          path: release/*.apk
+          path: app/build/outputs/apk/*/release/*.apk
 
-  github-release:
+  release:
     needs: build
     runs-on: ubuntu-latest
 
@@ -95,8 +119,8 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: release-${{ github.run_number }}
-          name: Release ${{ github.run_number }}
+          tag_name: v${{ github.run_number }}
+          name: Release v${{ github.run_number }}
           body: ${{ steps.notes.outputs.NOTES }}
           files: artifacts/**/*.apk
         env:
