@@ -9,7 +9,7 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/artistSamplesContainer"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="38dp"
         android:layout_marginTop="8dp"
         android:clickable="true"
         android:focusable="true"
@@ -24,25 +24,24 @@
             android:id="@+id/image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:alpha="0.35"
             android:scaleType="centerCrop"/>
 
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Samples"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:shadowColor="#80000000"
+            android:shadowDx="0"
+            android:shadowDy="2"
+            android:shadowRadius="4"
+            app:layout_constraintTop_toTopOf="@id/artistSamplesContainer"
+            app:layout_constraintBottom_toBottomOf="@id/artistSamplesContainer"
+            app:layout_constraintStart_toStartOf="@id/artistSamplesContainer"
+            app:layout_constraintEnd_toEndOf="@id/artistSamplesContainer"/>
     </com.google.android.material.card.MaterialCardView>
-
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Samples"
-        android:textColor="@android:color/white"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        android:shadowColor="#80000000"
-        android:shadowDx="0"
-        android:shadowDy="2"
-        android:shadowRadius="4"
-        app:layout_constraintTop_toTopOf="@id/artistSamplesContainer"
-        app:layout_constraintBottom_toBottomOf="@id/artistSamplesContainer"
-        app:layout_constraintStart_toStartOf="@id/artistSamplesContainer"
-        app:layout_constraintEnd_toEndOf="@id/artistSamplesContainer"/>
-
 </code.name.monkey.retromusic.views.insets.InsetsConstraintLayout>
