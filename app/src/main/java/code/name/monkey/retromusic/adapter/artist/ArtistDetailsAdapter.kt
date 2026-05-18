@@ -197,6 +197,15 @@ class ArtistDetailsAdapter(
     class SamplesViewHolder(
         private val binding: ItemArtistSamplesBinding
     ) : RecyclerView.ViewHolder(binding.root) {
+
+        companion object {
+            private val cachedBlur by lazy {
+                BlurTransformation.Builder(code.name.monkey.retromusic.App.getContext())
+                    .blurRadius(8f)
+                    .build()
+            }
+        }
+        
         fun bind(item: ArtistItem.Samples) {
             val artist = item.artist
             
@@ -218,11 +227,7 @@ class ArtistDetailsAdapter(
             Glide.with(binding.image.context)
                 .load(model)
                 .songCoverOptions(song)
-                .transform(
-                    BlurTransformation.Builder(binding.image.context)
-                        .blurRadius(8f)
-                        .build()
-                )
+                .transform(cachedBlur)
                 .dontAnimate()
                 .into(binding.image)
         }
