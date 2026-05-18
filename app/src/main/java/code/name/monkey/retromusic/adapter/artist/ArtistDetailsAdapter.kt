@@ -23,7 +23,7 @@ import code.name.monkey.retromusic.databinding.ItemArtistStatsBinding
 import code.name.monkey.retromusic.fragments.artists.ArtistItem
 import code.name.monkey.retromusic.glide.BlurTransformation
 import code.name.monkey.retromusic.glide.RetroGlideExtension
-import code.name.monkey.retromusic.glide.RetroGlideExtension.samplesImageOptions
+import code.name.monkey.retromusic.glide.RetroGlideExtension.songCoverOptions
 import code.name.monkey.retromusic.glide.RetroGlideExtension.artistImageOptions
 import code.name.monkey.retromusic.glide.RetroGlideExtension.asBitmapPalette
 import code.name.monkey.retromusic.glide.SingleColorTarget
@@ -197,6 +197,15 @@ class ArtistDetailsAdapter(
     class SamplesViewHolder(
         private val binding: ItemArtistSamplesBinding
     ) : RecyclerView.ViewHolder(binding.root) {
+
+        companion object {
+            private val cachedBlur by lazy {
+                BlurTransformation.Builder(code.name.monkey.retromusic.App.getContext())
+                    .blurRadius(8f)
+                    .build()
+            }
+        }
+        
         fun bind(item: ArtistItem.Samples) {
             val artist = item.artist
             
@@ -217,12 +226,8 @@ class ArtistDetailsAdapter(
             
             Glide.with(binding.image.context)
                 .load(model)
-                .samplesImageOptions(song)
-                .transform(
-                    BlurTransformation.Builder(binding.image.context)
-                        .blurRadius(8f)
-                        .build()
-                )
+                .songCoverOptions(song)
+                .transform(cachedBlur)
                 .dontAnimate()
                 .into(binding.image)
         }
