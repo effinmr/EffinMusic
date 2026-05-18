@@ -52,6 +52,7 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enterTransition = Slide(Gravity.BOTTOM)
+        exitTransition = Slide(Gravity.BOTTOM)
         progressViewUpdateHelper = MusicProgressViewUpdateHelper(this)
     }
 
