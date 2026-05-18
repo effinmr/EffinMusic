@@ -101,7 +101,7 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
                         }
                     }
                     
-            } else {
+            } else -> {
                 libraryViewModel.getSongs()
                     .observe(viewLifecycleOwner) { songs ->
 
