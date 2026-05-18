@@ -19,6 +19,8 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.Toolbar
+import androidx.transition.Slide
+import android.view.Gravity
 import code.name.monkey.appthemehelper.util.ToolbarContentTintHelper
 import code.name.monkey.retromusic.R
 import code.name.monkey.retromusic.databinding.FragmentSamplesBinding
@@ -49,6 +51,7 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enterTransition = Slide(Gravity.BOTTOM)
         progressViewUpdateHelper = MusicProgressViewUpdateHelper(this)
     }
 
