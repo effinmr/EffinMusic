@@ -147,11 +147,11 @@ class RealArtistRepository(
                     getSongLoaderSortOrder()
                 )
             )
-            else {
-                songRepository.songs(PreferenceUtil.hideDuplicateSongs)
-                    .filter { song -> 
-                        song.albumArtist?.trim() == artistName
-                    }
+        else {
+            songRepository.songs(PreferenceUtil.hideDuplicateSongs)
+                .filter { song -> 
+                    song.albumArtist?.trim() == artistName
+                }
             }
         }
         return Artist(artistName, albumRepository.splitIntoAlbums(songs), true)
