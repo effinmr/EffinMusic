@@ -21,6 +21,7 @@ import code.name.monkey.retromusic.model.Album
 import code.name.monkey.retromusic.model.Artist
 import code.name.monkey.retromusic.model.Song
 import code.name.monkey.retromusic.util.PreferenceUtil
+import code.name.monkey.retromusic.util.logD
 import android.widget.Toast
 import java.text.Collator
 
@@ -152,6 +153,9 @@ class RealArtistRepository(
                 .filter { song -> 
                     song.albumArtist?.trim() == artistName
                 }
+        }
+        if (songs.isEmpty()) {
+            logD("'" + artistName + "'" + " | " + "'" + songRepository.songs[0].albumArtist + "'")
         }
         return Artist(artistName, albumRepository.splitIntoAlbums(songs), true)
     }
