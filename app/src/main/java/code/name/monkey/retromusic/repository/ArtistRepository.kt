@@ -138,7 +138,7 @@ class RealArtistRepository(
                 .filter { it.albumArtist == Artist.VARIOUS_ARTISTS_DISPLAY_NAME }
             return Artist(Artist.VARIOUS_ARTISTS_ID, albums, true)
         }
-
+        
         val songs = if (!PreferenceUtil.fixYear) { 
             songRepository.songs(
                 songRepository.makeSongCursor(
@@ -147,7 +147,7 @@ class RealArtistRepository(
                     getSongLoaderSortOrder()
                 )
             )
-        else {
+        } else {
             songRepository.songs(PreferenceUtil.hideDuplicateSongs)
                 .filter { song -> 
                     song.albumArtist?.trim() == artistName
