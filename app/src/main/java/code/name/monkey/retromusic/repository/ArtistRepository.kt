@@ -152,7 +152,6 @@ class RealArtistRepository(
                 .filter { song -> 
                     song.albumArtist?.trim() == artistName
                 }
-            }
         }
         return Artist(artistName, albumRepository.splitIntoAlbums(songs), true)
     }
