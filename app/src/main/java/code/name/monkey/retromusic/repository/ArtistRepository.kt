@@ -155,7 +155,7 @@ class RealArtistRepository(
                 }
         }
         if (songs.isEmpty()) {
-            logD("'" + artistName + "'" + " | " + "'" + songRepository.songs[0].albumArtist + "'")
+            logD("'" + artistName + "'" + " | " + "'" + songRepository.songs(PreferenceUtil.hideDuplicateSongs)[0].albumArtist + "'")
         }
         return Artist(artistName, albumRepository.splitIntoAlbums(songs), true)
     }
