@@ -126,33 +126,34 @@ class RealArtistRepository(
     override fun albumArtist(artistName: String): Artist {
         if (artistName == Artist.VARIOUS_ARTISTS_DISPLAY_NAME) {
             // Get Various Artists
-            val songs = if (!PreferenceUtil.fixYear) {
-                songRepository.songs(
-                    songRepository.makeSongCursor(
-                        null,
-                        null,
-                        getSongLoaderSortOrder()
-                    )
+            val songs = songRepository.songs(
+                songRepository.makeSongCursor(
+                    null,
+                    null,
+                    getSongLoaderSortOrder()
                 )
-            } else {
-                songRepository.songs(PreferenceUtil.hideDuplicateSongs)
-                .filter { song -> 
-                    song.albumArtist?.trim() == artistName
-                }
-            }
+            )
                 
             val albums = albumRepository.splitIntoAlbums(songs)
                 .filter { it.albumArtist == Artist.VARIOUS_ARTISTS_DISPLAY_NAME }
             return Artist(Artist.VARIOUS_ARTISTS_ID, albums, true)
         }
 
-        val songs = songRepository.songs(
-            songRepository.makeSongCursor(
-                "album_artist" + "=?",
-                arrayOf(artistName),
-                getSongLoaderSortOrder()
+        val songs = if (!PreferenceUtil.fixYear) { 
+            songRepository.songs(
+                songRepository.makeSongCursor(
+                    "album_artist" + "=?",
+                    arrayOf(artistName),
+                    getSongLoaderSortOrder()
+                )
             )
-        )
+            else {
+                songRepository.songs(PreferenceUtil.hideDuplicateSongs)
+                .filter { song -> 
+                    song.albumArtist?.trim() == artistName
+                }
+            }
+        }
         return Artist(artistName, albumRepository.splitIntoAlbums(songs), true)
     }
 
