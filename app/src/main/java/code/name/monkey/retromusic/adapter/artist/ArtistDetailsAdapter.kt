@@ -214,9 +214,9 @@ class ArtistDetailsAdapter(
             binding.artistSamplesContainer.setOnClickListener {
                 
                 val bundle = if (artist.id != -1L) {
-                    bundleOf(EXTRA_ARTIST to artist.id)
+                    bundleOf("extra_artist" to artist.id)
                 } else {
-                    bundleOf(EXTRA_ARTIST to artist.name)
+                    bundleOf("extra_artist" to artist.name)
                 }
                 
                 binding.root.findNavController().navigate(
