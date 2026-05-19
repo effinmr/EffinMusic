@@ -149,9 +149,9 @@ class RealArtistRepository(
             )
             else {
                 songRepository.songs(PreferenceUtil.hideDuplicateSongs)
-                .filter { song -> 
-                    song.albumArtist?.trim() == artistName
-                }
+                    .filter { song -> 
+                        song.albumArtist?.trim() == artistName
+                    }
             }
         }
         return Artist(artistName, albumRepository.splitIntoAlbums(songs), true)
