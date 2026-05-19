@@ -21,7 +21,7 @@ import code.name.monkey.retromusic.model.Album
 import code.name.monkey.retromusic.model.Artist
 import code.name.monkey.retromusic.model.Song
 import code.name.monkey.retromusic.util.PreferenceUtil
-import code.name.monkey.retromusic.util.logD
+import code.name.monkey.retromusic.extensions.showToast
 import android.widget.Toast
 import java.text.Collator
 
@@ -155,7 +155,7 @@ class RealArtistRepository(
                 }
         }
         if (songs.isEmpty()) {
-            logD("'" + artistName + "'" + " | " + "'" + songRepository.songs(PreferenceUtil.hideDuplicateSongs)[0].albumArtist + "'")
+            showToast("'" + artistName + "'" + " | " + "'" + songRepository.songs(PreferenceUtil.hideDuplicateSongs)[0].albumArtist + "'")
             return Artist(artistName, emptyList(), true)
         }
         return Artist(artistName, albumRepository.splitIntoAlbums(songs), true)
