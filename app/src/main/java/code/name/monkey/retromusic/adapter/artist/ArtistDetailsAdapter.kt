@@ -161,7 +161,7 @@ class ArtistDetailsAdapter(
                 MusicUtil.getReadableDurationString(MusicUtil.getTotalDuration(item.artist.songs))
             )
 
-            if (!PreferenceUtil.showSongOnly || PreferenceUtil.showCoversInSongsTab) {
+            if (!PreferenceUtil.showSongOnly) {
                 loadArtistImage(item.artist)
             } else {
                 binding.artistCoverContainer.isVisible = false
@@ -305,7 +305,7 @@ class ArtistDetailsAdapter(
                 binding.artist.isVisible = false
             }
 
-            if (!PreferenceUtil.showSongOnly) { 
+            if (PreferenceUtil.showCoversInSongsTab) { 
                 loadSongImage(song)
             } else {
                 binding.imageContainer.isGone = true
