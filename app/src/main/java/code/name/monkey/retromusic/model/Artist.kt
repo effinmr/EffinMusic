@@ -43,15 +43,7 @@ data class Artist(
     }
 
     val name: String
-        get() = when {
-            MusicUtil.isVariousArtists(_name) ->
-                VARIOUS_ARTISTS_DISPLAY_NAME
-
-            MusicUtil.isArtistNameUnknown(_name) ->
-                UNKNOWN_ARTIST_DISPLAY_NAME
-
-            else -> _name ?: UNKNOWN_ARTIST_DISPLAY_NAME
-        }
+        get() = _name ?: UNKNOWN_ARTIST_DISPLAY_NAME
 
     val songCount: Int
         get() {
