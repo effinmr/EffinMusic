@@ -154,6 +154,7 @@ class SearchAdapter(
                 if (PreferenceUtil.showSongOnly) {
                     holder.imageTextContainer?.isGone = true
                 } else {
+                    holder.imageTextContainer?.isVisible = true
                     val customImageFile = CustomPlaylistImageUtil.getFile(playlist.playlistEntity)
                     val imageModel: Any = if (customImageFile.exists()) {
                         customImageFile
