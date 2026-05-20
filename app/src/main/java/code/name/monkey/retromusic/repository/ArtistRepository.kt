@@ -150,7 +150,7 @@ class RealArtistRepository(
         } else {
             songRepository.songs(PreferenceUtil.hideDuplicateSongs)
                 .filter { song -> 
-                    song.albumArtist?.trim() == artistName
+                    song.albumArtist?.trim() == artistName?.trim()
                 }
         }
         if (songs.isEmpty()) {
