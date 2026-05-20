@@ -100,9 +100,9 @@ class MetadataScanner(
                 splitAlbumArtists.drop(1)
             ).distinct()
             
-            val artistIds = splitNames?.map { generateArtistId(it.trim()) } ?: emptyList()
+            val artistIds = finalArtistNames?.map { generateArtistId(it.trim()) } ?: emptyList()
             val artistIdsString = artistIds.joinToString(",")
-            val artistNamesString = splitNames?.joinToString(", ") ?: ""
+            val artistNamesString = finalArtistNames?.joinToString(", ") ?: ""
             val albumArtistString = splitAlbumArtists.firstOrNull() ?: song.albumArtist
 
             val entity = SongMetadataEntity(
