@@ -72,30 +72,46 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
         setUpSubFragments()
         super.onViewCreated(view, savedInstanceState)
         
-        val artistId = arguments?.getLong(EXTRA_ARTIST_ID, -1L) ?: -1L
-        
-        if (artistId != -1L) {
-            libraryViewModel.artist(artistId)
-                .observe(viewLifecycleOwner) { artist ->
+        when (val artist = arguments?.get(EXTRA_ARTIST)) {
 
-                    val samples = artist.songs
-                        .shuffled()
+            is Long -> {
+                libraryViewModel.artist(artist)
+                    .observe(viewLifecycleOwner) { artistData ->
 
-                    if (samples.isNotEmpty()) {
+                        val samples = artistData.songs
+                            .shuffled()
+
+                        if (samples.isNotEmpty()) {
+                            MusicPlayerRemote.openQueue(samples, 0, true)
+                            MusicPlayerRemote.playSongAtFrom(0, 30000)
+                        }
+                    }
+            }
+            
+            is String -> {
+                libraryViewModel.albumArtist(artist)
+                    .observe(viewLifecycleOwner) { artistData ->
+
+                        val samples = artistData.songs
+                            .shuffled()
+
+                        if (samples.isNotEmpty()) {
+                            MusicPlayerRemote.openQueue(samples, 0, true)
+                            MusicPlayerRemote.playSongAtFrom(0, 30000)
+                        }
+                    }
+                    
+            } else -> {
+                libraryViewModel.getSongs()
+                    .observe(viewLifecycleOwner) { songs ->
+
+                        val samples = songs
+                            .shuffled()
+                    
                         MusicPlayerRemote.openQueue(samples, 0, true)
                         MusicPlayerRemote.playSongAtFrom(0, 30000)
                     }
-                }
-        } else {
-            libraryViewModel.getSongs()
-                .observe(viewLifecycleOwner) { songs ->
-
-                    val samples = songs
-                        .shuffled()
-                    
-                    MusicPlayerRemote.openQueue(samples, 0, true)
-                    MusicPlayerRemote.playSongAtFrom(0, 30000)
-                }
+            }
         }
 
         setUpPlayerToolbar()
@@ -239,13 +255,18 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
         
     companion object {
 
-        private const val EXTRA_ARTIST_ID = "extra_artist_id"
+        private const val EXTRA_ARTIST = "extra_artist"
         
-        fun newInstance(artistId: Long? = null): SamplesFragment {
+        fun newInstance(
+            artistId: Long = -1L,
+            artistName: String? = null
+        ): SamplesFragment {
             return SamplesFragment().apply {
                 arguments = Bundle().apply {
-                    artistId?.let {
-                        putLong(EXTRA_ARTIST_ID, it)
+                    if (artistId != -1L) {
+                        putLong(EXTRA_ARTIST, artistId)
+                    } else if (!artistName.isNullOrEmpty()) {
+                        putString(EXTRA_ARTIST, artistName)
                     }
                 }
             }

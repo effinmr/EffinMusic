@@ -212,9 +212,16 @@ class ArtistDetailsAdapter(
             loadSamplesImage(item.artist)
             
             binding.artistSamplesContainer.setOnClickListener {
+                
+                val bundle = if (artist.isAlbumArtist) {
+                    bundleOf("extra_artist" to artist.name)
+                } else {
+                    bundleOf("extra_artist" to artist.id)
+                }
+                
                 binding.root.findNavController().navigate(
                     R.id.action_sample,
-                    bundleOf("extra_artist_id" to artist.id)
+                    bundle
                 )
             }
         }
