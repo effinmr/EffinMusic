@@ -97,7 +97,7 @@ class SearchAdapter(
                 val album = dataSet[position] as Album
                 holder.title?.text = album.title
                 holder.text?.text = album.albumArtist
-                if (PreferenceUtil.showSongOnly) {
+                if (!PreferenceUtil.showCoversInSongsTab) {
                     holder.image?.isGone = true
                     holder.imageTextContainer?.isGone = true
                 } else {
@@ -112,7 +112,7 @@ class SearchAdapter(
                 val artist = dataSet[position] as Artist
                 holder.title?.text = artist.name
                 holder.text?.text = MusicUtil.getArtistInfoString(activity, artist)
-                if (PreferenceUtil.showSongOnly) {
+                if (!PreferenceUtil.showCoversInSongsTab) {
                     holder.image?.isGone = true
                     holder.imageTextContainer?.isGone = true
                 } else {
@@ -127,7 +127,7 @@ class SearchAdapter(
                 val song = dataSet[position] as Song
                 holder.title?.text = song.title
                 holder.text?.text = song.albumName
-                if (PreferenceUtil.showSongOnly) {
+                if (!PreferenceUtil.showCoversInSongsTab) {
                     holder.image?.isGone = true
                     holder.imageTextContainer?.isGone = true
                 } else {
@@ -154,7 +154,7 @@ class SearchAdapter(
                 val playlist = dataSet[position] as PlaylistWithSongs
                 holder.title?.text = playlist.playlistEntity.playlistName
                 //holder.text?.text = MusicUtil.playlistInfoString(activity, playlist.songs)
-                if (PreferenceUtil.showSongOnly) {
+                if (!PreferenceUtil.showCoversInSongsTab) {
                     holder.image?.isGone = true
                     holder.imageTextContainer?.isGone = true
                 } else {
@@ -174,7 +174,7 @@ class SearchAdapter(
                 val artist = dataSet[position] as Artist
                 holder.title?.text = artist.name
                 holder.text?.text = MusicUtil.getArtistInfoString(activity, artist)
-                if (PreferenceUtil.showSongOnly) {
+                if (!PreferenceUtil.showCoversInSongsTab) {
                     holder.imageTextContainer?.isGone = true
                 } else {
                     holder.imageTextContainer?.isVisible = true
