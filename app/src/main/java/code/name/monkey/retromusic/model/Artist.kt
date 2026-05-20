@@ -43,7 +43,7 @@ data class Artist(
     }
 
     var name: String
-        get() when {
+        get() = when {
             MusicUtil.isVariousArtists(_name) ->
                 VARIOUS_ARTISTS_DISPLAY_NAME
 
