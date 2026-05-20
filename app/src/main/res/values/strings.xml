@@ -663,7 +663,7 @@
     <string name="pref_summary_double_tap_favorite">Double tap on player album cover to favorite song</string>
 
     <string name="pref_title_show_song_only">Minimal Artist</string>
-    <string name="pref_summary_show_song_only">Show Songs/Albums only in Artist</string>
+    <string name="pref_summary_show_song_only">Show only Songs in Artist</string>
 
     <string name="pref_title_is_skip_to_previous">Previous/Restart Threshold</string>
     <string name="pref_summary_is_skip_to_previous">Under X sec → previous track, over X sec → restart song</string>
