@@ -33,12 +33,15 @@ import code.name.monkey.retromusic.glide.RetroGlideExtension
 import code.name.monkey.retromusic.glide.RetroGlideExtension.albumCoverOptions
 import code.name.monkey.retromusic.glide.RetroGlideExtension.artistImageOptions
 import code.name.monkey.retromusic.glide.RetroGlideExtension.songCoverOptions
+import code.name.monkey.retromusic.glide.RetroGlideExtension.playlistOptions
+import code.name.monkey.retromusic.glide.playlistPreview.PlaylistPreview
 import code.name.monkey.retromusic.helper.MusicPlayerRemote
 import code.name.monkey.retromusic.helper.menu.SongMenuHelper
 import code.name.monkey.retromusic.model.Album
 import code.name.monkey.retromusic.model.Artist
 import code.name.monkey.retromusic.model.Genre
 import code.name.monkey.retromusic.model.Song
+import code.name.monkey.retromusic.util.CustomPlaylistImageUtil
 import code.name.monkey.retromusic.util.MusicUtil
 import code.name.monkey.retromusic.util.PreferenceUtil
 import com.bumptech.glide.Glide
@@ -148,6 +151,18 @@ class SearchAdapter(
                 val playlist = dataSet[position] as PlaylistWithSongs
                 holder.title?.text = playlist.playlistEntity.playlistName
                 //holder.text?.text = MusicUtil.playlistInfoString(activity, playlist.songs)
+                if (PreferenceUtil.showSongOnly) {
+                    holder.imageTextContainer?.isGone = true
+                } else {
+                    val customImageFile = CustomPlaylistImageUtil.getFile(playlist.playlistEntity)
+                    val imageModel: Any = if (customImageFile.exists()) {
+                        customImageFile
+                    } else {
+                        PlaylistPreview(playlist)
+                    }
+                    Glide.with(activity).asDrawable().playlistOptions()
+                        .load(imageModel).into(holder.image!!)
+                }
             }
 
             ALBUM_ARTIST -> {
