@@ -3,6 +3,7 @@ package code.name.monkey.retromusic.adapter.artist
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
+import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
@@ -304,7 +305,11 @@ class ArtistDetailsAdapter(
                 binding.artist.isVisible = false
             }
 
-            loadSongImage(song)
+            if (PreferenceUtil.showCoversInSongsTab) { 
+                loadSongImage(song)
+            } else {
+                binding.imageContainer.isGone = true
+            }
             updateSelectionState()
             
             binding.root.setOnClickListener {

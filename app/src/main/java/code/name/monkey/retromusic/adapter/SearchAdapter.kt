@@ -33,13 +33,17 @@ import code.name.monkey.retromusic.glide.RetroGlideExtension
 import code.name.monkey.retromusic.glide.RetroGlideExtension.albumCoverOptions
 import code.name.monkey.retromusic.glide.RetroGlideExtension.artistImageOptions
 import code.name.monkey.retromusic.glide.RetroGlideExtension.songCoverOptions
+import code.name.monkey.retromusic.glide.RetroGlideExtension.playlistOptions
+import code.name.monkey.retromusic.glide.playlistPreview.PlaylistPreview
 import code.name.monkey.retromusic.helper.MusicPlayerRemote
 import code.name.monkey.retromusic.helper.menu.SongMenuHelper
 import code.name.monkey.retromusic.model.Album
 import code.name.monkey.retromusic.model.Artist
 import code.name.monkey.retromusic.model.Genre
 import code.name.monkey.retromusic.model.Song
+import code.name.monkey.retromusic.util.CustomPlaylistImageUtil
 import code.name.monkey.retromusic.util.MusicUtil
+import code.name.monkey.retromusic.util.PreferenceUtil
 import com.bumptech.glide.Glide
 import java.util.*
 
@@ -90,32 +94,53 @@ class SearchAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         when (getItemViewType(position)) {
             ALBUM -> {
-                holder.imageTextContainer?.isVisible = true
                 val album = dataSet[position] as Album
                 holder.title?.text = album.title
-                holder.text?.text = album.artistName
-                Glide.with(activity).asDrawable().albumCoverOptions(album.safeGetFirstSong())
-                    .load(RetroGlideExtension.getSongModel(album.safeGetFirstSong()))
-                    .into(holder.image!!)
+                holder.text?.text = album.albumArtist
+                holder.title?.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, PreferenceUtil.songTextSize.toFloat())
+                holder.text?.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, PreferenceUtil.artistTextSize.toFloat())
+                if (!PreferenceUtil.showCoversInSongsTab) {
+                    holder.image?.isGone = true
+                    holder.imageTextContainer?.isGone = true
+                } else {
+                    holder.imageTextContainer?.isVisible = true
+                    Glide.with(activity).asDrawable().albumCoverOptions(album.safeGetFirstSong())
+                        .load(RetroGlideExtension.getSongModel(album.safeGetFirstSong()))
+                        .into(holder.image!!)
+                }
             }
 
             ARTIST -> {
-                holder.imageTextContainer?.isVisible = true
                 val artist = dataSet[position] as Artist
                 holder.title?.text = artist.name
                 holder.text?.text = MusicUtil.getArtistInfoString(activity, artist)
-                Glide.with(activity).asDrawable().artistImageOptions(artist).load(
-                    RetroGlideExtension.getArtistModel(artist)
-                ).into(holder.image!!)
+                holder.title?.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, PreferenceUtil.songTextSize.toFloat())
+                holder.text?.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, PreferenceUtil.artistTextSize.toFloat())
+                if (!PreferenceUtil.showCoversInSongsTab) {
+                    holder.image?.isGone = true
+                    holder.imageTextContainer?.isGone = true
+                } else {
+                    holder.imageTextContainer?.isVisible = true
+                    Glide.with(activity).asDrawable().artistImageOptions(artist).load(
+                        RetroGlideExtension.getArtistModel(artist)
+                    ).into(holder.image!!)
+                }
             }
 
             SONG -> {
-                holder.imageTextContainer?.isVisible = true
                 val song = dataSet[position] as Song
                 holder.title?.text = song.title
                 holder.text?.text = song.albumName
-                Glide.with(activity).asDrawable().songCoverOptions(song)
-                    .load(RetroGlideExtension.getSongModel(song)).into(holder.image!!)
+                holder.title?.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, PreferenceUtil.songTextSize.toFloat())
+                holder.text?.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, PreferenceUtil.artistTextSize.toFloat())
+                if (!PreferenceUtil.showCoversInSongsTab) {
+                    holder.image?.isGone = true
+                    holder.imageTextContainer?.isGone = true
+                } else {
+                    holder.imageTextContainer?.isVisible = true
+                    Glide.with(activity).asDrawable().songCoverOptions(song)
+                        .load(RetroGlideExtension.getSongModel(song)).into(holder.image!!)
+                }
             }
 
             GENRE -> {
@@ -129,27 +154,51 @@ class SearchAdapter(
                         R.string.song
                     )
                 )
+                holder.title?.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, PreferenceUtil.songTextSize.toFloat())
+                holder.text?.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, PreferenceUtil.artistTextSize.toFloat())
             }
 
             PLAYLIST -> {
                 val playlist = dataSet[position] as PlaylistWithSongs
                 holder.title?.text = playlist.playlistEntity.playlistName
+                holder.title?.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, PreferenceUtil.songTextSize.toFloat())
                 //holder.text?.text = MusicUtil.playlistInfoString(activity, playlist.songs)
+                if (!PreferenceUtil.showCoversInSongsTab) {
+                    holder.image?.isGone = true
+                    holder.imageTextContainer?.isGone = true
+                } else {
+                    holder.imageTextContainer?.isVisible = true
+                    val customImageFile = CustomPlaylistImageUtil.getFile(playlist.playlistEntity)
+                    val imageModel: Any = if (customImageFile.exists()) {
+                        customImageFile
+                    } else {
+                        PlaylistPreview(playlist)
+                    }
+                    Glide.with(activity).asDrawable().playlistOptions()
+                        .load(imageModel).into(holder.image!!)
+                }
             }
 
             ALBUM_ARTIST -> {
-                holder.imageTextContainer?.isVisible = true
                 val artist = dataSet[position] as Artist
                 holder.title?.text = artist.name
                 holder.text?.text = MusicUtil.getArtistInfoString(activity, artist)
-                Glide.with(activity).asDrawable().artistImageOptions(artist).load(
-                    RetroGlideExtension.getArtistModel(artist)
-                ).into(holder.image!!)
+                holder.title?.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, PreferenceUtil.songTextSize.toFloat())
+                holder.text?.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, PreferenceUtil.artistTextSize.toFloat())
+                if (!PreferenceUtil.showCoversInSongsTab) {
+                    holder.imageTextContainer?.isGone = true
+                } else {
+                    holder.imageTextContainer?.isVisible = true
+                    Glide.with(activity).asDrawable().artistImageOptions(artist).load(
+                        RetroGlideExtension.getArtistModel(artist)
+                    ).into(holder.image!!)
+                }
             }
 
             else -> {
                 holder.title?.text = dataSet[position].toString()
                 holder.title?.setTextColor(ThemeStore.accentColor(activity))
+                holder.title?.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, PreferenceUtil.songTextSize.toFloat())
             }
         }
     }
