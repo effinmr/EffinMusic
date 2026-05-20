@@ -304,7 +304,11 @@ class ArtistDetailsAdapter(
                 binding.artist.isVisible = false
             }
 
-            loadSongImage(song)
+            if (!PreferenceUtil.showSongOnly) { 
+                loadSongImage(song)
+            } else {
+                binding.imageContainer.isGone = true
+            }
             updateSelectionState()
             
             binding.root.setOnClickListener {
