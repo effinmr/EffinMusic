@@ -98,6 +98,7 @@ class SearchAdapter(
                 holder.title?.text = album.title
                 holder.text?.text = album.albumArtist
                 if (PreferenceUtil.showSongOnly) {
+                    holder.image?.isGone = true
                     holder.imageTextContainer?.isGone = true
                 } else {
                     holder.imageTextContainer?.isVisible = true
@@ -112,6 +113,7 @@ class SearchAdapter(
                 holder.title?.text = artist.name
                 holder.text?.text = MusicUtil.getArtistInfoString(activity, artist)
                 if (PreferenceUtil.showSongOnly) {
+                    holder.image?.isGone = true
                     holder.imageTextContainer?.isGone = true
                 } else {
                     holder.imageTextContainer?.isVisible = true
@@ -126,6 +128,7 @@ class SearchAdapter(
                 holder.title?.text = song.title
                 holder.text?.text = song.albumName
                 if (PreferenceUtil.showSongOnly) {
+                    holder.image?.isGone = true
                     holder.imageTextContainer?.isGone = true
                 } else {
                     holder.imageTextContainer?.isVisible = true
@@ -152,6 +155,7 @@ class SearchAdapter(
                 holder.title?.text = playlist.playlistEntity.playlistName
                 //holder.text?.text = MusicUtil.playlistInfoString(activity, playlist.songs)
                 if (PreferenceUtil.showSongOnly) {
+                    holder.image?.isGone = true
                     holder.imageTextContainer?.isGone = true
                 } else {
                     holder.imageTextContainer?.isVisible = true
