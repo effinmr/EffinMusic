@@ -42,8 +42,19 @@ data class Artist(
         _name = artistName
     }
 
-    val name: String
-        get() = _name ?: UNKNOWN_ARTIST_DISPLAY_NAME
+    var name: String = _name ?: "-" // Use _name if available, otherwise default
+        get() {
+            val resolvedName = _name ?: if (isAlbumArtist) getAlbumArtistName() else getArtistName()
+            return when {
+                MusicUtil.isVariousArtists(resolvedName) ->
+                    VARIOUS_ARTISTS_DISPLAY_NAME
+
+                MusicUtil.isArtistNameUnknown(resolvedName) ->
+                    UNKNOWN_ARTIST_DISPLAY_NAME
+
+                else -> resolvedName!!
+            }
+        }
 
     val songCount: Int
         get() {
@@ -155,11 +166,11 @@ data class Artist(
     }
 
     private fun getArtistName(): String {
-        return safeGetFirstAlbum().safeGetFirstSong().artistName
+        return safeGetFirstAlbum().safeGetFirstSong().artistName?.trim()
     }
 
     private fun getAlbumArtistName(): String? {
-        return safeGetFirstAlbum().safeGetFirstSong().albumArtist
+        return safeGetFirstAlbum().safeGetFirstSong().albumArtist?.trim()
     }
 
     companion object {
