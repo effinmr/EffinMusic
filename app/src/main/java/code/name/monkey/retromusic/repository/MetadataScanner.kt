@@ -73,25 +73,37 @@ class MetadataScanner(
             } ?: emptyMap()
 
             val artistNames = tag["ARTIST"]
+            val albumArtistNames = tag["ALBUMARTIST"]
             val delimiters = PreferenceUtil.artistDelimiters ?: PreferenceUtil.defaultDelimiters
-            val splitNames = if (!PreferenceUtil.artistDelimiters.isNullOrEmpty()) {
-                val delimiterRegex = delimiters
-                    .filter { it.isNotBlank() }
-                    .distinct()
-                    .joinToString("|") { Regex.escape(it) }
-                    .toRegex()
-                    
-                artistNames.orEmpty() 
-                    .flatMap { artist -> artist.split(delimiterRegex).map { it.trim() } }
-                    .filter { it.isNotEmpty() }
-                    .distinct()
-            } else {
-                artistNames
-            }
             
-            val artistIds = splitNames?.map { generateArtistId(it.trim()) } ?: emptyList()
+            fun splitArtists(values: List<String>?): List<String> {
+                return if (!PreferenceUtil.artistDelimiters.isNullOrEmpty()) {
+                    val delimiterRegex = delimiters
+                        .filter { it.isNotBlank() }
+                        .distinct()
+                        .joinToString("|") { Regex.escape(it) }
+                        .toRegex()
+                    
+                    values.orEmpty()
+                        .flatMap { artist -> artist.split(delimiterRegex).map { it.trim() } }
+                        .filter { it.isNotEmpty() }
+                        .distinct()
+                } else {
+                    values.orEmpty()
+                }
+            }
+
+            val splitNames = splitArtists(artistNames)
+            val splitAlbumArtists = splitArtists(albumArtistNames)
+            val finalArtistNames = (
+                splitNames +
+                splitAlbumArtists.drop(1)
+            ).distinct()
+            
+            val artistIds = finalArtistNames?.map { generateArtistId(it.trim()) } ?: emptyList()
             val artistIdsString = artistIds.joinToString(",")
-            val artistNamesString = splitNames?.joinToString(", ") ?: ""
+            val artistNamesString = finalArtistNames?.joinToString(", ") ?: ""
+            val albumArtistString = splitAlbumArtists.firstOrNull() ?: song.albumArtist
 
             val entity = SongMetadataEntity(
                 id = song.id,
@@ -102,7 +114,7 @@ class MetadataScanner(
                 year = tag["DATE"]?.firstOrNull() ?: "",
                 trackNumber = song.trackNumber,
                 duration = song.duration,
-                albumArtist = song.albumArtist,
+                albumArtist = albumArtistString,
                 data = song.data,
                 dateModified = song.dateModified,
                 albumId = song.albumId,
