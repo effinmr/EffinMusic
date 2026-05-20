@@ -166,7 +166,7 @@ data class Artist(
     }
 
     private fun getArtistName(): String {
-        return safeGetFirstAlbum().safeGetFirstSong().artistName?.trim()
+        return safeGetFirstAlbum().safeGetFirstSong().artistName?.trim() ?: UNKNOWN_ARTIST_DISPLAY_NAME
     }
 
     private fun getAlbumArtistName(): String? {
