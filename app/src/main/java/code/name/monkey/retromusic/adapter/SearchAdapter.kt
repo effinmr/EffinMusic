@@ -40,6 +40,7 @@ import code.name.monkey.retromusic.model.Artist
 import code.name.monkey.retromusic.model.Genre
 import code.name.monkey.retromusic.model.Song
 import code.name.monkey.retromusic.util.MusicUtil
+import code.name.monkey.retromusic.util.PreferenceUtil
 import com.bumptech.glide.Glide
 import java.util.*
 
@@ -90,7 +91,11 @@ class SearchAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         when (getItemViewType(position)) {
             ALBUM -> {
-                holder.imageTextContainer?.isVisible = true
+                if (PreferenceUtil.showSongOnly) {
+                    imageTextContainer?.isGone = true
+                } else {
+                    holder.imageTextContainer?.isVisible = true
+                }
                 val album = dataSet[position] as Album
                 holder.title?.text = album.title
                 holder.text?.text = album.artistName
@@ -100,7 +105,11 @@ class SearchAdapter(
             }
 
             ARTIST -> {
-                holder.imageTextContainer?.isVisible = true
+                if (PreferenceUtil.showSongOnly) {
+                    imageTextContainer?.isGone = true
+                } else {
+                    holder.imageTextContainer?.isVisible = true
+                }
                 val artist = dataSet[position] as Artist
                 holder.title?.text = artist.name
                 holder.text?.text = MusicUtil.getArtistInfoString(activity, artist)
@@ -110,7 +119,11 @@ class SearchAdapter(
             }
 
             SONG -> {
-                holder.imageTextContainer?.isVisible = true
+                if (PreferenceUtil.showSongOnly) {
+                    imageTextContainer?.isGone = true
+                } else {
+                    holder.imageTextContainer?.isVisible = true
+                }
                 val song = dataSet[position] as Song
                 holder.title?.text = song.title
                 holder.text?.text = song.albumName
