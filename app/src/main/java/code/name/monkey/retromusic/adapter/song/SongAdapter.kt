@@ -117,7 +117,7 @@ open class SongAdapter(
             loadAlbumCover(song, holder)
         } else {
             holder.image?.isVisible = false
-            holder.imageText?.isVisible = true
+            holder.imageText?.isVisible = false
         }
 
         val landscape = RetroUtil.isLandscape
