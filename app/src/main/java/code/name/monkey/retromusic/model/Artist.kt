@@ -42,18 +42,15 @@ data class Artist(
         _name = artistName
     }
 
-    var name: String = _name ?: "-" // Use _name if available, otherwise default
-        get() {
-            val resolvedName = _name ?: if (isAlbumArtist) getAlbumArtistName() else getArtistName()
-            return when {
-                MusicUtil.isVariousArtists(resolvedName) ->
-                    VARIOUS_ARTISTS_DISPLAY_NAME
+    var name: String
+        get() when {
+            MusicUtil.isVariousArtists(_name) ->
+                VARIOUS_ARTISTS_DISPLAY_NAME
 
-                MusicUtil.isArtistNameUnknown(resolvedName) ->
-                    UNKNOWN_ARTIST_DISPLAY_NAME
+            MusicUtil.isArtistNameUnknown(_name) ->
+                UNKNOWN_ARTIST_DISPLAY_NAME
 
-                else -> resolvedName!!
-            }
+            else -> _name ?: UNKNOWN_ARTIST_DISPLAY_NAME
         }
 
     val songCount: Int
