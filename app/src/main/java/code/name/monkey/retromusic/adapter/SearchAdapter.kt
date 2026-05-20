@@ -92,7 +92,7 @@ class SearchAdapter(
         when (getItemViewType(position)) {
             ALBUM -> {
                 if (PreferenceUtil.showSongOnly) {
-                    imageTextContainer?.isGone = true
+                    holder.imageTextContainer?.isGone = true
                 } else {
                     holder.imageTextContainer?.isVisible = true
                 }
@@ -106,7 +106,7 @@ class SearchAdapter(
 
             ARTIST -> {
                 if (PreferenceUtil.showSongOnly) {
-                    imageTextContainer?.isGone = true
+                    holder.imageTextContainer?.isGone = true
                 } else {
                     holder.imageTextContainer?.isVisible = true
                 }
@@ -120,7 +120,7 @@ class SearchAdapter(
 
             SONG -> {
                 if (PreferenceUtil.showSongOnly) {
-                    imageTextContainer?.isGone = true
+                    holder.imageTextContainer?.isGone = true
                 } else {
                     holder.imageTextContainer?.isVisible = true
                 }
