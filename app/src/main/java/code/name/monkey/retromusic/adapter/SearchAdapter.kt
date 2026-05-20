@@ -91,44 +91,44 @@ class SearchAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         when (getItemViewType(position)) {
             ALBUM -> {
-                if (PreferenceUtil.showSongOnly) {
-                    holder.imageTextContainer?.isGone = true
-                } else {
-                    holder.imageTextContainer?.isVisible = true
-                }
                 val album = dataSet[position] as Album
                 holder.title?.text = album.title
                 holder.text?.text = album.albumArtist
-                Glide.with(activity).asDrawable().albumCoverOptions(album.safeGetFirstSong())
-                    .load(RetroGlideExtension.getSongModel(album.safeGetFirstSong()))
-                    .into(holder.image!!)
+                if (PreferenceUtil.showSongOnly) {
+                    holder.imageTextContainer?.isGone = true
+                } else {
+                    holder.imageTextContainer?.isVisible = true
+                    Glide.with(activity).asDrawable().albumCoverOptions(album.safeGetFirstSong())
+                        .load(RetroGlideExtension.getSongModel(album.safeGetFirstSong()))
+                        .into(holder.image!!)
+                }
             }
 
             ARTIST -> {
-                if (PreferenceUtil.showSongOnly) {
-                    holder.imageTextContainer?.isGone = true
-                } else {
-                    holder.imageTextContainer?.isVisible = true
-                }
                 val artist = dataSet[position] as Artist
                 holder.title?.text = artist.name
                 holder.text?.text = MusicUtil.getArtistInfoString(activity, artist)
-                Glide.with(activity).asDrawable().artistImageOptions(artist).load(
-                    RetroGlideExtension.getArtistModel(artist)
-                ).into(holder.image!!)
-            }
-
-            SONG -> {
                 if (PreferenceUtil.showSongOnly) {
                     holder.imageTextContainer?.isGone = true
                 } else {
                     holder.imageTextContainer?.isVisible = true
+                    Glide.with(activity).asDrawable().artistImageOptions(artist).load(
+                        RetroGlideExtension.getArtistModel(artist)
+                    ).into(holder.image!!)
                 }
+            }
+
+            SONG -> {
                 val song = dataSet[position] as Song
                 holder.title?.text = song.title
                 holder.text?.text = song.albumName
-                Glide.with(activity).asDrawable().songCoverOptions(song)
-                    .load(RetroGlideExtension.getSongModel(song)).into(holder.image!!)
+                if (PreferenceUtil.showSongOnly) {
+                    holder.imageTextContainer?.isGone = true
+                } else {
+                    holder.imageTextContainer?.isVisible = true
+                    Glide.with(activity).asDrawable().songCoverOptions(song)
+                        .load(RetroGlideExtension.getSongModel(song)).into(holder.image!!)
+                }
             }
 
             GENRE -> {
@@ -151,13 +151,17 @@ class SearchAdapter(
             }
 
             ALBUM_ARTIST -> {
-                holder.imageTextContainer?.isVisible = true
                 val artist = dataSet[position] as Artist
                 holder.title?.text = artist.name
                 holder.text?.text = MusicUtil.getArtistInfoString(activity, artist)
-                Glide.with(activity).asDrawable().artistImageOptions(artist).load(
-                    RetroGlideExtension.getArtistModel(artist)
-                ).into(holder.image!!)
+                if (PreferenceUtil.showSongOnly) {
+                    holder.imageTextContainer?.isGone = true
+                } else {
+                    holder.imageTextContainer?.isVisible = true
+                    Glide.with(activity).asDrawable().artistImageOptions(artist).load(
+                        RetroGlideExtension.getArtistModel(artist)
+                    ).into(holder.image!!)
+                }
             }
 
             else -> {
