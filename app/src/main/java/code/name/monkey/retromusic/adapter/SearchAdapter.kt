@@ -98,7 +98,7 @@ class SearchAdapter(
                 }
                 val album = dataSet[position] as Album
                 holder.title?.text = album.title
-                holder.text?.text = album.artistName
+                holder.text?.text = album.albumArtist
                 Glide.with(activity).asDrawable().albumCoverOptions(album.safeGetFirstSong())
                     .load(RetroGlideExtension.getSongModel(album.safeGetFirstSong()))
                     .into(holder.image!!)
