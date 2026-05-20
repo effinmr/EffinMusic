@@ -108,7 +108,7 @@ class ArtistAdapter(
             loadArtistImage(artist, holder)
         } else {
             holder.image?.isVisible = false
-            holder.imageText?.isVisible = true // Show imageText if not showing cover
+            holder.imageText?.isVisible = false // Show imageText if not showing cover
             holder.imageText?.text = (position + 1).toString() // Display song number
         }
     }
