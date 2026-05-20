@@ -114,7 +114,7 @@ class MetadataScanner(
                 year = tag["DATE"]?.firstOrNull() ?: "",
                 trackNumber = song.trackNumber,
                 duration = song.duration,
-                albumArtist = splitAlbumArtists.firstOrNull() ?: "",
+                albumArtist = albumArtistString,
                 data = song.data,
                 dateModified = song.dateModified,
                 albumId = song.albumId,
