@@ -94,7 +94,9 @@ class MetadataScanner(
             }
 
             val splitNames = splitArtists(artistNames)
-            val splitAlbumArtists = splitArtists(albumArtistNames)
+            val splitAlbumArtists = splitArtists(albumArtistNames).ifEmpty {
+                splitNames.firstOrNull()?.let { listOf(it) } ?: emptyList()
+            }
             val finalArtistNames = (
                 splitNames +
                 splitAlbumArtists.drop(1)
