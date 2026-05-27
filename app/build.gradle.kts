@@ -1,18 +1,24 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: "androidx.navigation.safeargs.kotlin"
-apply plugin: 'kotlin-parcelize'
-apply plugin: 'com.google.devtools.ksp'
+import java.util.Properties
+
+plugins {
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.androidx.navigation.safeargs)
+    id("org.jetbrains.kotlin.plugin.parcelize")
+    alias(libs.plugins.google.devtools.ksp)
+}
 
 android {
     compileSdk 35
-    namespace "code.name.monkey.retromusic"
+    namespace "code.effinmr.music"
 
     defaultConfig {
         minSdk 23
-        targetSdk 35
+        targetSdk 36
 
-        vectorDrawables.useSupportLibrary = true
+        vectorDrawables {
+            useSupportLibrary = true
+        }
 
         applicationId "code.effinmr.music"
         versionCode 107706
@@ -178,4 +184,6 @@ dependencies {
     implementation libs.fastscroll.library
     implementation libs.customactivityoncrash
     implementation libs.tankery.circularSeekBar
+
+    implementation(libs.androidx.exoplayer)
 }
