@@ -11,7 +11,7 @@ import com.google.android.material.slider.Slider
 import code.name.monkey.retromusic.R
 import code.name.monkey.retromusic.databinding.FragmentEqualizerBinding
 import code.name.monkey.retromusic.helper.MusicPlayerRemote
-import code.name.monkey.retromusic.service.MultiPlayer
+import code.name.monkey.retromusic.service.RetroExoPlayer
 
 class EqualizerFragment : Fragment(R.layout.fragment_equalizer) {
 
@@ -55,7 +55,7 @@ class EqualizerFragment : Fragment(R.layout.fragment_equalizer) {
         binding.enableEqualizerSwitch.setOnCheckedChangeListener { _, isChecked ->
             setSlidersEnabled(isChecked)
             prefs.edit().putBoolean("equalizer_enabled", isChecked).apply()
-            val player = MusicPlayerRemote.musicService as? MultiPlayer ?: return@setOnCheckedChangeListener
+            val player = MusicPlayerRemote.musicService as? RetroExoPlayer ?: return@setOnCheckedChangeListener
             player.setEqualizerEnabled(isChecked)
         }
 
@@ -207,7 +207,7 @@ class EqualizerFragment : Fragment(R.layout.fragment_equalizer) {
         binding.bandSlider4.value = b4
         binding.bandSlider5.value = b5
 
-        val player = MusicPlayerRemote.musicService as? MultiPlayer ?: return
+        val player = MusicPlayerRemote.musicService as? RetroExoPlayer ?: return
         if (binding.enableEqualizerSwitch.isChecked) {
             val minLevel = player.getEqualizerMinBandLevel()
             val maxLevel = player.getEqualizerMaxBandLevel()
