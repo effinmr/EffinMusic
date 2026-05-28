@@ -237,6 +237,8 @@ class RetroExoPlayer(context: Context) : AudioManagerPlayback(context), Player.L
     override fun onPlayerError(error: PlaybackException) {
         logE(error)
         isInitialized = false
+        releaseAudioEffects()
+        unregisterPrefListener()
         player.release()
         player = ExoPlayer.Builder(context).build()
         player.setWakeMode(C.WAKE_MODE_LOCAL)
