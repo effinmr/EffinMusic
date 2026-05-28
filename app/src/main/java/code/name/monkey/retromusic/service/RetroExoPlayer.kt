@@ -23,9 +23,19 @@ import code.name.monkey.retromusic.extensions.showToast
 import code.name.monkey.retromusic.extensions.uri
 import code.name.monkey.retromusic.model.Song
 import code.name.monkey.retromusic.service.playback.Playback.PlaybackCallbacks
+import code.name.monkey.retromusic.util.logE
 import code.name.monkey.retromusic.util.PreferenceUtil.playbackPitch
 import code.name.monkey.retromusic.util.PreferenceUtil.playbackSpeed
-import code.name.monkey.retromusic.util.logE
+import code.name.monkey.retromusic.util.PreferenceUtil
+import code.name.monkey.retromusic.util.Taglib
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
+import kotlin.math.log10
+import kotlin.math.min
+import kotlin.math.pow
 
 class RetroExoPlayer(context: Context) : AudioManagerPlayback(context), Player.Listener {
     private var player: ExoPlayer = ExoPlayer.Builder(context).build()
@@ -35,6 +45,9 @@ class RetroExoPlayer(context: Context) : AudioManagerPlayback(context), Player.L
     private var bassBoost: BassBoost? = null
     private var virtualizer: Virtualizer? = null
     private var loudnessEnhancer: LoudnessEnhancer? = null
+
+    private val scope =
+        CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
     /**
      * @return True if the player is ready to go, false otherwise
@@ -75,6 +88,7 @@ class RetroExoPlayer(context: Context) : AudioManagerPlayback(context), Player.L
                             player.removeListener(this)
                             isInitialized = true
                             initAudioEffects()
+                            applyReplayGain(song)
                             completion(true)
                         }
                     }
@@ -124,6 +138,7 @@ class RetroExoPlayer(context: Context) : AudioManagerPlayback(context), Player.L
     override fun release() {
         stop()
         releaseAudioEffects()
+        scope.cancel()
         player.release()
     }
 
@@ -255,6 +270,46 @@ class RetroExoPlayer(context: Context) : AudioManagerPlayback(context), Player.L
 
     override fun setPlaybackSpeedPitch(speed: Float, pitch: Float) {
         player.playbackParameters = PlaybackParameters(speed, pitch)
+    }
+
+    private fun applyReplayGain(song: Song) {
+        if (PreferenceUtil.enableReplayGain == false) return
+        if (song == Song.emptySong) return
+        val preferAlbumGain = PreferenceUtil.preferAlbumGain
+        
+        scope.launch {
+            val tags =  Taglib.getAllTags(context, song)
+
+            fun parse(value: String?, default: Float = 0f): Float {
+                return value?.replace("dB", "", ignoreCase = true)
+                    ?.replace("[^\\d+-.]".toRegex(), "")
+                    ?.toFloatOrNull() ?: default
+            }
+            val trackGain = parse(tags["REPLAYGAIN_TRACK_GAIN"]?.firstOrNull())
+            val albumGain = parse(tags["REPLAYGAIN_ALBUM_GAIN"]?.firstOrNull())
+            val trackPeak = parse(tags["REPLAYGAIN_TRACK_PEAK"]?.firstOrNull(), 1f)
+            val albumPeak = parse(tags["REPLAYGAIN_ALBUM_PEAK"]?.firstOrNull(), 1f)
+        
+            val adjustDB = if (preferAlbumGain == true) {
+                if ( albumGain != 0f)  albumGain else trackGain
+            } else {
+                if (trackGain != 0f) trackGain else albumGain
+            }
+
+            val peak = if (preferAlbumGain == true) {
+                if (albumPeak != 1f) albumPeak else trackPeak
+            } else {
+                if (trackPeak != 1f) trackPeak else albumPeak
+            }
+        
+            val safeDB = min(adjustDB, -20f * log10(peak))
+        
+            val gain = 10.0f.pow(safeDB / 20f).coerceIn(0f, 1f)
+            
+            scope.launch(Dispatchers.Main) {
+                setVolume(gain)
+            }
+        }
     }
 
     private fun applyEqualizerPreferences() {
