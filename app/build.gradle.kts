@@ -10,7 +10,7 @@ plugins {
 
 android {
     compileSdk = 35
-    namespace = "code.effinmr.music"
+    namespace = "code.name.monkey.retromusic"
 
     defaultConfig {
         minSdk = 24
@@ -20,7 +20,7 @@ android {
             useSupportLibrary = true
         }
 
-        applicationId = namespace
+        applicationId = "code.effinmr.music"
         versionCode = 107706
         versionName = "7.7.6"
 
