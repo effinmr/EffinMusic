@@ -49,10 +49,6 @@ class PlaybackManager(val context: Context) {
     }
 
     fun play(onNotInitialized: () -> Unit) {
-        if (PreferenceUtil.isSpeakerDisabled && speakerEnabled()) {
-            context.showToast(R.string.speaker_disabled)
-            return
-        }
         if (playback != null && !playback!!.isPlaying) {
             if (!playback!!.isInitialized) {
                 onNotInitialized()
