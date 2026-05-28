@@ -100,7 +100,7 @@ class PlaybackManager(val context: Context) {
     }
 
     fun setNextDataSource(trackUri: Uri?) {
-        playback?.setNextDataSource(trackUri)
+        playback?.setNextDataSource(trackUri?.toString())
     }
 
     fun setCrossFadeDuration(duration: Int) {
