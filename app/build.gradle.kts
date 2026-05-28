@@ -4,69 +4,62 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.androidx.navigation.safeargs)
-    alias(libs.plugins.google.devtools.ksp)
     id("org.jetbrains.kotlin.plugin.parcelize")
+    alias(libs.plugins.google.devtools.ksp)
 }
 
 android {
-    namespace = "code.effinmr.music"
     compileSdk = 35
+    namespace = "code.effinmr.music"
 
     defaultConfig {
-        applicationId = "code.effinmr.music"
-        minSdk = 23
+        minSdk = 24
         targetSdk = 36
-        versionCode = 107706
-        versionName = "7.7.6"
 
         vectorDrawables {
             useSupportLibrary = true
         }
 
-        buildConfigField(
-            "String",
-            "GOOGLE_PLAY_LICENSING_KEY",
-            "\"${getProperty(getProperties("../public.properties"), "GOOGLE_PLAY_LICENSE_KEY")}\""
-        )
-    }
+        applicationId = namespace
+        versionCode = 107706
+        versionName = "7.7.6"
 
-    signingConfigs {
-        create("release") {
-            storeFile = file("release-keystore.p12")
-            storePassword = System.getenv("KEYSTORE_PASSWORD")
-            keyAlias = System.getenv("KEY_ALIAS")
-            keyPassword = System.getenv("KEY_PASSWORD")
-            storeType = "PKCS12"
+        buildConfigField("String", "GOOGLE_PLAY_LICENSING_KEY", "\"${getProperty(getProperties("../public.properties"), "GOOGLE_PLAY_LICENSE_KEY")}\"")
+    }
+    val signingProperties = getProperties("retro.properties")
+    val theSigningConfig = if (signingProperties != null) {
+        signingConfigs.create("release") {
+            storeFile = file(getProperty(signingProperties, "storeFile"))
+            keyAlias = getProperty(signingProperties, "keyAlias")
+            storePassword = getProperty(signingProperties, "storePassword")
+            keyPassword = getProperty(signingProperties, "keyPassword")
         }
+    } else {
+        signingConfigs.getByName("debug")
     }
 
     buildTypes {
         getByName("release") {
             isShrinkResources = true
             isMinifyEnabled = true
-
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-
-            signingConfig = signingConfigs.getByName("release")
+            signingConfig = theSigningConfig
         }
-
         getByName("debug") {
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = theSigningConfig
             applicationIdSuffix = ".debug"
-            versionNameSuffix = "-debug"
+            versionNameSuffix = " DEBUG"
         }
     }
 
     flavorDimensions += "version"
-
     productFlavors {
         create("normal") {
             dimension = "version"
         }
-
         create("fdroid") {
             dimension = "version"
         }
@@ -76,66 +69,38 @@ android {
         viewBinding = true
         buildConfig = true
     }
-
     packaging {
         resources {
-            excludes += setOf(
+            excludes += listOf(
                 "META-INF/LICENSE",
                 "META-INF/NOTICE",
                 "META-INF/java.properties"
             )
         }
     }
-
     lint {
         abortOnError = true
-        warning += setOf(
-            "ImpliedQuantity",
-            "Instantiatable",
-            "MissingQuantity",
-            "MissingTranslation",
-            "StringFormatInvalid"
-        )
+        warning.addAll(listOf("ImpliedQuantity", "Instantiatable", "MissingQuantity", "MissingTranslation", "StringFormatInvalid"))
     }
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_21
         targetCompatibility = JavaVersion.VERSION_21
     }
-
     kotlinOptions {
         jvmTarget = "21"
     }
-
     dependenciesInfo {
         includeInApk = false
         includeInBundle = false
     }
-
     configurations.configureEach {
         resolutionStrategy.force("com.google.code.findbugs:jsr305:1.3.9")
     }
 }
 
-fun getProperties(fileName: String): Properties? {
-    val properties = Properties()
-    val file = rootProject.file(fileName)
-
-    return if (file.exists()) {
-        file.inputStream().use { properties.load(it) }
-        properties
-    } else {
-        null
-    }
-}
-
-fun getProperty(properties: Properties?, name: String): String {
-    return properties?.getProperty(name) ?: "$name missing"
-}
 
 dependencies {
     implementation(project(":appthemehelper"))
-
     implementation(libs.gridLayout)
 
     implementation(libs.androidx.appcompat)
@@ -147,8 +112,9 @@ dependencies {
     implementation(libs.androidx.palette.ktx)
 
     implementation(libs.androidx.mediarouter)
-
+    //Cast Dependencies
     "normalImplementation"(libs.google.play.services.cast.framework)
+    //WebServer by NanoHttpd
     "normalImplementation"(libs.nanohttpd)
 
     implementation(libs.androidx.navigation.runtime.ktx)
@@ -167,6 +133,8 @@ dependencies {
 
     "normalImplementation"(libs.google.feature.delivery)
     "normalImplementation"(libs.google.play.review)
+    "normalImplementation"(libs.google.play.billing)
+
 
     implementation(libs.android.material)
 
@@ -176,7 +144,6 @@ dependencies {
 
     implementation(libs.afollestad.material.dialogs.core)
     implementation(libs.afollestad.material.dialogs.input)
-    implementation(libs.afollestad.material.dialogs.lifecycle)
     implementation(libs.afollestad.material.dialogs.color)
     implementation(libs.afollestad.material.cab)
 
@@ -198,13 +165,9 @@ dependencies {
 
     implementation(libs.chrisbanes.insetter)
 
-    implementation("io.coil-kt:coil:2.4.0")
-    implementation(files("libs/taglib-release.aar"))
 
+    implementation(libs.org.eclipse.egit.github.core)
     implementation(libs.jaudiotagger)
-
-    "normalImplementation"(libs.android.lab.library)
-
     implementation(libs.slidableactivity)
     implementation(libs.material.intro)
     implementation(libs.fastscroll.library)
@@ -212,4 +175,25 @@ dependencies {
     implementation(libs.tankery.circularSeekBar)
 
     implementation(libs.androidx.exoplayer)
+
+   implementation(libs.afollestad.material.dialogs.lifecycle)
+
+   implementation("io.coil-kt:coil:2.4.0")
+   implementation(files("libs/taglib-release.aar"))
+
+   "normalImplementation"(libs.android.lab.library)
 }
+
+fun getProperties(fileName: String): Properties? {
+    val properties = Properties()
+    val file = rootProject.file(fileName)
+    if (file.exists()) {
+        file.inputStream().use { properties.load(it) }
+    } else {
+        return null
+    }
+    return properties
+}
+
+fun getProperty(properties: Properties?, name: String): String =
+    properties?.getProperty(name) ?: "$name missing"
