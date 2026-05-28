@@ -1,190 +1,248 @@
 package code.name.monkey.retromusic.service
 
 import android.content.Context
-import android.content.Intent
-import android.media.audiofx.AudioEffect
+import android.net.Uri
+import android.os.Handler
+import android.os.Looper
+import androidx.annotation.OptIn
+import androidx.media3.common.AudioAttributes
+import androidx.media3.common.C
+import androidx.media3.common.MediaItem
+import androidx.media3.common.PlaybackException
+import androidx.media3.common.PlaybackParameters
+import androidx.media3.common.Player
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.exoplayer.ExoPlayer
+import code.name.monkey.retromusic.R
+import code.name.monkey.retromusic.extensions.showToast
+import code.name.monkey.retromusic.extensions.uri
 import code.name.monkey.retromusic.model.Song
-import code.name.monkey.retromusic.service.playback.Playback
-import code.name.monkey.retromusic.util.PreferenceUtil
+import code.name.monkey.retromusic.service.playback.Playback.PlaybackCallbacks
+import code.name.monkey.retromusic.util.PreferenceUtil.playbackPitch
+import code.name.monkey.retromusic.util.PreferenceUtil.playbackSpeed
+import code.name.monkey.retromusic.util.logE
 
+class ExoPlayer(context: Context) : AudioManagerPlayback(context), Player.Listener {
+    private var player: ExoPlayer = ExoPlayer.Builder(context).build()
+    override var callbacks: PlaybackCallbacks? = null
 
-class PlaybackManager(val context: Context) {
-
-    var playback: Playback? = null
-    private var playbackLocation = PlaybackLocation.LOCAL
-
-    val isLocalPlayback get() = playbackLocation == PlaybackLocation.LOCAL
-
-    val audioSessionId: Int
-        get() = if (playback != null) {
-            playback!!.audioSessionId
-        } else 0
-
-    val songDurationMillis: Int
-        get() = if (playback != null) {
-            playback!!.duration()
-        } else -1
-
-    val songProgressMillis: Int
-        get() = if (playback != null) {
-            playback!!.position()
-        } else -1
-
-    val isPlaying: Boolean
-        get() = playback != null && playback!!.isPlaying
+    /**
+     * @return True if the player is ready to go, false otherwise
+     */
+    override var isInitialized = false
+        private set
 
     init {
-        playback = createLocalPlayback()
+        player.setWakeMode(C.WAKE_MODE_LOCAL)
     }
 
-    fun setCallbacks(callbacks: Playback.PlaybackCallbacks) {
-        playback?.callbacks = callbacks
-    }
-
-    fun play(onNotInitialized: () -> Unit) {
-        if (playback != null && (!playback!!.isPlaying || playback is CrossFadePlayer)) {
-            if (!playback!!.isInitialized) {
-                onNotInitialized()
-            } else {
-                openAudioEffectSession()
-                if (playbackLocation == PlaybackLocation.LOCAL) {
-                    if (playback is CrossFadePlayer) {
-                        if (!(playback as CrossFadePlayer).isCrossFading) {
-                            AudioFader.startFadeAnimator(playback!!, true)
-                        }
-                    } else {
-                        AudioFader.startFadeAnimator(playback!!, true)
-                    }
-                }
-                playback?.start()
-            }
-        }
-    }
-
-    fun pause(force: Boolean, onPause: () -> Unit) {
-        if (playback != null && playback!!.isPlaying) {
-            if (force) {
-                playback?.pause()
-                closeAudioEffectSession()
-                onPause()
-            } else {
-                AudioFader.startFadeAnimator(playback!!, false) {
-                    //Code to run when Animator Ends
-                    playback?.pause()
-                    closeAudioEffectSession()
-                    onPause()
-                }
-            }
-        }
-    }
-
-    fun seek(millis: Int, force: Boolean): Int = playback!!.seek(millis, force)
-
-    fun setDataSource(
+    /**
+     * @param song The song object you want to play
+     * @return True if the `player` has been prepared and is ready to play, false otherwise
+     */
+    override fun setDataSource(
         song: Song,
         force: Boolean,
         completion: (success: Boolean) -> Unit,
     ) {
-        playback?.setDataSource(song, force, completion)
-    }
+        isInitialized = false
+        val mediaItem = MediaItem.fromUri(song.uri)
+        try {
+            Handler(Looper.getMainLooper()).post {
+                player.setMediaItem(mediaItem)
+                player.setAudioAttributes(
+                    AudioAttributes.Builder()
+                        .setUsage(C.USAGE_MEDIA)
+                        .setContentType(C.AUDIO_CONTENT_TYPE_MUSIC)
+                        .build(),
+                    false
+                )
+                player.playbackParameters = PlaybackParameters(playbackSpeed, playbackPitch)
 
-    fun setNextDataSource(trackUri: String?) {
-        playback?.setNextDataSource(trackUri)
-    }
-
-    fun setCrossFadeDuration(duration: Int) {
-        playback?.setCrossFadeDuration(duration)
+                player.addListener(object : Player.Listener {
+                    override fun onPlaybackStateChanged(state: Int) {
+                        if (state == Player.STATE_READY) {
+                            player.removeListener(this)
+                            isInitialized = true
+                            completion(true)
+                        }
+                    }
+                })
+                player.addListener(this)
+                player.prepare()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            completion(false)
+        }
     }
 
     /**
-     * @param crossFadeDuration CrossFade duration
-     * @return Whether switched playback
+     * Set the MediaPlayer to start when this MediaPlayer finishes playback.
+     *
+     * @param path The path of the file, or the http/rtsp URL of the stream you want to play
      */
-    fun maybeSwitchToCrossFade(crossFadeDuration: Int): Boolean {
-        /* Switch to MultiPlayer if CrossFade duration is 0 and
-                Playback is not an instance of MultiPlayer */
-        if (playback !is MultiPlayer && crossFadeDuration == 0) {
-            if (playback != null) {
-                playback?.release()
-            }
-            playback = null
-            playback = MultiPlayer(context)
-            return true
-        } else if (playback !is CrossFadePlayer && crossFadeDuration > 0) {
-            if (playback != null) {
-                playback?.release()
-            }
-            playback = null
-            playback = CrossFadePlayer(context)
-            return true
+    override fun setNextDataSource(path: Uri?) {}
+
+    /**
+     * Starts or resumes playback.
+     */
+    override fun start(): Boolean {
+        super.start()
+        return try {
+            player.play()
+            true
+        } catch (e: IllegalStateException) {
+            e.printStackTrace()
+            false
         }
-        return false
     }
 
-    fun release() {
-        playback?.release()
-        playback = null
-        closeAudioEffectSession()
+    /**
+     * Resets the MediaPlayer to its uninitialized state.
+     */
+    override fun stop() {
+        super.stop()
+        player.stop()
+        isInitialized = false
     }
 
-    private fun openAudioEffectSession() {
-        val intent = Intent(AudioEffect.ACTION_OPEN_AUDIO_EFFECT_CONTROL_SESSION)
-        intent.putExtra(AudioEffect.EXTRA_AUDIO_SESSION, audioSessionId)
-        intent.putExtra(AudioEffect.EXTRA_PACKAGE_NAME, context.packageName)
-        intent.putExtra(AudioEffect.EXTRA_CONTENT_TYPE, AudioEffect.CONTENT_TYPE_MUSIC)
-        context.sendBroadcast(intent)
+    /**
+     * Releases resources associated with this MediaPlayer object.
+     */
+    override fun release() {
+        stop()
+        player.release()
     }
 
-    private fun closeAudioEffectSession() {
-        val audioEffectsIntent = Intent(AudioEffect.ACTION_CLOSE_AUDIO_EFFECT_CONTROL_SESSION)
-        if (playback != null) {
-            audioEffectsIntent.putExtra(AudioEffect.EXTRA_AUDIO_SESSION,
-                playback!!.audioSessionId)
+    /**
+     * Pauses playback. Call start() to resume.
+     */
+    override fun pause(): Boolean {
+        super.pause()
+        return try {
+            player.pause()
+            true
+        } catch (e: IllegalStateException) {
+            false
         }
-        audioEffectsIntent.putExtra(AudioEffect.EXTRA_PACKAGE_NAME, context.packageName)
-        context.sendBroadcast(audioEffectsIntent)
     }
 
-    fun switchToLocalPlayback(onChange: (wasPlaying: Boolean, progress: Int) -> Unit) {
-        playbackLocation = PlaybackLocation.LOCAL
-        switchToPlayback(createLocalPlayback(), onChange)
+    /**
+     * Checks whether the MultiPlayer is playing.
+     */
+    override val isPlaying: Boolean
+        get() = isInitialized && (player.isPlaying || player.playbackState == Player.STATE_ENDED)
+
+    /**
+     * Gets the duration of the file.
+     *
+     * @return The duration in milliseconds
+     */
+    override fun duration(): Int {
+        return if (!this.isInitialized) {
+            -1
+        } else try {
+            player.duration.toInt()
+        } catch (e: Exception) {
+            -1
+        }
     }
 
-    fun switchToRemotePlayback(
-        castPlayer: CastPlayer,
-        onChange: (wasPlaying: Boolean, progress: Int) -> Unit,
-    ) {
-        playbackLocation = PlaybackLocation.REMOTE
-        switchToPlayback(castPlayer, onChange)
+    /**
+     * Gets the current playback position.
+     *
+     * @return The current position in milliseconds
+     */
+    override fun position(): Int {
+        return if (!this.isInitialized) {
+            -1
+        } else try {
+            player.currentPosition.toInt()
+        } catch (e: Exception) {
+            -1
+        }
     }
 
-    private fun switchToPlayback(
-        playback: Playback,
-        onChange: (wasPlaying: Boolean, progress: Int) -> Unit,
-    ) {
-        val oldPlayback = this.playback
-        val wasPlaying: Boolean = oldPlayback?.isPlaying == true
-        val progress: Int = oldPlayback?.position() ?: 0
-        this.playback = playback
-        oldPlayback?.stop()
-        onChange(wasPlaying, progress)
+    /**
+     * Gets the current playback position.
+     *
+     * @param whereto The offset in milliseconds from the start to seek to
+     * @return The offset in milliseconds from the start to seek to
+     */
+    override fun seek(whereto: Int, force: Boolean): Int {
+        return try {
+            player.seekTo(whereto.toLong())
+            whereto
+        } catch (e: Exception) {
+            -1
+        }
     }
 
-    private fun createLocalPlayback(): Playback {
-        // Set MultiPlayer when crossfade duration is 0 i.e. off
-        return if (PreferenceUtil.crossFadeDuration == 0) {
-            MultiPlayer(context)
+    override fun setVolume(vol: Float): Boolean {
+        return try {
+            player.volume = vol
+            true
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    /**
+     * Sets the audio session ID.
+     *
+     * @param sessionId The audio session ID
+     */
+    @OptIn(UnstableApi::class)
+    override fun setAudioSessionId(sessionId: Int): Boolean {
+        return try {
+            player.audioSessionId = sessionId
+            true
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    /**
+     * Returns the audio session ID.
+     *
+     * @return The current audio session ID.
+     */
+    override val audioSessionId: Int
+        @OptIn(UnstableApi::class)
+        get() = player.audioSessionId
+
+    override fun onPlaybackStateChanged(state: Int) {
+        if (state == Player.STATE_ENDED) {
+            callbacks?.onTrackEnded()
         } else {
-            CrossFadePlayer(context)
+            callbacks?.onPlayStateChanged()
         }
     }
 
-    fun setPlaybackSpeedPitch(playbackSpeed: Float, playbackPitch: Float) {
-        playback?.setPlaybackSpeedPitch(playbackSpeed, playbackPitch)
+    override fun onPlayerError(error: PlaybackException) {
+        logE(error)
+        isInitialized = false
+        player.release()
+        player = ExoPlayer.Builder(context).build()
+        player.setWakeMode(C.WAKE_MODE_LOCAL)
+        context.showToast(R.string.unplayable_file)
     }
-}
 
-enum class PlaybackLocation {
-    LOCAL,
-    REMOTE
+    override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
+        if (reason == Player.MEDIA_ITEM_TRANSITION_REASON_AUTO) {
+            callbacks?.onTrackWentToNext()
+            return
+        }
+    }
+
+    override fun setCrossFadeDuration(duration: Int) {}
+
+    override fun setPlaybackSpeedPitch(speed: Float, pitch: Float) {
+        player.playbackParameters = PlaybackParameters(speed, pitch)
+    }
+
+    companion object {
+        val TAG: String = ExoPlayer::class.java.simpleName
+    }
 }
