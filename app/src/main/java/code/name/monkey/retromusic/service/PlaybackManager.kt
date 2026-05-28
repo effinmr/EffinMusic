@@ -3,6 +3,11 @@ package code.name.monkey.retromusic.service
 import android.content.Context
 import android.content.Intent
 import android.media.audiofx.AudioEffect
+import android.media.AudioDeviceInfo
+import android.media.AudioManager
+import android.net.Uri
+import code.name.monkey.retromusic.R
+import code.name.monkey.retromusic.extensions.showToast
 import code.name.monkey.retromusic.model.Song
 import code.name.monkey.retromusic.service.playback.Playback
 import code.name.monkey.retromusic.util.PreferenceUtil
@@ -33,6 +38,8 @@ class PlaybackManager(val context: Context) {
     val isPlaying: Boolean
         get() = playback != null && playback!!.isPlaying
 
+    private val audioManager: AudioManager = context.getSystemService(AudioManager::class.java)
+
     init {
         playback = createLocalPlayback()
     }
@@ -42,7 +49,11 @@ class PlaybackManager(val context: Context) {
     }
 
     fun play(onNotInitialized: () -> Unit) {
-        if (playback != null && (!playback!!.isPlaying || playback is CrossFadePlayer)) {
+        if (PreferenceUtil.isSpeakerDisabled && speakerEnabled()) {
+            context.showToast(R.string.speaker_disabled)
+            return
+        }
+        if (playback != null && !playback!!.isPlaying) {
             if (!playback!!.isInitialized) {
                 onNotInitialized()
             } else {
@@ -88,7 +99,7 @@ class PlaybackManager(val context: Context) {
         playback?.setDataSource(song, force, completion)
     }
 
-    fun setNextDataSource(trackUri: String?) {
+    fun setNextDataSource(trackUri: Uri?) {
         playback?.setNextDataSource(trackUri)
     }
 
@@ -101,14 +112,14 @@ class PlaybackManager(val context: Context) {
      * @return Whether switched playback
      */
     fun maybeSwitchToCrossFade(crossFadeDuration: Int): Boolean {
-        /* Switch to MultiPlayer if CrossFade duration is 0 and
-                Playback is not an instance of MultiPlayer */
-        if (playback !is MultiPlayer && crossFadeDuration == 0) {
+        /* Switch to RetroExoPlayer if CrossFade duration is 0 and
+                Playback is not an instance of RetroExoPlayer */
+        if (playback !is RetroExoPlayer && crossFadeDuration == 0) {
             if (playback != null) {
                 playback?.release()
             }
             playback = null
-            playback = MultiPlayer(context)
+            playback = RetroExoPlayer(context)
             return true
         } else if (playback !is CrossFadePlayer && crossFadeDuration > 0) {
             if (playback != null) {
@@ -171,9 +182,9 @@ class PlaybackManager(val context: Context) {
     }
 
     private fun createLocalPlayback(): Playback {
-        // Set MultiPlayer when crossfade duration is 0 i.e. off
+        // Set RetroExoPlayer when crossfade duration is 0 i.e. off
         return if (PreferenceUtil.crossFadeDuration == 0) {
-            MultiPlayer(context)
+            RetroExoPlayer(context)
         } else {
             CrossFadePlayer(context)
         }
@@ -181,6 +192,26 @@ class PlaybackManager(val context: Context) {
 
     fun setPlaybackSpeedPitch(playbackSpeed: Float, playbackPitch: Float) {
         playback?.setPlaybackSpeedPitch(playbackSpeed, playbackPitch)
+    }
+
+    private fun speakerEnabled(): Boolean {
+        val headsetTypes = setOf(
+            AudioDeviceInfo.TYPE_BLUETOOTH_A2DP,
+            AudioDeviceInfo.TYPE_BLUETOOTH_SCO,
+            AudioDeviceInfo.TYPE_BLE_HEADSET,
+            AudioDeviceInfo.TYPE_BLE_SPEAKER,
+            AudioDeviceInfo.TYPE_WIRED_HEADSET,
+            AudioDeviceInfo.TYPE_WIRED_HEADPHONES,
+            AudioDeviceInfo.TYPE_USB_HEADSET,
+            AudioDeviceInfo.TYPE_USB_DEVICE
+        )
+        val devices = audioManager.getDevices(AudioManager.GET_DEVICES_OUTPUTS)
+        for (device in devices) {
+            if (device.type in headsetTypes) {
+                return false
+            }
+        }
+        return true
     }
 }
 
