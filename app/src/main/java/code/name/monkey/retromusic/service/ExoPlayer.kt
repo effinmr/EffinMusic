@@ -22,7 +22,7 @@ import code.name.monkey.retromusic.util.PreferenceUtil.playbackPitch
 import code.name.monkey.retromusic.util.PreferenceUtil.playbackSpeed
 import code.name.monkey.retromusic.util.logE
 
-class RetroExoPlayer(context: Context) : AudioManagerPlayback(context), Player.Listener {
+class ExoPlayer(context: Context) : AudioManagerPlayback(context), Player.Listener {
     private var player: ExoPlayer = ExoPlayer.Builder(context).build()
     override var callbacks: PlaybackCallbacks? = null
 
@@ -243,6 +243,6 @@ class RetroExoPlayer(context: Context) : AudioManagerPlayback(context), Player.L
     }
 
     companion object {
-        val TAG: String = RetroExoPlayer::class.java.simpleName
+        val TAG: String = ExoPlayer::class.java.simpleName
     }
 }
