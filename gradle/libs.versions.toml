@@ -42,6 +42,9 @@ devTools_ksp_version = "2.1.21-2.0.1"
 ben_manes_versoin = "0.46.0"
 slidableactivity = "2.1.0"
 
+afollestad_dialog_lifecycle_version = "3.3.0"
+android_tab_library_version = "2.2.0"
+
 
 [libraries]
 #dependencies
@@ -83,6 +86,10 @@ afollestad-material-dialogs-color = { module = "com.afollestad.material-dialogs:
 afollestad-material-dialogs-core = { module = "com.afollestad.material-dialogs:core", version.ref = "afollestad_dialog_version" }
 afollestad-material-dialogs-input = { module = "com.afollestad.material-dialogs:input", version.ref = "afollestad_dialog_version" }
 afollestad-material-cab = { module = "com.afollestad:material-cab", version.ref = "afollestad_materialCab_version" }
+
+afollestad-material-dialogs-lifecycle = { module = "com.afollestad.material-dialogs:lifecycle", version.ref = "afollestad_dialog_lifecycle_version" }
+
+android-lab-library = { module = "com.anjlab.android.iab.v3:library", version.ref = "android_tab_library_version" }
 
 #Retrofit and apos
 retrofit-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit_version" }
