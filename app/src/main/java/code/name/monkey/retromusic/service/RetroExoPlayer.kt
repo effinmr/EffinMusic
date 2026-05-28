@@ -1,6 +1,7 @@
 package code.name.monkey.retromusic.service
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Handler
 import android.os.Looper
@@ -255,6 +256,64 @@ class RetroExoPlayer(context: Context) : AudioManagerPlayback(context), Player.L
         player.playbackParameters = PlaybackParameters(speed, pitch)
     }
 
+    private fun applyEqualizerPreferences() {
+        val prefs = context.getSharedPreferences("equalizer_prefs", Context.MODE_PRIVATE)
+        val isEnabled = prefs.getBoolean("equalizer_enabled", false)
+
+        if (!isEnabled) {
+            setEqualizerEnabled(false)
+            setBassBoostStrength(0)
+            setVirtualizerStrength(0)
+            setAmplifierStrength(0)
+            return
+        }
+        
+        setEqualizerEnabled(isEnabled)
+        for (i in 0 until (equalizer?.numberOfBands ?: 0)) {
+            val level = prefs.getFloat("band_$i", 0f)
+            setEqualizerBandLevel(i.toShort(), (level * 100).toInt().toShort())
+        }
+
+        val virtualizerStrength = (prefs.getFloat("virtualizer_strength", 0f) * 10).toInt().toShort()
+        setVirtualizerStrength(virtualizerStrength)
+        
+        val bassBoostStrength = (prefs.getFloat("bass_boost_strength", 0f) * 10).toInt().toShort()
+        setBassBoostStrength(bassBoostStrength)
+
+        val amplifierStrength = (prefs.getFloat("amplifier_strength", 0f) * 10).toInt().toShort()
+        setAmplifierStrength(amplifierStrength)
+    }
+
+    private fun registerPrefListener() {
+        val prefs = context.getSharedPreferences("equalizer_prefs", Context.MODE_PRIVATE)
+        prefs.registerOnSharedPreferenceChangeListener(preferenceChangeListener)
+    }
+
+    private fun unregisterPrefListener() {
+        val prefs = context.getSharedPreferences("equalizer_prefs", Context.MODE_PRIVATE)
+        prefs.unregisterOnSharedPreferenceChangeListener(preferenceChangeListener)
+    }
+
+    private val preferenceChangeListener = SharedPreferences.OnSharedPreferenceChangeListener { sharedPreferences, key ->
+        when {
+            (key?.startsWith("band_") == true || key == "equalizer_enabled") -> {
+                applyEqualizerPreferences()
+            }
+            key == "virtualizer_strength" -> {
+                val value = sharedPreferences.getFloat(key, 0f)
+                setVirtualizerStrength((value * 10).toInt().toShort())
+            }
+            key == "bass_boost_strength" -> {
+                val value = sharedPreferences.getFloat(key, 0f)
+                setBassBoostStrength((value * 10).toInt().toShort())
+            }
+            key == "amplifier_strength" -> {
+                val value = sharedPreferences.getFloat(key, 0f)
+                setAmplifierStrength((value * 10).toInt().toShort())
+            }
+        }
+    }
+
     private fun initAudioEffects() {
         releaseAudioEffects()
 
@@ -271,9 +330,13 @@ class RetroExoPlayer(context: Context) : AudioManagerPlayback(context), Player.L
         virtualizer = Virtualizer(0, sessionId).apply {
             enabled = true
         }
+        registerPrefListener()
+        applyEqualizerPreferences()
     }
 
     private fun releaseAudioEffects() {
+        unregisterPrefListener()
+        
         equalizer?.release()
         bassBoost?.release()
         virtualizer?.release()
