@@ -5,6 +5,10 @@ import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import androidx.annotation.OptIn
+import android.media.audiofx.BassBoost
+import android.media.audiofx.Equalizer
+import android.media.audiofx.LoudnessEnhancer
+import android.media.audiofx.Virtualizer
 import androidx.media3.common.AudioAttributes
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
@@ -25,6 +29,11 @@ import code.name.monkey.retromusic.util.logE
 class RetroExoPlayer(context: Context) : AudioManagerPlayback(context), Player.Listener {
     private var player: ExoPlayer = ExoPlayer.Builder(context).build()
     override var callbacks: PlaybackCallbacks? = null
+
+    private var equalizer: Equalizer? = null
+    private var bassBoost: BassBoost? = null
+    private var virtualizer: Virtualizer? = null
+    private var loudnessEnhancer: LoudnessEnhancer? = null
 
     /**
      * @return True if the player is ready to go, false otherwise
@@ -64,6 +73,7 @@ class RetroExoPlayer(context: Context) : AudioManagerPlayback(context), Player.L
                         if (state == Player.STATE_READY) {
                             player.removeListener(this)
                             isInitialized = true
+                            initAudioEffects()
                             completion(true)
                         }
                     }
@@ -112,6 +122,7 @@ class RetroExoPlayer(context: Context) : AudioManagerPlayback(context), Player.L
      */
     override fun release() {
         stop()
+        releaseAudioEffects()
         player.release()
     }
 
@@ -220,6 +231,8 @@ class RetroExoPlayer(context: Context) : AudioManagerPlayback(context), Player.L
         }
     }
 
+    
+
     override fun onPlayerError(error: PlaybackException) {
         logE(error)
         isInitialized = false
@@ -240,6 +253,81 @@ class RetroExoPlayer(context: Context) : AudioManagerPlayback(context), Player.L
 
     override fun setPlaybackSpeedPitch(speed: Float, pitch: Float) {
         player.playbackParameters = PlaybackParameters(speed, pitch)
+    }
+
+    private fun initAudioEffects() {
+        releaseAudioEffects()
+
+        val sessionId = audioSessionId
+
+        equalizer = Equalizer(0, sessionId).apply {
+            enabled = true
+        }
+
+        bassBoost = BassBoost(0, sessionId).apply {
+            enabled = true
+        }
+
+        virtualizer = Virtualizer(0, sessionId).apply {
+            enabled = true
+        }
+    }
+
+    private fun releaseAudioEffects() {
+        equalizer?.release()
+        bassBoost?.release()
+        virtualizer?.release()
+        loudnessEnhancer?.release()
+
+        equalizer = null
+        bassBoost = null
+        virtualizer = null
+        loudnessEnhancer = null
+    }
+
+    fun getEqualizerMinBandLevel(): Short {
+        return equalizer?.bandLevelRange?.get(0) ?: 0
+    }
+
+    fun getEqualizerMaxBandLevel(): Short {
+        return equalizer?.bandLevelRange?.get(1) ?: 0
+    }
+
+    fun setEqualizerBandLevel(band: Short, level: Short) {
+        try {
+            equalizer?.setBandLevel(band, level)
+        } catch (_: Exception) {
+        }
+    }
+
+    fun setBassBoostStrength(strength: Short) {
+        try {
+            bassBoost?.setStrength(strength)
+        } catch (_: Exception) {
+        }
+    }
+
+    fun setVirtualizerStrength(strength: Short) {
+        try {
+            virtualizer?.setStrength(strength)
+        } catch (_: Exception) {
+        }
+    }
+
+    fun setAmplifierStrength(strength: Short) {
+        try {
+            if (loudnessEnhancer == null) {
+                loudnessEnhancer = LoudnessEnhancer(audioSessionId)
+            }
+
+            loudnessEnhancer?.enabled = true
+            loudnessEnhancer?.setTargetGain(strength.toInt())
+        } catch (_: Exception) {
+        }
+    }
+
+    fun setEqualizerEnabled(enabled: Boolean) {
+        equalizer?.enabled = enabled
     }
 
     companion object {
