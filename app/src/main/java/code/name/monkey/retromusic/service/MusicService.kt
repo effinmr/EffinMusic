@@ -1075,7 +1075,7 @@ class MusicService : MediaBrowserServiceCompat(),
                 MediaMetadataCompat.METADATA_KEY_TRACK_NUMBER,
                 (getPosition() + 1).toLong()
             )
-            .putLong(MediaMetadataCompat.METADATA_KEY_YEAR, song.year.toLong())
+            .putLong(MediaMetadataCompat.METADATA_KEY_YEAR, song.year?.toLongOrNull() ?: 0L)
             .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, null)
             .putLong(MediaMetadataCompat.METADATA_KEY_NUM_TRACKS, playingQueue.size.toLong())
 
