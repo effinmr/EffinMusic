@@ -4,186 +4,212 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.androidx.navigation.safeargs)
-    id("org.jetbrains.kotlin.plugin.parcelize")
     alias(libs.plugins.google.devtools.ksp)
+    id("org.jetbrains.kotlin.plugin.parcelize")
 }
 
 android {
-    compileSdk 35
-    namespace "code.effinmr.music"
+    namespace = "code.effinmr.music"
+    compileSdk = 35
 
     defaultConfig {
-        minSdk 23
-        targetSdk 36
+        applicationId = "code.effinmr.music"
+        minSdk = 23
+        targetSdk = 36
+        versionCode = 107706
+        versionName = "7.7.6"
 
         vectorDrawables {
             useSupportLibrary = true
         }
 
-        applicationId "code.effinmr.music"
-        versionCode 107706
-        versionName '7.7.6'
+        buildConfigField(
+            "String",
+            "GOOGLE_PLAY_LICENSING_KEY",
+            "\"${getProperty(getProperties("../public.properties"), "GOOGLE_PLAY_LICENSE_KEY")}\""
+        )
+    }
 
-        buildConfigField("String", "GOOGLE_PLAY_LICENSING_KEY", "\"${getProperty(getProperties('../public.properties'), 'GOOGLE_PLAY_LICENSE_KEY')}\"")
-    }
     signingConfigs {
-        release {
-            storeFile file("release-keystore.p12")
-            storePassword System.getenv("KEYSTORE_PASSWORD")
-            keyAlias System.getenv("KEY_ALIAS")
-            keyPassword System.getenv("KEY_PASSWORD")
-            storeType "PKCS12"
+        create("release") {
+            storeFile = file("release-keystore.p12")
+            storePassword = System.getenv("KEYSTORE_PASSWORD")
+            keyAlias = System.getenv("KEY_ALIAS")
+            keyPassword = System.getenv("KEY_PASSWORD")
+            storeType = "PKCS12"
         }
     }
+
     buildTypes {
-        release {
-            shrinkResources true
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
+        getByName("release") {
+            isShrinkResources = true
+            isMinifyEnabled = true
+
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+
+            signingConfig = signingConfigs.getByName("release")
         }
-        debug {
-            signingConfig signingConfigs.debug
-            applicationIdSuffix ".debug"
-            versionNameSuffix "-debug"
+
+        getByName("debug") {
+            signingConfig = signingConfigs.getByName("debug")
+            applicationIdSuffix = ".debug"
+            versionNameSuffix = "-debug"
         }
     }
-    applicationVariants.all { variant ->
-        if (variant.buildType.name == "debug") {
-            variant.outputs.all { output ->
-                output.versionCodeOverride = (System.currentTimeMillis() / 1000).toInteger()
-            }
-        }
-    }
-    flavorDimensions = ["version"]
+
+    flavorDimensions += "version"
+
     productFlavors {
-        normal {
-            dimension "version"
+        create("normal") {
+            dimension = "version"
         }
-        fdroid {
-            dimension "version"
+
+        create("fdroid") {
+            dimension = "version"
         }
     }
 
     buildFeatures {
-        viewBinding true
-        buildConfig true
+        viewBinding = true
+        buildConfig = true
     }
-    packagingOptions {
+
+    packaging {
         resources {
-            excludes += ['META-INF/LICENSE', 'META-INF/NOTICE', 'META-INF/java.properties']
+            excludes += setOf(
+                "META-INF/LICENSE",
+                "META-INF/NOTICE",
+                "META-INF/java.properties"
+            )
         }
     }
+
     lint {
-        abortOnError true
-        warning 'ImpliedQuantity', 'Instantiatable', 'MissingQuantity', 'MissingTranslation', 'StringFormatInvalid'
+        abortOnError = true
+        warning += setOf(
+            "ImpliedQuantity",
+            "Instantiatable",
+            "MissingQuantity",
+            "MissingTranslation",
+            "StringFormatInvalid"
+        )
     }
+
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_21
-        targetCompatibility JavaVersion.VERSION_21
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
+
     kotlinOptions {
         jvmTarget = "21"
     }
+
     dependenciesInfo {
         includeInApk = false
         includeInBundle = false
     }
+
     configurations.configureEach {
-        resolutionStrategy.force 'com.google.code.findbugs:jsr305:1.3.9'
+        resolutionStrategy.force("com.google.code.findbugs:jsr305:1.3.9")
     }
 }
 
-def getProperties(String fileName) {
-    Properties properties = new Properties()
-    def file = rootProject.file(fileName)
-    if (file.exists()) {
-        file.withInputStream { stream -> properties.load(stream) }
+fun getProperties(fileName: String): Properties? {
+    val properties = Properties()
+    val file = rootProject.file(fileName)
+
+    return if (file.exists()) {
+        file.inputStream().use { properties.load(it) }
+        properties
     } else {
-        properties = null
+        null
     }
-    return properties
 }
 
-static def getProperty(Properties properties, String name) {
+fun getProperty(properties: Properties?, name: String): String {
     return properties?.getProperty(name) ?: "$name missing"
 }
 
 dependencies {
-    implementation project(':appthemehelper')
-    implementation libs.gridLayout
+    implementation(project(":appthemehelper"))
 
-    implementation libs.androidx.appcompat
-    implementation libs.androidx.annotation
-    implementation libs.androidx.constraintLayout
-    implementation libs.androidx.recyclerview
-    implementation libs.androidx.preference.ktx
-    implementation libs.androidx.core.ktx
-    implementation libs.androidx.palette.ktx
+    implementation(libs.gridLayout)
 
-    implementation libs.androidx.mediarouter
-    //Cast Dependencies
-    normalImplementation libs.google.play.services.cast.framework
-    //WebServer by NanoHttpd
-    normalImplementation libs.nanohttpd
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.annotation)
+    implementation(libs.androidx.constraintLayout)
+    implementation(libs.androidx.recyclerview)
+    implementation(libs.androidx.preference.ktx)
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.palette.ktx)
 
-    implementation libs.androidx.navigation.runtime.ktx
-    implementation libs.androidx.navigation.fragment.ktx
-    implementation libs.androidx.navigation.ui.ktx
+    implementation(libs.androidx.mediarouter)
 
-    implementation libs.androidx.room.runtime
-    implementation libs.androidx.room.ktx
-    ksp libs.androidx.room.compiler
+    "normalImplementation"(libs.google.play.services.cast.framework)
+    "normalImplementation"(libs.nanohttpd)
 
-    implementation libs.androidx.lifecycle.viewmodel.ktx
-    implementation libs.androidx.lifecycle.livedata.ktx
-    implementation libs.androidx.lifecycle.common.java8
+    implementation(libs.androidx.navigation.runtime.ktx)
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
 
-    implementation libs.androidx.core.splashscreen
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
 
-    normalImplementation libs.google.feature.delivery
-    normalImplementation libs.google.play.review
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.lifecycle.common.java8)
 
-    implementation libs.android.material
+    implementation(libs.androidx.core.splashscreen)
 
-    implementation libs.retrofit
-    implementation libs.retrofit.converter.gson
-    implementation libs.okhttp3.logging.interceptor
+    "normalImplementation"(libs.google.feature.delivery)
+    "normalImplementation"(libs.google.play.review)
 
-    implementation libs.afollestad.material.dialogs.core
-    implementation libs.afollestad.material.dialogs.input
-    implementation libs.afollestad.material.dialogs.lifecycle
-    implementation libs.afollestad.material.dialogs.color
-    implementation libs.afollestad.material.cab
+    implementation(libs.android.material)
 
-    implementation libs.kotlinx.coroutines.android
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
+    implementation(libs.okhttp3.logging.interceptor)
 
-    implementation libs.koin.core
-    implementation libs.koin.android
+    implementation(libs.afollestad.material.dialogs.core)
+    implementation(libs.afollestad.material.dialogs.input)
+    implementation(libs.afollestad.material.dialogs.lifecycle)
+    implementation(libs.afollestad.material.dialogs.color)
+    implementation(libs.afollestad.material.cab)
 
-    implementation libs.glide
-    ksp libs.glide.ksp
-    implementation libs.glide.okhttp3.integration
+    implementation(libs.kotlinx.coroutines.android)
 
-    implementation libs.advrecyclerview
+    implementation(libs.koin.core)
+    implementation(libs.koin.android)
 
-    implementation libs.fadingedgelayout
+    implementation(libs.glide)
+    ksp(libs.glide.ksp)
+    implementation(libs.glide.okhttp3.integration)
 
-    implementation libs.keyboardvisibilityevent
-    implementation libs.jetradarmobile.android.snowfall
+    implementation(libs.advrecyclerview)
 
-    implementation libs.chrisbanes.insetter
+    implementation(libs.fadingedgelayout)
+
+    implementation(libs.keyboardvisibilityevent)
+    implementation(libs.jetradarmobile.android.snowfall)
+
+    implementation(libs.chrisbanes.insetter)
 
     implementation("io.coil-kt:coil:2.4.0")
     implementation(files("libs/taglib-release.aar"))
 
-    implementation libs.jaudiotagger
-    normalImplementation libs.android.lab.library
-    implementation libs.slidableactivity
-    implementation libs.material.intro
-    implementation libs.fastscroll.library
-    implementation libs.customactivityoncrash
-    implementation libs.tankery.circularSeekBar
+    implementation(libs.jaudiotagger)
+
+    "normalImplementation"(libs.android.lab.library)
+
+    implementation(libs.slidableactivity)
+    implementation(libs.material.intro)
+    implementation(libs.fastscroll.library)
+    implementation(libs.customactivityoncrash)
+    implementation(libs.tankery.circularSeekBar)
 
     implementation(libs.androidx.exoplayer)
 }
