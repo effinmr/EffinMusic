@@ -179,7 +179,7 @@ dependencies {
    implementation(libs.afollestad.material.dialogs.lifecycle)
 
    implementation("io.coil-kt:coil:2.4.0")
-   implementation(files("libs/taglib-release.aar"))
+   implementation("io.github.kyant0:taglib:1.0.6")
 
    "normalImplementation"(libs.android.lab.library)
 }
