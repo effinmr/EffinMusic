@@ -93,17 +93,17 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
             val songs = when (artistArg) {
 
                 is Long -> {
-                    val artistData = libraryViewModel.artistById(artistArg)
+                    val artistData = libraryViewModel.artist(artistArg)
                     artistData.songs
                 }
 
                 is String -> {
-                    val artistData = libraryViewModel.albumArtistByName(artistArg)
+                    val artistData = libraryViewModel.albumArtist(artistArg)
                     artistData.songs
                 }
 
                 else -> {
-                    libraryViewModel.allSongs()
+                    libraryViewModel.getSongs()
                 }
             }
 
