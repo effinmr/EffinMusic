@@ -682,6 +682,9 @@
     <string name="pref_title_prefer_album_gain">Prefer Album Gain</string>
     <string name="pref_summary_prefer_album_gain">Prefer album gain over track gain</string>
 
+    <string name="pref_title_skip_silence">Skip Silence</string>
+    <string name="pref_summary_skip_silence">Skip silence wherever in the song</string>
+
     <string name="pref_title_swap_shuffle_repeat">Swap Shuffle and Repeat Buttons</string>
     <string name="pref_summary_swap_shuffle_repeat">Swap the positions of the shuffle and repeat buttons on the now playing screen.</string>
 
