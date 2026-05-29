@@ -26,7 +26,9 @@ import code.name.monkey.retromusic.service.playback.Playback.PlaybackCallbacks
 import code.name.monkey.retromusic.util.logE
 import code.name.monkey.retromusic.util.PreferenceUtil.playbackPitch
 import code.name.monkey.retromusic.util.PreferenceUtil.playbackSpeed
-import code.name.monkey.retromusic.util.PreferenceUtil
+import code.name.monkey.retromusic.util.PreferenceUtil.isSkipSilence
+import code.name.monkey.retromusic.util.PreferenceUtil.enableReplayGain
+import code.name.monkey.retromusic.util.PreferenceUtil.preferAlbumGain
 import code.name.monkey.retromusic.util.Taglib
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -57,6 +59,7 @@ class RetroExoPlayer(context: Context) : AudioManagerPlayback(context), Player.L
 
     init {
         player.setWakeMode(C.WAKE_MODE_LOCAL)
+        player.setSkipSilenceEnabled(isSkipSilence)
     }
 
     /**
@@ -273,9 +276,9 @@ class RetroExoPlayer(context: Context) : AudioManagerPlayback(context), Player.L
     }
 
     private fun applyReplayGain(song: Song) {
-        if (PreferenceUtil.enableReplayGain == false) return
+        if (enableReplayGain == false) return
         if (song == Song.emptySong) return
-        val preferAlbumGain = PreferenceUtil.preferAlbumGain
+        val preferAlbumGain = preferAlbumGain
         
         scope.launch {
             val tags =  Taglib.getAllTags(context, song)
