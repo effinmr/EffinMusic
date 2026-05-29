@@ -826,15 +826,10 @@ class MusicService : MediaBrowserServiceCompat(),
         playSongAt(getPreviousPosition(force))
     }
 
-    var lastPlayTapTime = 0L
     fun playSongAt(position: Int) {
         // Every chromecast method needs to run on main thread or you are greeted with IllegalStateException
         // So it will use Main dispatcher
         // And by using Default dispatcher for local playback we are reduce the burden of main thread
-
-        val currentTime = System.currentTimeMillis()
-        if (currentTime - lastPlayTapTime < 100) return  // Ignore if tapped too soon again
-        lastPlayTapTime = currentTime
         
         serviceScope.launch(if (playbackManager.isLocalPlayback) Default else Main) {
             openTrackAndPrepareNextAt(position) { success ->
