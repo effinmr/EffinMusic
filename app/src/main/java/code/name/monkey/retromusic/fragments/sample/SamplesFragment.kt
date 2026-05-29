@@ -73,6 +73,7 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
         _binding = FragmentSamplesBinding.bind(view)
         setUpSubFragments()
         super.onViewCreated(view, savedInstanceState)
+        loadSamples()
         setUpPlayerToolbar()
         setupArtist()
         binding.nextSong.isSelected = true
@@ -193,7 +194,6 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
         super.onServiceConnected()
         updateLabel()
         updateArtistImage()
-        loadSamples()
     }
 
     override fun onPlayingMetaChanged() {
