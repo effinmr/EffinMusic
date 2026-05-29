@@ -123,6 +123,7 @@ class MainSettingsFragment : Fragment(), View.OnClickListener {
             SearchableSetting(R.id.audioSettings, getString(R.string.pref_title_bluetooth_playback), getString(R.string.pref_summary_bluetooth_playback), false, R.id.action_mainSettingsFragment_to_audioSettings),
             SearchableSetting(R.id.audioSettings, getString(R.string.pref_title_replay_gain), getString(R.string.pref_summary_replay_gain), false, R.id.action_mainSettingsFragment_to_audioSettings),
             SearchableSetting(R.id.audioSettings, getString(R.string.pref_title_prefer_album_gain), getString(R.string.pref_summary_prefer_album_gain), false, R.id.action_mainSettingsFragment_to_audioSettings),
+            SearchableSetting(R.id.audioSettings, getString(R.string.pref_title_skip_silence), getString(R.string.pref_summary_skip_silence), false, R.id.action_mainSettingsFragment_to_audioSettings),
 
             // Personalize Settings (R.id.personalizeSettings)
             SearchableSetting(R.id.personalizeSettings, getString(R.string.personalize), getString(R.string.personalize_settings_summary), true, R.id.action_mainSettingsFragment_to_personalizeSettingsFragment),
