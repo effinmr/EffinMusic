@@ -71,11 +71,16 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
         _binding = FragmentSamplesBinding.bind(view)
         setUpSubFragments()
         super.onViewCreated(view, savedInstanceState)
-        
-        when (val artist = arguments?.get(EXTRA_ARTIST)) {
+        setUpPlayerToolbar()
+        setupArtist()
+        binding.nextSong.isSelected = true
+        binding.playbackControlsFragment.drawAboveSystemBars()
+    }
 
-            is Long -> {
-                lifecycleScope.launch {
+    private fun loadSamples() {
+        lifecycleScope.launch {
+            when (val artist = arguments?.get(EXTRA_ARTIST)) {
+                is Long -> {
                     val artistData = libraryViewModel.artistById(artist)
 
                     val samples = artistData.songs
@@ -86,10 +91,8 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
                         MusicPlayerRemote.playSongAtFrom(0, 30000)
                     }
                 }
-            }
             
-            is String -> {
-                lifecycleScope.launch {
+                is String -> {
                     val artistData = libraryViewModel.albumArtistByName(artist)
 
                     val samples = artistData.songs
@@ -101,23 +104,19 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
                     }
                 }
                     
-            } else -> {
-                libraryViewModel.getSongs()
-                    .observe(viewLifecycleOwner) { songs ->
+                else -> {
+                    val songs = libraryViewModel.allSongs()
 
-                        val samples = songs
-                            .shuffled()
+                    val samples = songs
+                        .shuffled()
                     
+                    if (samples.isNotEmpty()) {
                         MusicPlayerRemote.openQueue(samples, 0, true)
                         MusicPlayerRemote.playSongAtFrom(0, 30000)
                     }
+                }
             }
         }
-
-        setUpPlayerToolbar()
-        setupArtist()
-        binding.nextSong.isSelected = true
-        binding.playbackControlsFragment.drawAboveSystemBars()
     }
 
     private fun setupArtist() {
@@ -176,6 +175,7 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
         super.onServiceConnected()
         updateArtistImage()
         updateLabel()
+        loadSamples()
     }
 
     override fun onPlayingMetaChanged() {
