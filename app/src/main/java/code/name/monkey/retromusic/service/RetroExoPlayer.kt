@@ -59,7 +59,15 @@ class RetroExoPlayer(context: Context) : AudioManagerPlayback(context), Player.L
 
     init {
         player.setWakeMode(C.WAKE_MODE_LOCAL)
+        player.setAudioAttributes(
+            AudioAttributes.Builder()
+                .setUsage(C.USAGE_MEDIA)
+                .setContentType(C.AUDIO_CONTENT_TYPE_MUSIC)
+                .build(),
+            false
+        )
         player.setSkipSilenceEnabled(isSkipSilence)
+        player.addListener(this)
     }
 
     /**
@@ -76,13 +84,6 @@ class RetroExoPlayer(context: Context) : AudioManagerPlayback(context), Player.L
         try {
             Handler(Looper.getMainLooper()).post {
                 player.setMediaItem(mediaItem)
-                player.setAudioAttributes(
-                    AudioAttributes.Builder()
-                        .setUsage(C.USAGE_MEDIA)
-                        .setContentType(C.AUDIO_CONTENT_TYPE_MUSIC)
-                        .build(),
-                    false
-                )
                 player.playbackParameters = PlaybackParameters(playbackSpeed, playbackPitch)
 
                 player.addListener(object : Player.Listener {
@@ -96,7 +97,6 @@ class RetroExoPlayer(context: Context) : AudioManagerPlayback(context), Player.L
                         }
                     }
                 })
-                player.addListener(this)
                 player.prepare()
             }
         } catch (e: Exception) {
@@ -259,6 +259,15 @@ class RetroExoPlayer(context: Context) : AudioManagerPlayback(context), Player.L
         player.release()
         player = ExoPlayer.Builder(context).build()
         player.setWakeMode(C.WAKE_MODE_LOCAL)
+        player.setAudioAttributes(
+            AudioAttributes.Builder()
+                .setUsage(C.USAGE_MEDIA)
+                .setContentType(C.AUDIO_CONTENT_TYPE_MUSIC)
+                .build(),
+            false
+        )
+        player.setSkipSilenceEnabled(isSkipSilence)
+        player.addListener(this)
     }
 
     override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
