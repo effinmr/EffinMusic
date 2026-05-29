@@ -39,8 +39,6 @@ import code.name.monkey.retromusic.interfaces.IMiniPlayerExpanded
 import code.name.monkey.retromusic.model.Song
 import code.name.monkey.retromusic.util.color.MediaNotificationProcessor
 import com.bumptech.glide.Glide
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.launch
 
 class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
     MusicProgressViewUpdateHelper.Callback {
@@ -50,8 +48,6 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
     private lateinit var progressViewUpdateHelper: MusicProgressViewUpdateHelper
 
     private var samplesLoaded = false
-    
-    private var serviceReady = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,38 +80,63 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
     }
 
     private fun loadSamples() {
-        if (samplesLoaded || !serviceReady) return
-        samplesLoaded = true
+        if (samplesLoaded) return
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            val artistArg = arguments?.get(EXTRA_ARTIST)
+        when (val artist = arguments?.get(EXTRA_ARTIST)) {
 
-            val songs = when (artistArg) {
+            is Long -> {
+                libraryViewModel.artist(artist)
+                    .observe(viewLifecycleOwner) { artistData ->
 
-                is Long -> {
-                    val artistData = libraryViewModel.artist(artistArg)
-                    artistData.songs
-                }
+                        if (samplesLoaded) return@observe
 
-                is String -> {
-                    val artistData = libraryViewModel.albumArtist(artistArg)
-                    artistData.songs
-                }
+                        val samples = artistData.songs
+                            .shuffled()
 
-                else -> {
-                    libraryViewModel.getSongs()
-                }
+                        if (samples.isNotEmpty()) {
+                            samplesLoaded = true
+                            MusicPlayerRemote.openQueue(samples, 0, true)
+                            MusicPlayerRemote.playSongAtFrom(0, 30000)
+                        }
+                    }
             }
 
-            val samples = songs.shuffled()
+            is String -> {
+                libraryViewModel.albumArtist(artist)
+                    .observe(viewLifecycleOwner) { artistData ->
 
-            if (samples.isNotEmpty() && isAdded) {
-                MusicPlayerRemote.openQueue(samples, 0, true)
-                MusicPlayerRemote.playSongAtFrom(0, 30000)
+                        if (samplesLoaded) return@observe
+
+                        val samples = artistData.songs
+                            .shuffled()
+
+                        if (samples.isNotEmpty()) {
+                            samplesLoaded = true
+                            MusicPlayerRemote.openQueue(samples, 0, true)
+                            MusicPlayerRemote.playSongAtFrom(0, 30000)
+                        }
+                    }
+            }
+
+            else -> {
+                libraryViewModel.getSongs()
+                    .observe(viewLifecycleOwner) { songs ->
+
+                        if (samplesLoaded) return@observe
+
+                        val samples = songs
+                            .shuffled()
+
+                        if (samples.isNotEmpty()) {
+                            samplesLoaded = true
+                            MusicPlayerRemote.openQueue(samples, 0, true)
+                            MusicPlayerRemote.playSongAtFrom(0, 30000)
+                        }
+                    }
             }
         }
     }
-
+    
     private fun setupArtist() {
         binding.artistImage.setOnClickListener {
             val song = MusicPlayerRemote.currentSong
