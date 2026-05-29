@@ -39,6 +39,8 @@ import code.name.monkey.retromusic.interfaces.IMiniPlayerExpanded
 import code.name.monkey.retromusic.model.Song
 import code.name.monkey.retromusic.util.color.MediaNotificationProcessor
 import com.bumptech.glide.Glide
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 
 class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
     MusicProgressViewUpdateHelper.Callback {
@@ -46,6 +48,10 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
     private var _binding: FragmentSamplesBinding? = null
     private val binding get() = _binding!!
     private lateinit var progressViewUpdateHelper: MusicProgressViewUpdateHelper
+
+    private var samplesLoaded = false
+    
+    private var serviceReady = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,43 +84,34 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
     }
 
     private fun loadSamples() {
-        lifecycleScope.launch {
-            when (val artist = arguments?.get(EXTRA_ARTIST)) {
+        if (samplesLoaded || !serviceReady) return
+        samplesLoaded = true
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            val artistArg = arguments?.get(EXTRA_ARTIST)
+
+            val songs = when (artistArg) {
+
                 is Long -> {
-                    val artistData = libraryViewModel.artistById(artist)
-
-                    val samples = artistData.songs
-                        .shuffled()
-
-                    if (samples.isNotEmpty()) {
-                        MusicPlayerRemote.openQueue(samples, 0, true)
-                        MusicPlayerRemote.playSongAtFrom(0, 30000)
-                    }
+                    val artistData = libraryViewModel.artistById(artistArg)
+                    artistData.songs
                 }
-            
+
                 is String -> {
-                    val artistData = libraryViewModel.albumArtistByName(artist)
-
-                    val samples = artistData.songs
-                        .shuffled()
-
-                    if (samples.isNotEmpty()) {
-                        MusicPlayerRemote.openQueue(samples, 0, true)
-                        MusicPlayerRemote.playSongAtFrom(0, 30000)
-                    }
+                    val artistData = libraryViewModel.albumArtistByName(artistArg)
+                    artistData.songs
                 }
-                    
+
                 else -> {
-                    val songs = libraryViewModel.allSongs()
-
-                    val samples = songs
-                        .shuffled()
-                    
-                    if (samples.isNotEmpty()) {
-                        MusicPlayerRemote.openQueue(samples, 0, true)
-                        MusicPlayerRemote.playSongAtFrom(0, 30000)
-                    }
+                    libraryViewModel.allSongs()
                 }
+            }
+
+            val samples = songs.shuffled()
+
+            if (samples.isNotEmpty() && isAdded) {
+                MusicPlayerRemote.openQueue(samples, 0, true)
+                MusicPlayerRemote.playSongAtFrom(0, 30000)
             }
         }
     }
@@ -173,8 +170,11 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
 
     override fun onServiceConnected() {
         super.onServiceConnected()
-        updateArtistImage()
+
+        serviceReady = true
+        
         updateLabel()
+        updateArtistImage()
         loadSamples()
     }
 
@@ -197,22 +197,21 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
     }
 
    private fun updateArtistImage() {
-        val song = MusicPlayerRemote.currentSong
-        val ids = song.artistIds?.split(",")?.mapNotNull { it.trim().toLongOrNull() } ?: emptyList()
-        if (ids.isEmpty()) {
-            return
-        }
-        libraryViewModel.artist(ids[0])
-            .observe(viewLifecycleOwner) { artist ->
-                if (artist.id != -1L) {
-                    Glide.with(requireActivity())
-                        .load(RetroGlideExtension.getArtistModel(artist))
-                        .artistImageOptions(artist)
-                        .override(200, 200)
-                        .into(binding.artistImage)
-                }
-
-            }
+       val song = MusicPlayerRemote.currentSong
+       val ids = song.artistIds?.split(",")?.mapNotNull { it.trim().toLongOrNull() } ?: emptyList()
+        
+       if (ids.isEmpty()) return
+       
+       lifecycleScope.launch {
+           val artist = libraryViewModel.artistById(ids[0])
+           if (artist.id != -1L) {
+               Glide.with(requireActivity())
+                   .load(RetroGlideExtension.getArtistModel(artist))
+                   .artistImageOptions(artist)
+                   .override(200, 200)
+                   .into(binding.artistImage)
+           }
+       }
     }
 
     override fun onUpdateProgressViews(progress: Int, total: Int) {
