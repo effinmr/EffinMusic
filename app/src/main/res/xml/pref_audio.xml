@@ -78,4 +78,11 @@
         android:summary="@string/pref_summary_prefer_album_gain"
         android:title="@string/pref_title_prefer_album_gain" />
 
+    <code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
+        android:defaultValue="false"
+        android:key="skip_silence"
+        android:layout="@layout/list_item_view_switch"
+        android:summary="@string/pref_summary_skip_silence"
+        android:title="@string/pref_title_skip_silence" />
+
 </androidx.preference.PreferenceScreen>
