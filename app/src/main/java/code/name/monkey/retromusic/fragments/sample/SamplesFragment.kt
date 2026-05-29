@@ -191,9 +191,6 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
 
     override fun onServiceConnected() {
         super.onServiceConnected()
-
-        serviceReady = true
-        
         updateLabel()
         updateArtistImage()
         loadSamples()
@@ -218,21 +215,22 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
     }
 
    private fun updateArtistImage() {
-       val song = MusicPlayerRemote.currentSong
-       val ids = song.artistIds?.split(",")?.mapNotNull { it.trim().toLongOrNull() } ?: emptyList()
-        
-       if (ids.isEmpty()) return
-       
-       lifecycleScope.launch {
-           val artist = libraryViewModel.artistById(ids[0])
-           if (artist.id != -1L) {
-               Glide.with(requireActivity())
-                   .load(RetroGlideExtension.getArtistModel(artist))
-                   .artistImageOptions(artist)
-                   .override(200, 200)
-                   .into(binding.artistImage)
-           }
-       }
+        val song = MusicPlayerRemote.currentSong
+        val ids = song.artistIds?.split(",")?.mapNotNull { it.trim().toLongOrNull() } ?: emptyList()
+        if (ids.isEmpty()) {
+            return
+        }
+        libraryViewModel.artist(ids[0])
+            .observe(viewLifecycleOwner) { artist ->
+                if (artist.id != -1L) {
+                    Glide.with(requireActivity())
+                        .load(RetroGlideExtension.getArtistModel(artist))
+                        .artistImageOptions(artist)
+                        .override(200, 200)
+                        .into(binding.artistImage)
+                }
+
+            }
     }
 
     override fun onUpdateProgressViews(progress: Int, total: Int) {
