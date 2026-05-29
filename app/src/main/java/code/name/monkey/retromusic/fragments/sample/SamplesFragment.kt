@@ -75,31 +75,31 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
         when (val artist = arguments?.get(EXTRA_ARTIST)) {
 
             is Long -> {
-                libraryViewModel.artist(artist)
-                    .observe(viewLifecycleOwner) { artistData ->
+                lifecycleScope.launch {
+                    val artistData = libraryViewModel.artistById(artist)
 
-                        val samples = artistData.songs
-                            .shuffled()
+                    val samples = artistData.songs
+                        .shuffled()
 
-                        if (samples.isNotEmpty()) {
-                            MusicPlayerRemote.openQueue(samples, 0, true)
-                            MusicPlayerRemote.playSongAtFrom(0, 30000)
-                        }
+                    if (samples.isNotEmpty()) {
+                        MusicPlayerRemote.openQueue(samples, 0, true)
+                        MusicPlayerRemote.playSongAtFrom(0, 30000)
                     }
+                }
             }
             
             is String -> {
-                libraryViewModel.albumArtist(artist)
-                    .observe(viewLifecycleOwner) { artistData ->
+                lifecycleScope.launch {
+                    val artistData = libraryViewModel.albumArtistByName(artist)
 
-                        val samples = artistData.songs
-                            .shuffled()
+                    val samples = artistData.songs
+                        .shuffled()
 
-                        if (samples.isNotEmpty()) {
-                            MusicPlayerRemote.openQueue(samples, 0, true)
-                            MusicPlayerRemote.playSongAtFrom(0, 30000)
-                        }
+                    if (samples.isNotEmpty()) {
+                        MusicPlayerRemote.openQueue(samples, 0, true)
+                        MusicPlayerRemote.playSongAtFrom(0, 30000)
                     }
+                }
                     
             } else -> {
                 libraryViewModel.getSongs()
