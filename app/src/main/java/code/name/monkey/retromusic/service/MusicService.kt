@@ -840,10 +840,6 @@ class MusicService : MediaBrowserServiceCompat(),
             openTrackAndPrepareNextAt(position) { success ->
                 if (success) {
                     play()
-                } else {
-                    runOnUiThread {
-                        showToast(R.string.unplayable_file)
-                    }
                 }
             }
         }
