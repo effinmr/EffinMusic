@@ -244,22 +244,41 @@ class ArtistDetailsAdapter(
     class AlbumsViewHolder(
         private val binding: ItemArtistAlbumsBinding,
         private val listener: IAlbumClickListener,
-        private val onAlbumSortClicked: (View) -> Unit
+        private val onAlbumSortClicked: (View) -> Unit,
+        private val scrollStates: MutableMap<Int, Int>
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: ArtistItem.Albums) {
+        
+        private var currentPosition: Int = RecyclerView.NO_POSITION
+        private val layoutManager = LinearLayoutManager(binding.root.context, LinearLayoutManager.HORIZONTAL, false)
+
+        init {
+            binding.albumRecyclerView.layoutManager = layoutManager
+            binding.albumRecyclerView.itemAnimator = null
+            binding.albumRecyclerView.setHasFixedSize(true)
+        }
+
+        fun bind(item: ArtistItem.Albums, position: Int) {
+            currentPosition = position
             val adapter = HorizontalAlbumAdapter(
                 binding.root.context as FragmentActivity,
                 item.albums,
                 listener,
                 showCovers = true
             )
-            binding.albumRecyclerView.layoutManager =
-                LinearLayoutManager(binding.root.context, LinearLayoutManager.HORIZONTAL, false)
             binding.albumRecyclerView.adapter = adapter
-            binding.albumRecyclerView.itemAnimator = null
-            binding.albumRecyclerView.setHasFixedSize(true)
+            
+            val scrollX = scrollStates[position] ?: 0
+            layoutManager.scrollToPositionWithOffset(0, scrollX)
+
             binding.albumSortOrder.setOnClickListener {
                 onAlbumSortClicked(it)
+            }
+        }
+
+        fun saveScrollState() {
+            if (currentPosition != RecyclerView.NO_POSITION) {
+                val offset = binding.albumRecyclerView.computeHorizontalScrollOffset()
+                scrollStates[currentPosition] = offset
             }
         }
     }
