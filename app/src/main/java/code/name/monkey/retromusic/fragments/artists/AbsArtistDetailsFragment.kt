@@ -207,7 +207,6 @@ abstract class AbsArtistDetailsFragment : AbsMainActivityFragment(R.layout.fragm
             MusicUtil.getArtistInfoString(requireContext(), artist),
             MusicUtil.getReadableDurationString(MusicUtil.getTotalDuration(artist.songs))
         )
-        // Fixed: Removed setupRecyclerView() from here to preserve adapter state
         updateRecyclerView()
     }
 
