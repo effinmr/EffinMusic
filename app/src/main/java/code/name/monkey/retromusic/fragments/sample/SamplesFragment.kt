@@ -47,6 +47,9 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
     private val binding get() = _binding!!
     private lateinit var progressViewUpdateHelper: MusicProgressViewUpdateHelper
 
+    private var pendingSamples: List<Song>? = null
+    private var hasPlayed = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         progressViewUpdateHelper = MusicProgressViewUpdateHelper(this)
@@ -72,54 +75,40 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
         setUpSubFragments()
         super.onViewCreated(view, savedInstanceState)
         
-        when (val artist = arguments?.get(EXTRA_ARTIST)) {
-
-            is Long -> {
-                libraryViewModel.artist(artist)
-                    .observe(viewLifecycleOwner) { artistData ->
-
-                        val samples = artistData.songs
-                            .shuffled()
-
-                        if (samples.isNotEmpty()) {
-                            MusicPlayerRemote.openQueue(samples, 0, true)
-                            MusicPlayerRemote.playSongAtFrom(0, 30000)
-                        }
-                    }
-            }
-            
-            is String -> {
-                libraryViewModel.albumArtist(artist)
-                    .observe(viewLifecycleOwner) { artistData ->
-
-                        val samples = artistData.songs
-                            .shuffled()
-
-                        if (samples.isNotEmpty()) {
-                            MusicPlayerRemote.openQueue(samples, 0, true)
-                            MusicPlayerRemote.playSongAtFrom(0, 30000)
-                        }
-                    }
-                    
-            } else -> {
-                libraryViewModel.getSongs()
-                    .observe(viewLifecycleOwner) { songs ->
-
-                        val samples = songs
-                            .shuffled()
-                    
-                        MusicPlayerRemote.openQueue(samples, 0, true)
-                        MusicPlayerRemote.playSongAtFrom(0, 30000)
-                    }
-            }
-        }
-
+        loadSamplesData()
+        
         setUpPlayerToolbar()
         setupArtist()
         binding.nextSong.isSelected = true
         binding.playbackControlsFragment.drawAboveSystemBars()
     }
 
+    private fun loadSamplesData() {
+        when (val artist = arguments?.get(EXTRA_ARTIST)) {
+            is Long -> {
+                libraryViewModel.artist(artist).observe(viewLifecycleOwner) { artistData ->
+                    processSongs(artistData.songs)
+                }
+            }
+            is String -> {
+                libraryViewModel.albumArtist(artist).observe(viewLifecycleOwner) { artistData ->
+                    processSongs(artistData.songs)
+                }
+            }
+            else -> {
+                libraryViewModel.getSongs().observe(viewLifecycleOwner) { songs ->
+                    processSongs(songs)
+                }
+            }
+        }
+    }
+
+    private fun processSongs(songs: List<Song>) {
+        if (hasPlayed || songs.isEmpty()) return
+        pendingSamples = songs.shuffled()
+        attemptPlayback()
+    }
+    
     private fun setupArtist() {
         binding.artistImage.setOnClickListener {
             val song = MusicPlayerRemote.currentSong
@@ -174,14 +163,30 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
 
     override fun onServiceConnected() {
         super.onServiceConnected()
-        updateArtistImage()
+        attemptPlayback()
         updateLabel()
+        updateArtistImage()
     }
 
     override fun onPlayingMetaChanged() {
         super.onPlayingMetaChanged()
         updateArtistImage()
         updateLabel()
+    }
+
+    private fun attemptPlayback() {
+        if (hasPlayed) return
+        val samples = pendingSamples ?: return
+
+        if (MusicPlayerRemote.isServiceConnected) {
+            hasPlayed = true
+            MusicPlayerRemote.openQueue(samples, 0, false)
+            view?.postDelayed({
+                if (_binding != null) {
+                    MusicPlayerRemote.playSongAtFrom(0, 30000)
+                }
+            }, 150)
+        }
     }
 
     override fun onDestroyView() {
@@ -230,7 +235,6 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
     override fun onPause() {
         super.onPause()
         MusicPlayerRemote.pauseSong()
-        //MusicPlayerRemote.clearQueue()
         progressViewUpdateHelper.stop()
     }
 

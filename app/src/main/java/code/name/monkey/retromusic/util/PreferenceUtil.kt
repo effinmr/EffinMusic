@@ -935,6 +935,12 @@ object PreferenceUtil {
         get() = sharedPreferences.getBoolean(PREFER_ALBUM_GAIN, false)
         set(value) = sharedPreferences.edit { putBoolean(PREFER_ALBUM_GAIN, value) }
 
+    const val SKIP_SILENCE = "skip_silence"
+
+    var isSkipSilence: Boolean
+        get() = sharedPreferences.getBoolean(SKIP_SILENCE, false)
+        set(value) = sharedPreferences.edit { putBoolean(SKIP_SILENCE, value) }
+
     const val SHOW_NOW_PLAYING_QUEUE_BUTTON = "show_now_playing_queue_button"
     const val SHOW_OPTIONS_MENU = "show_options_menu"
     const val SHOW_CAST_BUTTON = "show_cast_button"
