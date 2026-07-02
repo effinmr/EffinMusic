@@ -188,7 +188,6 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
         if (isReturning) {
             if (MusicPlayerRemote.isServiceConnected) {
                 val samples = pendingSamples ?: return
-                MusicPlayerRemote.clearQueue()
                 MusicPlayerRemote.openQueue(samples, lastPosition, false)
                 view?.postDelayed({
                     if (_binding != null) {
@@ -217,6 +216,7 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
     override fun onDestroyView() {
         super.onDestroyView()
         progressViewUpdateHelper.stop()
+        MusicPlayerRemote.clearQueue()
         _binding = null
     }
 
