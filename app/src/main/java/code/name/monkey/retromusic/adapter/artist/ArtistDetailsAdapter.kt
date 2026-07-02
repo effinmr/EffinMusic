@@ -1,3 +1,17 @@
+/*
+ * Copyright (c) 2020 Hemanth Savarla.
+ *
+ * Licensed under the GNU General Public License v3
+ *
+ * This is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ */
 package code.name.monkey.retromusic.adapter.artist
 
 import android.view.LayoutInflater
@@ -54,6 +68,8 @@ class ArtistDetailsAdapter(
     activity,
     R.menu.menu_media_selection
 ) {
+
+    private val scrollStates = mutableMapOf<Int, Int>()
 
     init {
         setHasStableIds(true) 
@@ -115,7 +131,7 @@ class ArtistDetailsAdapter(
             )
             TYPE_ALBUMS -> AlbumsViewHolder(
                 ItemArtistAlbumsBinding.inflate(LayoutInflater.from(parent.context), parent, false),
-                albumClickListener, onAlbumSortClicked
+                albumClickListener, onAlbumSortClicked, scrollStates
             )
             TYPE_SONGS_HEADER -> SongsHeaderViewHolder(
                 ItemArtistSongsHeaderBinding.inflate(LayoutInflater.from(parent.context), parent, false),
@@ -136,11 +152,18 @@ class ArtistDetailsAdapter(
 
     override fun getItemCount(): Int = items.size
 
+    override fun onViewRecycled(holder: RecyclerView.ViewHolder) {
+        super.onViewRecycled(holder)
+        if (holder is AlbumsViewHolder) {
+            holder.saveScrollState()
+        }
+    }
+
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (val item = items[position]) {
             is ArtistItem.Header -> (holder as HeaderViewHolder).bind(item)
             is ArtistItem.Samples -> (holder as SamplesViewHolder).bind(item)
-            is ArtistItem.Albums -> (holder as AlbumsViewHolder).bind(item)
+            is ArtistItem.Albums -> (holder as AlbumsViewHolder).bind(item, position)
             is ArtistItem.SongsHeader -> (holder as SongsHeaderViewHolder).bind(item)
             is ArtistItem.SongItem -> (holder as SongViewHolder).bind(item)
             is ArtistItem.Biography -> (holder as BiographyViewHolder).bind(item)
@@ -268,7 +291,7 @@ class ArtistDetailsAdapter(
             binding.albumRecyclerView.adapter = adapter
             
             val scrollX = scrollStates[position] ?: 0
-            layoutManager.scrollToPositionWithOffset(0, scrollX)
+            layoutManager.scrollToPositionWithOffset(0, -scrollX)
 
             binding.albumSortOrder.setOnClickListener {
                 onAlbumSortClicked(it)
