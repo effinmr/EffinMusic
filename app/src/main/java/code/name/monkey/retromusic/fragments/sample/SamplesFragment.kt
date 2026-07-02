@@ -50,6 +50,9 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
     private var pendingSamples: List<Song>? = null
     private var hasPlayed = false
 
+    private var lastPosition: Int = 0
+    private var isReturning = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         progressViewUpdateHelper = MusicProgressViewUpdateHelper(this)
@@ -104,7 +107,11 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
     }
 
     private fun processSongs(songs: List<Song>) {
-        if (hasPlayed || songs.isEmpty()) return
+        if (songs.isEmpty()) return
+        if (hasPlayed) {
+            attemptPlayback()
+            return
+        }
         pendingSamples = songs.shuffled()
         attemptPlayback()
     }
@@ -119,11 +126,14 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
 
     private fun setUpSubFragments() {
         controlsFragment = whichFragment(R.id.playbackControlsFragment)
-        val coverFragment = PlayerAlbumCoverFragment.newInstance(NowPlayingScreen.Full)
+        var coverFragment = childFragmentManager.findFragmentById(R.id.playerAlbumCoverFragment) as? PlayerAlbumCoverFragment
         
-        childFragmentManager.beginTransaction()
-            .replace(R.id.playerAlbumCoverFragment, coverFragment)
-            .commitNowAllowingStateLoss()
+        if (coverFragment == null) {
+            coverFragment = PlayerAlbumCoverFragment.newInstance(NowPlayingScreen.Full)
+            childFragmentManager.beginTransaction()
+                .replace(R.id.playerAlbumCoverFragment, coverFragment)
+                .commitNowAllowingStateLoss()
+        }
 
         coverFragment.skipOnSwipe = true
         coverFragment.setCallbacks(this)
@@ -175,6 +185,21 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
     }
 
     private fun attemptPlayback() {
+        if (isReturning) {
+            if (MusicPlayerRemote.isServiceConnected) {
+                val samples = pendingSamples ?: return
+                MusicPlayerRemote.clearQueue()
+                MusicPlayerRemote.openQueue(samples, lastPosition, false)
+                view?.postDelayed({
+                    if (_binding != null) {
+                        MusicPlayerRemote.playSongAtFrom(lastPosition, 30000)
+                    }
+                }, 150)
+                isReturning = false
+            }
+            return
+        }
+
         if (hasPlayed) return
         val samples = pendingSamples ?: return
 
@@ -192,13 +217,14 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
     override fun onDestroyView() {
         super.onDestroyView()
         progressViewUpdateHelper.stop()
-        MusicPlayerRemote.clearQueue()
         _binding = null
     }
 
     override fun onDestroy() {
         super.onDestroy()
         MusicPlayerRemote.clearQueue()
+        isReturning = false
+        pendingSamples = null
     }
 
    private fun updateArtistImage() {
@@ -234,8 +260,10 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
 
     override fun onPause() {
         super.onPause()
+        lastPosition = MusicPlayerRemote.position
         MusicPlayerRemote.pauseSong()
         progressViewUpdateHelper.stop()
+        isReturning = true
     }
 
     override fun onQueueChanged() {
