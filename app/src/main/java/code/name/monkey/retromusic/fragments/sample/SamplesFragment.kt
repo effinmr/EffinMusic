@@ -107,7 +107,11 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
     }
 
     private fun processSongs(songs: List<Song>) {
-        if (hasPlayed || songs.isEmpty()) return
+        if (songs.isEmpty()) return
+        if (hasPlayed) {
+            attemptPlayback()
+            return
+        }
         pendingSamples = songs.shuffled()
         attemptPlayback()
     }
@@ -184,14 +188,11 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
         if (isReturning) {
             if (MusicPlayerRemote.isServiceConnected) {
                 val samples = pendingSamples ?: return
+                MusicPlayerRemote.clearQueue()
                 MusicPlayerRemote.openQueue(samples, lastPosition, false)
                 view?.postDelayed({
                     if (_binding != null) {
                         MusicPlayerRemote.playSongAtFrom(lastPosition, 30000)
-                        setUpPlayerToolbar()
-                        setupArtist()
-                        binding.nextSong.isSelected = true
-                        binding.playbackControlsFragment.drawAboveSystemBars()
                     }
                 }, 150)
                 isReturning = false
