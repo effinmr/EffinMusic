@@ -122,11 +122,14 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
 
     private fun setUpSubFragments() {
         controlsFragment = whichFragment(R.id.playbackControlsFragment)
-        val coverFragment = PlayerAlbumCoverFragment.newInstance(NowPlayingScreen.Full)
+        var coverFragment = childFragmentManager.findFragmentById(R.id.playerAlbumCoverFragment) as? PlayerAlbumCoverFragment
         
-        childFragmentManager.beginTransaction()
-            .replace(R.id.playerAlbumCoverFragment, coverFragment)
-            .commitNowAllowingStateLoss()
+        if (coverFragment == null) {
+            coverFragment = PlayerAlbumCoverFragment.newInstance(NowPlayingScreen.Full)
+            childFragmentManager.beginTransaction()
+                .replace(R.id.playerAlbumCoverFragment, coverFragment)
+                .commitNowAllowingStateLoss()
+        }
 
         coverFragment.skipOnSwipe = true
         coverFragment.setCallbacks(this)
@@ -185,6 +188,10 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
                 view?.postDelayed({
                     if (_binding != null) {
                         MusicPlayerRemote.playSongAtFrom(lastPosition, 30000)
+                        setUpPlayerToolbar()
+                        setupArtist()
+                        binding.nextSong.isSelected = true
+                        binding.playbackControlsFragment.drawAboveSystemBars()
                     }
                 }, 150)
                 isReturning = false
@@ -216,6 +223,7 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
         super.onDestroy()
         MusicPlayerRemote.clearQueue()
         isReturning = false
+        pendingSamples = null
     }
 
    private fun updateArtistImage() {
