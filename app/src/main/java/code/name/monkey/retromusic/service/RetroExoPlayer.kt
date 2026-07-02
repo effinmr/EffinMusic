@@ -331,7 +331,9 @@ class RetroExoPlayer(context: Context) : AudioManagerPlayback(context), Player.L
             setEqualizerEnabled(false)
             setBassBoostStrength(0)
             setVirtualizerStrength(0)
-            setAmplifierStrength(0)
+            loudnessEnhancer?.enabled = false
+            loudnessEnhancer?.release()
+            loudnessEnhancer = null
             return
         }
         
