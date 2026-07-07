@@ -144,6 +144,7 @@ class SamplesPlaybackControlsFragment :
             val popupMenu = PopupMenu(requireContext(), it)
             popupMenu.setOnMenuItemClickListener(this)
             popupMenu.inflate(R.menu.menu_samples)
+            popupMenu.menu.findItem(R.id.action_toggle_screen)?.isChecked = PreferenceUtil.isSamplesScreenOn
             popupMenu.show()
         }
     }
