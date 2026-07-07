@@ -190,9 +190,17 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
 
     private fun keepItLit() {
         if (PreferenceUtil.isSamplesScreenOn) {
-            requireActivity().keepScreenOn(true)
+            view?.post {
+                if (_binding != null) {
+                    requireActivity().keepScreenOn(true)
+                }
+            }
         } else {
-            requireActivity().keepScreenOn(false)
+            view?.post {
+                if (_binding != null) {
+                    requireActivity().keepScreenOn(false)
+                }
+            }
         }
     }
 
