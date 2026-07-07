@@ -190,23 +190,18 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
     }
 
     private fun keepItLit() {
-        Toast.makeText(
-            requireContext(),
-            "ScreenOn=${PreferenceUtil.isSamplesScreenOn}",
-            Toast.LENGTH_LONG
-        ).show()
         if (PreferenceUtil.isSamplesScreenOn) {
-            view?.post {
+            view?.postDelayed({
                 if (_binding != null) {
                     requireActivity().keepScreenOn(true)
                 }
-            }
+            }, 150)
         } else {
-            view?.post {
+            view?.postDelayed({
                 if (_binding != null) {
                     requireActivity().keepScreenOn(false)
                 }
-            }
+            }, 150)
         }
     }
 
