@@ -41,6 +41,7 @@ import code.name.monkey.retromusic.model.Song
 import code.name.monkey.retromusic.util.color.MediaNotificationProcessor
 import code.name.monkey.retromusic.util.PreferenceUtil
 import com.bumptech.glide.Glide
+import android.widget.Toast
 
 class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
     MusicProgressViewUpdateHelper.Callback {
@@ -189,6 +190,11 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
     }
 
     private fun keepItLit() {
+        Toast.makeText(
+            requireContext(),
+            "ScreenOn=${PreferenceUtil.isSamplesScreenOn}",
+            Toast.LENGTH_LONG
+        ).show()
         if (PreferenceUtil.isSamplesScreenOn) {
             view?.post {
                 if (_binding != null) {
