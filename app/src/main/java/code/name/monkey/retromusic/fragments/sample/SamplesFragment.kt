@@ -24,6 +24,7 @@ import code.name.monkey.retromusic.R
 import code.name.monkey.retromusic.databinding.FragmentSamplesBinding
 import code.name.monkey.retromusic.extensions.drawAboveSystemBars
 import code.name.monkey.retromusic.extensions.hide
+import code.name.monkey.retromusic.extensions.keepScreenOn
 import code.name.monkey.retromusic.extensions.show
 import code.name.monkey.retromusic.extensions.whichFragment
 import code.name.monkey.retromusic.fragments.base.AbsPlayerFragment
@@ -38,6 +39,7 @@ import code.name.monkey.retromusic.helper.MusicProgressViewUpdateHelper
 import code.name.monkey.retromusic.interfaces.IMiniPlayerExpanded
 import code.name.monkey.retromusic.model.Song
 import code.name.monkey.retromusic.util.color.MediaNotificationProcessor
+import code.name.monkey.retromusic.util.PreferenceUtil
 import com.bumptech.glide.Glide
 
 class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
@@ -84,6 +86,7 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
         setupArtist()
         binding.nextSong.isSelected = true
         binding.playbackControlsFragment.drawAboveSystemBars()
+        keepItLit()
     }
 
     private fun loadSamplesData() {
@@ -176,12 +179,29 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
         attemptPlayback()
         updateLabel()
         updateArtistImage()
+        keepItLit()
     }
 
     override fun onPlayingMetaChanged() {
         super.onPlayingMetaChanged()
         updateArtistImage()
         updateLabel()
+    }
+
+    private fun keepItLit() {
+        if (PreferenceUtil.isSamplesScreenOn) {
+            view?.postDelayed({
+                if (_binding != null) {
+                    requireActivity().keepScreenOn(true)
+                }
+            }, 150)
+        } else {
+            view?.postDelayed({
+                if (_binding != null) {
+                    requireActivity().keepScreenOn(false)
+                }
+            }, 150)
+        }
     }
 
     private fun attemptPlayback() {
@@ -256,6 +276,7 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
         super.onResume()
         MusicPlayerRemote.resumePlaying()
         progressViewUpdateHelper.start()
+        keepItLit()
     }
 
     override fun onPause() {

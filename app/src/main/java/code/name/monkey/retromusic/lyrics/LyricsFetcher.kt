@@ -27,7 +27,7 @@ object LyricsFetcher {
     private val client = OkHttpClient.Builder()
         .addInterceptor { chain ->
             val request = chain.request().newBuilder()
-                .header("User-Agent", "RetroMusic/1.0 (https://github.com/effinmr/EffinMusic)")
+                .header("User-Agent", "EffinMusic/1.0 (https://github.com/dhruvitpokharna/EffinMusic)")
                 .build()
             chain.proceed(request)
         }
