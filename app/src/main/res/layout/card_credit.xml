@@ -20,7 +20,6 @@
             android:paddingTop="?attr/listPreferredItemPaddingStart"
             android:paddingEnd="?attr/listPreferredItemPaddingEnd"
             android:paddingBottom="?attr/listPreferredItemPaddingEnd"
-            android:text="@string/credit_title"
             android:textAppearance="@style/TextViewNormal"
             android:textColor="?android:attr/textColorSecondary"
             app:layout_constrainedWidth="true"
