@@ -24,6 +24,7 @@ import code.name.monkey.retromusic.R
 import code.name.monkey.retromusic.databinding.FragmentSamplesBinding
 import code.name.monkey.retromusic.extensions.drawAboveSystemBars
 import code.name.monkey.retromusic.extensions.hide
+import code.name.monkey.retromusic.extensions.keepScreenOn
 import code.name.monkey.retromusic.extensions.show
 import code.name.monkey.retromusic.extensions.whichFragment
 import code.name.monkey.retromusic.fragments.base.AbsPlayerFragment
@@ -84,6 +85,7 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
         setupArtist()
         binding.nextSong.isSelected = true
         binding.playbackControlsFragment.drawAboveSystemBars()
+        keepItLit()
     }
 
     private fun loadSamplesData() {
@@ -176,12 +178,21 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
         attemptPlayback()
         updateLabel()
         updateArtistImage()
+        keepItLit()
     }
 
     override fun onPlayingMetaChanged() {
         super.onPlayingMetaChanged()
         updateArtistImage()
         updateLabel()
+    }
+
+    private fun keepItLit() {
+        if (PreferenceUtil.isSamplesScreenOn) {
+            requireActivity().keepScreenOn(true)
+        } else {
+            requireActivity().keepScreenOn(false)
+        }
     }
 
     private fun attemptPlayback() {
@@ -256,6 +267,7 @@ class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
         super.onResume()
         MusicPlayerRemote.resumePlaying()
         progressViewUpdateHelper.start()
+        keepItLit()
     }
 
     override fun onPause() {
