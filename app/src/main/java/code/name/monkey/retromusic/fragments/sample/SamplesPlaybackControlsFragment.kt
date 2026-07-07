@@ -67,8 +67,6 @@ class SamplesPlaybackControlsFragment :
 
     private var individualArtists: List<String> = emptyList()
 
-    private var isScreenOnEnabled = false
-
     override val shuffleButton: ImageButton by lazy { ImageButton(requireContext()) }
     override val previousButton: ImageButton by lazy { ImageButton(requireContext()) }
     override val nextButton: ImageButton by lazy { ImageButton(requireContext()) }
@@ -153,8 +151,8 @@ class SamplesPlaybackControlsFragment :
     override fun onMenuItemClick(item: MenuItem?): Boolean {
         return when (item?.itemId) {
             R.id.action_toggle_screen -> {
-                isScreenOnEnabled = !isScreenOnEnabled
-                item.isChecked = isScreenOnEnabled
+                PreferenceUtil.isSamplesScreenOn = !PreferenceUtil.isSamplesScreenOn
+                item.isChecked = PreferenceUtil.isSamplesScreenOn
                 keepItLit()
                 true
             }
@@ -169,7 +167,7 @@ class SamplesPlaybackControlsFragment :
     }
 
     private fun keepItLit() {
-        if (isScreenOnEnabled) {
+        if (PreferenceUtil.isSamplesScreenOn) {
             requireActivity().keepScreenOn(true)
         } else {
             requireActivity().keepScreenOn(false)
