@@ -35,6 +35,7 @@ import code.name.monkey.retromusic.databinding.FragmentSamplesControlsBinding
 import code.name.monkey.retromusic.db.PlaylistEntity
 import code.name.monkey.retromusic.db.toSongEntity
 import code.name.monkey.retromusic.extensions.*
+import code.name.monkey.retromusic.extensions.keepScreenOn
 import code.name.monkey.retromusic.fragments.LibraryViewModel
 import code.name.monkey.retromusic.fragments.ReloadType
 import code.name.monkey.retromusic.fragments.base.AbsPlayerControlsFragment
@@ -65,6 +66,8 @@ class SamplesPlaybackControlsFragment :
     private val binding get() = _binding!!
 
     private var individualArtists: List<String> = emptyList()
+
+    private var isScreenOnEnabled = false
 
     override val shuffleButton: ImageButton by lazy { ImageButton(requireContext()) }
     override val previousButton: ImageButton by lazy { ImageButton(requireContext()) }
@@ -148,12 +151,28 @@ class SamplesPlaybackControlsFragment :
     }
 
     override fun onMenuItemClick(item: MenuItem?): Boolean {
-        return (parentFragment as SamplesFragment).onMenuItemClick(item!!)
+        return when (item?.itemId) {
+            R.id.action_toggle_screen -> {
+                isScreenOnEnabled = !isScreenOnEnabled
+                item.isChecked = isScreenOnEnabled
+                keepItLit()
+                true
+            }
+            else -> (parentFragment as SamplesFragment).onMenuItemClick(item!!)
+        }
     }
 
     private fun setupFavourite() {
         binding.songFavourite.setOnClickListener {
             toggleFavorite(MusicPlayerRemote.currentSong)
+        }
+    }
+
+    private fun keepItLit() {
+        if (isScreenOnEnabled) {
+            requireActivity().keepScreenOn(true)
+        } else {
+            requireActivity().keepScreenOn(false)
         }
     }
 
