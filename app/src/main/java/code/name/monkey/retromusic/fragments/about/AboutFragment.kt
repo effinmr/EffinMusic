@@ -88,7 +88,7 @@ class AboutFragment : Fragment(R.layout.fragment_about), View.OnClickListener {
         ShareCompat.IntentBuilder(requireActivity())
             .setType("text/plain")
             .setChooserTitle(R.string.share_app)
-            .setText("Hey check out this cool music player at: https://github.com/effinmr/EffinMusic")
+            .setText("Hey check out this cool music player at: https://github.com/dhruvitpokharna/EffinMusic")
             .startChooser()
     }
 
