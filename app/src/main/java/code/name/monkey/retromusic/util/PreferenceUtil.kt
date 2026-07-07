@@ -921,6 +921,12 @@ object PreferenceUtil {
         get() = sharedPreferences.getBoolean(IS_SQUIGGLY, true)
         set(value) = sharedPreferences.edit { putBoolean(IS_SQUIGGLY, value) }
 
+    var isSamplesScreenOn: Boolean
+        get() = sharedPreferences.getBoolean(SAMPLES_SCREEN_ON, false)
+        set(value) = sharedPreferences.edit { putBoolean(SAMPLES_SCREEN_ON, value) }
+
+    const val SAMPLES_SCREEN_ON = "samples_screen_on"
+
     const val IS_SQUIGGLY = "is_squiggly"
 
     const val REPLAY_GAIN = "replay_gain"
