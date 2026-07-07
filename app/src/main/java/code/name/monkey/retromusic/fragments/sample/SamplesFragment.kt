@@ -39,6 +39,7 @@ import code.name.monkey.retromusic.helper.MusicProgressViewUpdateHelper
 import code.name.monkey.retromusic.interfaces.IMiniPlayerExpanded
 import code.name.monkey.retromusic.model.Song
 import code.name.monkey.retromusic.util.color.MediaNotificationProcessor
+import code.name.monkey.retromusic.util.PreferenceUtil
 import com.bumptech.glide.Glide
 
 class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
