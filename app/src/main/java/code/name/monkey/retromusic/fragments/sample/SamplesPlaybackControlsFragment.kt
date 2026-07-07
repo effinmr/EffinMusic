@@ -81,7 +81,6 @@ class SamplesPlaybackControlsFragment :
 
         setUpMusicControllers()
         binding.title.isSelected = true
-        keepItLit()
     }
 
     override fun setColor(color: MediaNotificationProcessor) {
@@ -97,6 +96,7 @@ class SamplesPlaybackControlsFragment :
 
     override fun onServiceConnected() {
         updateSong()
+        keepItLit()
     }
 
     private fun updateSong() {
