@@ -96,7 +96,6 @@ class SamplesPlaybackControlsFragment :
 
     override fun onServiceConnected() {
         updateSong()
-        keepItLit()
     }
 
     private fun updateSong() {
