@@ -41,7 +41,6 @@ import code.name.monkey.retromusic.model.Song
 import code.name.monkey.retromusic.util.color.MediaNotificationProcessor
 import code.name.monkey.retromusic.util.PreferenceUtil
 import com.bumptech.glide.Glide
-import android.widget.Toast
 
 class SamplesFragment : AbsPlayerFragment(R.layout.fragment_samples),
     MusicProgressViewUpdateHelper.Callback {
