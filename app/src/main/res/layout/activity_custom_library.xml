@@ -16,14 +16,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <TextView
+            android:id="@+id/title"
+            style="@style/TextViewHeadline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="@string/permission_custom_library"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
         <code.name.monkey.retromusic.views.PermissionItem
             android:id="@+id/custom_library"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:permissionButtonTitle="@string/action_scan"
-            app:permissionTitle="@string/permission_custom_library"
-            app:permissionTitleSubTitle="@string/permission_custom_library_summary"
-            app:permissionTitleTextAppearance="?attr/textAppearanceHeadlineMedium" />
+            app:permissionTitleSubTitle="@string/permission_custom_library_summary" />
     </LinearLayout>
 
     <com.google.android.material.button.MaterialButton
