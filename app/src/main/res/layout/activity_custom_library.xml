@@ -34,7 +34,7 @@
             android:layout_marginBottom="8dp"
             android:gravity="center"
             android:text="@string/permission_custom_library_summary"
-            android:textAppearance="?attr/textAppearanceHeadlineSmall" />
+            android:textAppearance="?attr/textAppearanceTitleMedium" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/custom_library"
@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="8dp"
-            android:layout_marginHorizontal="24dp"
+            android:layout_marginHorizontal="16dp"
             android:text="@string/action_scan"
             android:textAppearance="@style/TextViewButton"
             android:textColor="?android:attr/textColorPrimary"
