@@ -111,7 +111,7 @@ class PermissionActivity : AbsMusicServiceActivity() {
 
         customBinding.customLibrary.isEnabled = !PreferenceUtil.fixYear
 
-        customBinding.customLibrary.setButtonClick {
+        customBinding.customLibrary.setOnClickListener {
             if (!PreferenceUtil.fixYear) {
                 scanCustomLibrary()
                 }
