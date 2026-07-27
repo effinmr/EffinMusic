@@ -124,32 +124,37 @@ class PermissionActivity : AbsMusicServiceActivity() {
         }
     }
 
-    private fun scanCustomLibrary() {
-        PreferenceUtil.fixYear = true
-
+    private fun scanCustomLibrary(force: Boolean = false) {
         val padding = (16 * resources.displayMetrics.density).toInt()
-        val container = LinearLayout(this).apply {
+        val container = LinearLayout(requireContext()).apply {
             orientation = LinearLayout.VERTICAL
             setPadding(padding, padding, padding, padding)
+            gravity = android.view.Gravity.CENTER_HORIZONTAL
         }
 
-        val progressBar = LinearProgressIndicator(this).apply {
+        val statusText = android.widget.TextView(requireContext()).apply {
+            text = "Scanning..."
+            setPadding(0, 0, 0, padding / 2)
+        }
+        container.addView(statusText)
+
+        val progressBar = LinearProgressIndicator(requireContext()).apply {
             isIndeterminate = false
         }
         container.addView(progressBar)
 
-        val dialog = MaterialAlertDialogBuilder(this)
+        val dialog = MaterialAlertDialogBuilder(requireContext())
             .setTitle("Scanning songs")
-            .setMessage("Please wait...")
             .setView(container)
             .setCancelable(false)
             .show()
 
         libraryViewModel.startMetadataScan(
-            context = this,
-            force = true,
+            requireContext(),
+            force,
             onProgress = { songTitle, index, total ->
                 lifecycleScope.launch(Dispatchers.Main) {
+                    statusText.text = "$index / $total"
                     progressBar.max = total
                     progressBar.progress = index
                 }
@@ -157,7 +162,8 @@ class PermissionActivity : AbsMusicServiceActivity() {
             onComplete = {
                 lifecycleScope.launch(Dispatchers.Main) {
                     dialog.dismiss()
-                    Toast.makeText(this@PermissionActivity, "Scan completed!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Scan completed!, App will be Restarted", Toast.LENGTH_SHORT).show()
+                    restartApp(requireContext())
                 }
             }
         )
