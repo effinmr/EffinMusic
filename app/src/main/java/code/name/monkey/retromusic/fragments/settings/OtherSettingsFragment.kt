@@ -129,7 +129,6 @@ class OtherSettingsFragment : AbsSettingsFragment(),
 
         val dialog = MaterialAlertDialogBuilder(requireContext())
             .setTitle("Scanning songs")
-            .setMessage("Please wait...")
             .setView(container)
             .setCancelable(false)
             .show()
