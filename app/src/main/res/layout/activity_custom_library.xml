@@ -6,31 +6,25 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:fillViewport="true"
+        android:gravity="center"
+        android:orientation="@integer/permission_orientation"
         app:layout_constraintBottom_toTopOf="@+id/finish"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+        <code.name.monkey.retromusic.views.PermissionItem
+            android:id="@+id/custom_library"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="@integer/permission_orientation">
-
-            <code.name.monkey.retromusic.views.PermissionItem
-                android:id="@+id/custom_library"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/permission_layout_weight"
-                app:permissionButtonTitle="@string/action_scan"
-                app:permissionTitle="@string/permission_custom_library"
-                app:permissionTitleSubTitle="@string/permission_custom_library_summary" />
-        </LinearLayout>
-    </ScrollView>
+            app:permissionButtonTitle="@string/action_scan"
+            app:permissionTitle="@string/permission_custom_library"
+            app:permissionTitleSubTitle="@string/permission_custom_library_summary"
+            app:permissionTitleTextAppearance="?attr/textAppearanceHeadlineMedium" />
+    </LinearLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/finish"
