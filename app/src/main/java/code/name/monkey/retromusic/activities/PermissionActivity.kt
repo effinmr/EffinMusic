@@ -14,13 +14,19 @@
  */
 package code.name.monkey.retromusic.activities
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.progressindicator.LinearProgressIndicator
+import android.widget.LinearLayout
+import androidx.lifecycle.lifecycleScope
 import android.Manifest.permission.BLUETOOTH_CONNECT
 import android.app.AlarmManager
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.os.Build
 import android.os.Bundle
+import android.widget.Toast
 import android.provider.Settings
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
@@ -33,10 +39,17 @@ import code.name.monkey.appthemehelper.util.VersionUtils
 import code.name.monkey.retromusic.R
 import code.name.monkey.retromusic.activities.base.AbsMusicServiceActivity
 import code.name.monkey.retromusic.databinding.ActivityPermissionBinding
+import code.name.monkey.retromusic.databinding.ActivityCustomLibraryBinding
 import code.name.monkey.retromusic.extensions.*
+import code.name.monkey.retromusic.fragments.LibraryViewModel
+import code.name.monkey.retromusic.util.PreferenceUtil
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class PermissionActivity : AbsMusicServiceActivity() {
     private lateinit var binding: ActivityPermissionBinding
+
+    private val libraryViewModel by viewModel<LibraryViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,13 +94,7 @@ class PermissionActivity : AbsMusicServiceActivity() {
         binding.finish.accentBackgroundColor()
         binding.finish.setOnClickListener {
             if (hasPermissions()) {
-                startActivity(
-                    Intent(this, MainActivity::class.java).addFlags(
-                        Intent.FLAG_ACTIVITY_NEW_TASK or
-                                Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    )
-                )
-                finish()
+                showCustomLibraryStep()
             }
         }
         onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
@@ -96,6 +103,64 @@ class PermissionActivity : AbsMusicServiceActivity() {
                 remove()
             }
         })
+    }
+
+    private fun showCustomLibraryStep() {
+        val customBinding = ActivityCustomLibraryBinding.inflate(layoutInflater)
+        setContentView(customBinding.root)
+
+        customBinding.customLibrary.setButtonClick {
+            scanCustomLibrary()
+        }
+
+        customBinding.finish.setOnClickListener {
+            startActivity(
+                Intent(this, MainActivity::class.java).addFlags(
+                    Intent.FLAG_ACTIVITY_NEW_TASK or
+                    Intent.FLAG_ACTIVITY_CLEAR_TASK
+                )
+            )
+        finish()
+        }
+    }
+
+    private fun scanCustomLibrary() {
+        PreferenceUtil.fixYear = true
+
+        val padding = (16 * resources.displayMetrics.density).toInt()
+        val container = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(padding, padding, padding, padding)
+        }
+
+        val progressBar = LinearProgressIndicator(this).apply {
+            isIndeterminate = false
+        }
+        container.addView(progressBar)
+
+        val dialog = MaterialAlertDialogBuilder(this)
+            .setTitle("Scanning songs")
+            .setMessage("Please wait...")
+            .setView(container)
+            .setCancelable(false)
+            .show()
+
+        libraryViewModel.startMetadataScan(
+            context = this,
+            force = true,
+            onProgress = { songTitle, index, total ->
+                lifecycleScope.launch(Dispatchers.Main) {
+                    progressBar.max = total
+                    progressBar.progress = index
+                }
+            },
+            onComplete = {
+                lifecycleScope.launch(Dispatchers.Main) {
+                    dialog.dismiss()
+                    Toast.makeText(this@PermissionActivity, "Scan completed!", Toast.LENGTH_SHORT).show()
+                }
+            }
+        )
     }
 
     private fun setupTitle() {
