@@ -113,6 +113,9 @@ class OtherSettingsFragment : AbsSettingsFragment(),
     }
 
     private fun scanCustomLibrary(force: Boolean = false) {
+        val forceScan: Preference? = findPreference("rebuild_custom_library")
+        forceScan?.isEnabled = false
+
         val padding = (16 * resources.displayMetrics.density).toInt()
         val container = LinearLayout(requireContext()).apply {
             orientation = LinearLayout.VERTICAL
@@ -136,6 +139,7 @@ class OtherSettingsFragment : AbsSettingsFragment(),
             force,
             onProgress = { songTitle, index, total ->
                 lifecycleScope.launch(Dispatchers.Main) {
+                    dialog.setMessage("$index / $total")
                     progressBar.max = total
                     progressBar.progress = index
                 }
