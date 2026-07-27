@@ -130,31 +130,31 @@ class PermissionActivity : AbsMusicServiceActivity() {
 
     private fun scanCustomLibrary(force: Boolean = false) {
         val padding = (16 * resources.displayMetrics.density).toInt()
-        val container = LinearLayout(requireContext()).apply {
+        val container = LinearLayout(this@PermissionActivity()).apply {
             orientation = LinearLayout.VERTICAL
             setPadding(padding, padding, padding, padding)
             gravity = android.view.Gravity.CENTER_HORIZONTAL
         }
 
-        val statusText = android.widget.TextView(requireContext()).apply {
+        val statusText = android.widget.TextView(this@PermissionActivity()).apply {
             text = "Scanning..."
             setPadding(0, 0, 0, padding / 2)
         }
         container.addView(statusText)
 
-        val progressBar = LinearProgressIndicator(requireContext()).apply {
+        val progressBar = LinearProgressIndicator(this@PermissionActivity()).apply {
             isIndeterminate = false
         }
         container.addView(progressBar)
 
-        val dialog = MaterialAlertDialogBuilder(requireContext())
+        val dialog = MaterialAlertDialogBuilder(this@PermissionActivity())
             .setTitle("Scanning songs")
             .setView(container)
             .setCancelable(false)
             .show()
 
         libraryViewModel.startMetadataScan(
-            requireContext(),
+            this@PermissionActivity(),
             force,
             onProgress = { songTitle, index, total ->
                 lifecycleScope.launch(Dispatchers.Main) {
