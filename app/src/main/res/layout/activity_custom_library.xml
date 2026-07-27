@@ -11,6 +11,7 @@
         android:layout_height="0dp"
         android:gravity="center"
         android:orientation="@integer/permission_orientation"
+        android:paddingHorizontal="16dp"
         app:layout_constraintBottom_toTopOf="@+id/finish"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,22 +22,32 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
+            android:gravity="center"
             android:text="@string/permission_custom_library"
             android:textAppearance="?attr/textAppearanceHeadlineMedium"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/title"
+            android:id="@+id/summary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
+            android:gravity="center"
             android:text="@string/permission_custom_library_summary"
             android:textAppearance="?attr/textAppearanceHeadlineSmall" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/custom_library"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content" />
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:layout_marginHorizontal="24dp"
+            android:text="@string/action_scan"
+            android:textAppearance="@style/TextViewButton"
+            android:textColor="?android:attr/textColorPrimary"
+            app:backgroundTint="?attr/colorSurface" />
     </LinearLayout>
 
     <com.google.android.material.button.MaterialButton
