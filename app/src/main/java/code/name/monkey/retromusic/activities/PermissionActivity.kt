@@ -109,8 +109,12 @@ class PermissionActivity : AbsMusicServiceActivity() {
         val customBinding = ActivityCustomLibraryBinding.inflate(layoutInflater)
         setContentView(customBinding.root)
 
+        customBinding.customLibrary.isEnabled = !PreferenceUtil.fixYear
+
         customBinding.customLibrary.setButtonClick {
-            scanCustomLibrary()
+            if (!PreferenceUtil.fixYear) {
+                scanCustomLibrary()
+                }
         }
 
         customBinding.finish.setOnClickListener {
@@ -162,11 +166,21 @@ class PermissionActivity : AbsMusicServiceActivity() {
             onComplete = {
                 lifecycleScope.launch(Dispatchers.Main) {
                     dialog.dismiss()
-                    Toast.makeText(requireContext(), "Scan completed!, App will be Restarted", Toast.LENGTH_SHORT).show()
-                    restartApp(requireContext())
+                    Toast.makeText(this@PermissionActivity, "Scan completed!, App will be Restarted", Toast.LENGTH_SHORT).show()
+                    restartApp(this@PermissionActivity)
                 }
             }
         )
+    }
+
+    private fun restartApp(context: android.content.Context) {
+        val pm = context.packageManager
+        val intent = pm.getLaunchIntentForPackage(context.packageName)
+        intent?.let {
+            val mainIntent = Intent.makeRestartActivityTask(it.component)
+            context.startActivity(mainIntent)
+            Runtime.getRuntime().exit(0)
+        }
     }
 
     private fun setupTitle() {
