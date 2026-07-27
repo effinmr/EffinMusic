@@ -20,17 +20,23 @@
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="8dp"
             android:text="@string/permission_custom_library"
             android:textAppearance="?attr/textAppearanceHeadlineMedium"
             android:textStyle="bold" />
 
-        <code.name.monkey.retromusic.views.PermissionItem
-            android:id="@+id/custom_library"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:permissionButtonTitle="@string/action_scan"
-            app:permissionTitleSubTitle="@string/permission_custom_library_summary" />
+            android:layout_marginBottom="8dp"
+            android:text="@string/permission_custom_library_summary"
+            android:textAppearance="?attr/textAppearanceHeadlineSmall" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/custom_library"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
     <com.google.android.material.button.MaterialButton
