@@ -18,12 +18,11 @@
 
         <TextView
             android:id="@+id/title"
-            style="@style/TextViewHeadline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:text="@string/permission_custom_library"
-            android:textSize="24sp"
+            android:textAppearance="?attr/textAppearanceHeadlineMedium"
             android:textStyle="bold" />
 
         <code.name.monkey.retromusic.views.PermissionItem
