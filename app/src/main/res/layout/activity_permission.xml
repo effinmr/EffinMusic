@@ -102,7 +102,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:paddingVertical="12dp"
-        android:text="@string/lets_go"
+        android:text="@string/action_next"
         android:textAppearance="@style/TextViewButton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
