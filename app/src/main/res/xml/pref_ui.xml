@@ -248,68 +248,6 @@
 
     <code.name.monkey.appthemehelper.common.prefs.supportv7.ATEPreferenceCategory
         android:layout="@layout/preference_category_title"
-        android:title="@string/pref_header_now_playing">
-
-        <code.name.monkey.appthemehelper.common.prefs.supportv7.ATEListPreference
-            android:defaultValue="total"
-            android:entries="@array/time_display_entries"
-            android:entryValues="@array/time_display_values"
-            android:key="time_display_mode"
-            android:layout="@layout/list_item_view"
-            android:negativeButtonText="@null"
-            android:positiveButtonText="@null"
-            android:title="@string/pref_title_time_display_mode"
-            android:summary="@string/pref_summary_time_display_mode" />
-
-        <code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
-            android:key="tap_on_title"
-            android:title="@string/pref_title_tap_on_title"
-            android:summary="@string/pref_summary_tap_on_title"
-            android:layout="@layout/list_item_view_switch"
-            android:defaultValue="true" />
-
-        <code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
-            android:key="tap_on_artist"
-            android:title="@string/pref_title_tap_on_artist"
-            android:summary="@string/pref_summary_tap_on_artist"
-            android:layout="@layout/list_item_view_switch"
-            android:defaultValue="true" />
-
-        <code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
-            android:defaultValue="true"
-            android:key="mini_player_scrolling"
-            android:layout="@layout/list_item_view_switch"
-            android:summary="@string/pref_summary_mini_player_scrolling"
-            android:title="@string/pref_title_mini_player_scrolling" />
-
-        <code.name.monkey.appthemehelper.common.prefs.supportv7.ATEListPreference
-            android:defaultValue="2"
-            android:entries="@array/mini_player_time_entries"
-            android:entryValues="@array/mini_player_time_values"
-            android:key="mini_player_time"
-            android:layout="@layout/list_item_view"
-            android:negativeButtonText="@null"
-            android:positiveButtonText="@null"
-            android:title="@string/pref_title_mini_player_time"
-            android:summary="@string/pref_summary_mini_player_time" />
-
-        <code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
-            android:defaultValue="false"
-            android:key="auto_hide_mini_player"
-            android:layout="@layout/list_item_view_switch"
-            android:summary="@string/pref_summary_auto_hide_mini_player"
-            android:title="@string/pref_title_auto_hide_mini_player" />
-
-        <code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
-            android:defaultValue="true"
-            android:key="double_tap_favorite"
-            android:layout="@layout/list_item_view_switch"
-            android:summary="@string/pref_summary_double_tap_favorite"
-            android:title="@string/pref_title_double_tap_favorite" />
-    </code.name.monkey.appthemehelper.common.prefs.supportv7.ATEPreferenceCategory>
-
-    <code.name.monkey.appthemehelper.common.prefs.supportv7.ATEPreferenceCategory
-        android:layout="@layout/preference_category_title"
         android:title="@string/notification">
 
         <code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
