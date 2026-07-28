@@ -21,8 +21,8 @@
     android:orientation="vertical">
 
     <include
-            android:id="@+id/suggestions"
-            layout="@layout/item_suggestions" />
+            android:id="@+id/abs_playlists"
+            layout="@layout/abs_playlists" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,8 +30,8 @@
         android:orientation="vertical">
 
         <include
-            android:id="@+id/abs_playlists"
-            layout="@layout/abs_playlists" />
+            android:id="@+id/suggestions"
+            layout="@layout/item_suggestions" />
 
         <code.name.monkey.retromusic.views.insets.InsetsRecyclerView
             android:id="@+id/recyclerView"
