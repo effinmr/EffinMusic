@@ -247,13 +247,11 @@
         <item name="fontFamily">@font/bungee</item>
         <item name="android:fontFamily">@font/bungee</item>
         <item name="android:includeFontPadding">false</item>
-        <item name="android:textSize">14sp</item>
     </style>
 
     <style name="FontThemeOverlay.PressStart2P">
         <item name="fontFamily">@font/press_start_2p</item>
         <item name="android:fontFamily">@font/press_start_2p</item>
-        <item name="android:textSize">14sp</item>
     </style>
 
     <style name="FontThemeOverlay.BitcountGridDouble">
@@ -264,7 +262,6 @@
     <style name="FontThemeOverlay.Jersey10Charted">
         <item name="fontFamily">@font/jersey_10_charted</item>
         <item name="android:fontFamily">@font/jersey_10_charted</item>
-        <item name="android:textSize">18sp</item>
     </style>
 
     <style name="FontThemeOverlay.EduVicWaNtHand">
