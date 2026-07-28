@@ -50,7 +50,6 @@ class MainSettingsFragment : Fragment(), View.OnClickListener {
                 R.id.generalSettings -> R.id.action_mainSettingsFragment_to_themeSettingsFragment
                 R.id.audioSettings -> R.id.action_mainSettingsFragment_to_audioSettings
                 R.id.personalizeSettings -> R.id.action_mainSettingsFragment_to_personalizeSettingsFragment
-                R.id.imageSettings -> R.id.action_mainSettingsFragment_to_imageSettingFragment
                 R.id.otherSettings -> R.id.action_mainSettingsFragment_to_otherSettingsFragment
                 R.id.aboutSettings -> R.id.action_mainSettingsFragment_to_aboutActivity
                 R.id.nowPlayingSettings -> R.id.action_mainSettingsFragment_to_nowPlayingSettingsFragment
@@ -167,11 +166,9 @@ class MainSettingsFragment : Fragment(), View.OnClickListener {
             SearchableSetting(R.id.personalizeSettings, getString(R.string.pref_title_album_art_on_lockscreen), getString(R.string.pref_summary_album_art_on_lockscreen), false, R.id.action_mainSettingsFragment_to_personalizeSettingsFragment),
             SearchableSetting(R.id.personalizeSettings, getString(R.string.pref_title_blurred_album_art), getString(R.string.pref_summary_blurred_album_art), false, R.id.action_mainSettingsFragment_to_personalizeSettingsFragment),
             SearchableSetting(R.id.personalizeSettings, getString(R.string.pref_title_lock_screen), getString(R.string.pref_summary_lock_screen), false, R.id.action_mainSettingsFragment_to_personalizeSettingsFragment),
-
-            // Image Settings (R.id.imageSettings)
-            SearchableSetting(R.id.imageSettings, getString(R.string.pref_header_images), getString(R.string.image_settings_summary), true, R.id.action_mainSettingsFragment_to_imageSettingFragment),
-            SearchableSetting(R.id.imageSettings, getString(R.string.pref_title_ignore_media_store_artwork), getString(R.string.pref_summary_ignore_media_store_artwork), false, R.id.action_mainSettingsFragment_to_imageSettingFragment),
-            SearchableSetting(R.id.imageSettings, getString(R.string.pref_title_auto_download_artist_images), null, false, R.id.action_mainSettingsFragment_to_imageSettingFragment),
+            SearchableSetting(R.id.personalizeSettings, getString(R.string.pref_header_images), getString(R.string.image_settings_summary), true, R.id.action_mainSettingsFragment_to_personalizeSettingsFragment),
+            SearchableSetting(R.id.personalizeSettings, getString(R.string.pref_title_ignore_media_store_artwork), getString(R.string.pref_summary_ignore_media_store_artwork), false, R.id.action_mainSettingsFragment_to_personalizeSettingsFragment),
+            SearchableSetting(R.id.personalizeSettings, getString(R.string.pref_title_auto_download_artist_images), null, false, R.id.action_mainSettingsFragment_to_personalizeSettingsFragment),
 
             // Other Settings (R.id.otherSettings)
             SearchableSetting(R.id.otherSettings, getString(R.string.others), getString(R.string.other_settings_summary), true, R.id.action_mainSettingsFragment_to_otherSettingsFragment),
