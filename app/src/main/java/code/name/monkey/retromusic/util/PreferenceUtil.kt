@@ -753,7 +753,7 @@ object PreferenceUtil {
     const val SELECTED_FONT = "selected_font"
 
     var selectedFont: String
-        get() = sharedPreferences.getString(SELECTED_FONT, "default") ?: "default"
+        get() = sharedPreferences.getString(SELECTED_FONT, "anton") ?: "anton"
         set(value) = sharedPreferences.edit().putString(SELECTED_FONT, value).apply()
 
     val isSnowFalling
