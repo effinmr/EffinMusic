@@ -231,6 +231,8 @@
         <item name="background">@color/transparent</item>
     </style>
 
+    <style name="FontThemeOverlay" />
+
     <style name="FontThemeOverlay.Anton">
         <item name="fontFamily">@font/anton</item>
         <item name="android:fontFamily">@font/anton</item>
