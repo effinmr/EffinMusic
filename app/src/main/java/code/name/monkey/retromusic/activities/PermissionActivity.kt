@@ -35,6 +35,7 @@ import androidx.core.content.getSystemService
 import androidx.core.net.toUri
 import androidx.core.text.parseAsHtml
 import androidx.core.view.isVisible
+import com.google.android.material.transition.MaterialSharedAxis
 import code.name.monkey.appthemehelper.util.VersionUtils
 import code.name.monkey.retromusic.R
 import code.name.monkey.retromusic.activities.base.AbsMusicServiceActivity
@@ -107,6 +108,12 @@ class PermissionActivity : AbsMusicServiceActivity() {
 
     private fun showCustomLibraryStep() {
         val customBinding = ActivityCustomLibraryBinding.inflate(layoutInflater)
+
+        val transition = MaterialSharedAxis(
+            MaterialSharedAxis.X,
+            true
+        )
+        window.enterTransition = transition
         setContentView(customBinding.root)
 
         customBinding.customLibrary.isEnabled = !PreferenceUtil.fixYear
