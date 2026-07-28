@@ -35,7 +35,7 @@ import androidx.core.content.getSystemService
 import androidx.core.net.toUri
 import androidx.core.text.parseAsHtml
 import androidx.core.view.isVisible
-import com.google.android.material.transition.MaterialSharedAxis
+import com.google.android.material.transition.platform.MaterialSharedAxis
 import code.name.monkey.appthemehelper.util.VersionUtils
 import code.name.monkey.retromusic.R
 import code.name.monkey.retromusic.activities.base.AbsMusicServiceActivity
