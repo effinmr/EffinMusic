@@ -163,6 +163,7 @@ class MainSettingsFragment : Fragment(), View.OnClickListener {
             SearchableSetting(R.id.personalizeSettings, getString(R.string.pref_header_images), getString(R.string.image_settings_summary), true, R.id.action_mainSettingsFragment_to_personalizeSettingsFragment),
             SearchableSetting(R.id.personalizeSettings, getString(R.string.pref_title_ignore_media_store_artwork), getString(R.string.pref_summary_ignore_media_store_artwork), false, R.id.action_mainSettingsFragment_to_personalizeSettingsFragment),
             SearchableSetting(R.id.personalizeSettings, getString(R.string.pref_title_auto_download_artist_images), null, false, R.id.action_mainSettingsFragment_to_personalizeSettingsFragment),
+            SearchableSetting(R.id.personalizeSettings, getString(R.string.pref_show_when_locked_title), getString(R.string.pref_show_when_locked_summary), false, R.id.action_mainSettingsFragment_to_personalizeSettingsFragment),
 
             // Other Settings (R.id.otherSettings)
             SearchableSetting(R.id.otherSettings, getString(R.string.others), getString(R.string.other_settings_summary), true, R.id.action_mainSettingsFragment_to_otherSettingsFragment),
@@ -173,7 +174,6 @@ class MainSettingsFragment : Fragment(), View.OnClickListener {
             SearchableSetting(R.id.otherSettings, getString(R.string.pref_header_advanced), null, true, R.id.action_mainSettingsFragment_to_otherSettingsFragment), // Category title
             SearchableSetting(R.id.otherSettings, getString(R.string.pref_filter_song_title), getString(R.string.pref_filter_song_summary), false, R.id.action_mainSettingsFragment_to_otherSettingsFragment),
             SearchableSetting(R.id.otherSettings, getString(R.string.pref_keep_screen_on_title), getString(R.string.pref_keep_screen_on_summary), false, R.id.action_mainSettingsFragment_to_otherSettingsFragment),
-            SearchableSetting(R.id.otherSettings, getString(R.string.pref_show_when_locked_title), getString(R.string.pref_show_when_locked_summary), false, R.id.action_mainSettingsFragment_to_otherSettingsFragment),
             SearchableSetting(R.id.otherSettings, getString(R.string.pref_title_artist_delimiters), getString(R.string.pref_summary_artist_delimiters), false, R.id.action_mainSettingsFragment_to_otherSettingsFragment),
             SearchableSetting(R.id.otherSettings, getString(R.string.pref_title_offline_mode), getString(R.string.pref_summary_offline_mode), false, R.id.action_mainSettingsFragment_to_otherSettingsFragment),
             SearchableSetting(R.id.otherSettings, getString(R.string.pref_title_show_song_only), getString(R.string.pref_summary_show_song_only), false, R.id.action_mainSettingsFragment_to_otherSettingsFragment),
