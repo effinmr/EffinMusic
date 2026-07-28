@@ -3,4 +3,13 @@
     <font
         android:font="@font/bjcree_regular"
         android:fontWeight="400" />
+    <font
+        android:font="@font/bjcree_medium"
+        android:fontWeight="500" />
+    <font
+        android:font="@font/bjcree_semibold"
+        android:fontWeight="600" />
+    <font
+        android:font="@font/bjcree_bold"
+        android:fontWeight="700" />
 </font-family>
