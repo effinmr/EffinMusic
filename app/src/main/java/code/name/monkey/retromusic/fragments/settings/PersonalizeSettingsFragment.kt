@@ -83,6 +83,13 @@ class PersonalizeSettingsFragment : AbsSettingsFragment(),SharedPreferences.OnSh
                 }
             }
         }
+
+        val autoDownloadImagesPolicy: Preference = findPreference(AUTO_DOWNLOAD_IMAGES_POLICY)!!
+        setSummary(autoDownloadImagesPolicy)
+        autoDownloadImagesPolicy.setOnPreferenceChangeListener { _, o ->
+            setSummary(autoDownloadImagesPolicy, o)
+            true
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -150,6 +157,9 @@ class PersonalizeSettingsFragment : AbsSettingsFragment(),SharedPreferences.OnSh
             Toast.makeText(requireContext(), "Custom fallback artwork reset to default!", Toast.LENGTH_SHORT).show()
             true
         }
+
+        val preference: Preference? = findPreference(AUTO_DOWNLOAD_IMAGES_POLICY)
+        preference?.let { setSummary(it) }
     }
 
     override fun onResume() {
