@@ -65,9 +65,20 @@ abstract class AbsThemeActivity : ATHToolbarActivity(), Runnable {
             setDefaultNightMode(getNightMode())
         }
 
-        if (PreferenceUtil.isCustomFont) {
-            setTheme(R.style.FontThemeOverlay)
+        val fontStyleRes = when (PreferenceUtil.selectedFont) {
+            "anton" -> R.style.FontThemeOverlay_Anton
+            "pacifico" -> R.style.FontThemeOverlay_Pacifico
+            "bungee" -> R.style.FontThemeOverlay_Bungee
+            "press_start_2p" -> R.style.FontThemeOverlay_PressStart2P
+            "bitcount_grid_double" -> R.style.FontThemeOverlay_BitcountGridDouble
+            "jersey_10_charted" -> R.style.FontThemeOverlay_Jersey10Charted
+            "edu_vic_wa_nt_hand" -> R.style.FontThemeOverlay_EduVicWaNtHand
+            "playwrite_nz_guides" -> R.style.FontThemeOverlay_PlaywriteNewZealandGuides
+            "bjcree" -> R.style.FontThemeOverlay_BJCree
+            else -> null
         }
+
+        fontStyleRes?.let { theme.applyStyle(it, true) }
     }
 
     private fun updateLocale() {
