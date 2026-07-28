@@ -291,7 +291,6 @@
     </string-array>
 
     <string-array name="font_entries">
-        <item>Default</item>
         <item>Anton</item>
         <item>Pacifico</item>
         <item>Bungee</item>
@@ -304,7 +303,6 @@
     </string-array>
 
     <string-array name="font_values">
-        <item>default</item>
         <item>anton</item>
         <item>pacifico</item>
         <item>bungee</item>
