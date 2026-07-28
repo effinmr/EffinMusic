@@ -188,6 +188,12 @@ class CoverLyricsFragment : AbsMusicServiceFragment(R.layout.fragment_cover_lyri
         return lyrics != null && lyrics!!.isSynchronized && lyrics!!.isValid
     }
 
+    override fun onGetLayoutInflater(savedInstanceState: Bundle?): LayoutInflater {
+        val inflater = super.onGetLayoutInflater(savedInstanceState)
+        val contextThemeWrapper = android.view.ContextThemeWrapper(requireContext(), requireActivity().theme)
+        return inflater.cloneInContext(contextThemeWrapper)
+    }
+
     private fun hideLyricsLayout() {
         lyricsLayout.animate().alpha(0f).setDuration(AbsPlayerFragment.VISIBILITY_ANIM_DURATION)
             .withEndAction {
