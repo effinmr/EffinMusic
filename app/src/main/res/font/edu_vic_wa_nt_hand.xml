@@ -3,13 +3,4 @@
     <font
         android:font="@font/eduvicwanthand_regular"
         android:fontWeight="400" />
-    <font
-        android:font="@font/eduvicwanthand_medium"
-        android:fontWeight="500" />
-    <font
-        android:font="@font/eduvicwanthand_semibold"
-        android:fontWeight="600" />
-    <font
-        android:font="@font/eduvicwanthand_bold"
-        android:fontWeight="700" />
 </font-family>
