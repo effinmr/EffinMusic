@@ -114,6 +114,7 @@ class MainSettingsFragment : Fragment(), View.OnClickListener {
             SearchableSetting(R.id.audioSettings, getString(R.string.pref_header_audio), getString(R.string.audio_settings_summary), true, R.id.action_mainSettingsFragment_to_audioSettings),
             SearchableSetting(R.id.audioSettings, getString(R.string.pref_title_audio_fade), getString(R.string.pref_summary_audio_fade), false, R.id.action_mainSettingsFragment_to_audioSettings),
             SearchableSetting(R.id.audioSettings, getString(R.string.pref_title_manage_audio_focus), getString(R.string.pref_summary_manage_audio_focus), false, R.id.action_mainSettingsFragment_to_audioSettings),
+            SearchableSetting(R.id.audioSettings, getString(R.string.pref_keep_pause_on_zero_volume_title), getString(R.string.pref_keep_pause_on_zero_volume_summary), false, R.id.action_mainSettingsFragment_to_audioSettings),
             SearchableSetting(R.id.audioSettings, getString(R.string.pref_title_cross_fade), getString(R.string.pref_summary_cross_fade), false, R.id.action_mainSettingsFragment_to_audioSettings),
             SearchableSetting(R.id.audioSettings, getString(R.string.pref_title_is_skip_to_previous), getString(R.string.pref_summary_is_skip_to_previous), false, R.id.action_mainSettingsFragment_to_audioSettings),
             SearchableSetting(R.id.audioSettings, getString(R.string.pref_title_gapless_playback), getString(R.string.pref_summary_gapless_playback), false, R.id.action_mainSettingsFragment_to_audioSettings),
@@ -178,7 +179,6 @@ class MainSettingsFragment : Fragment(), View.OnClickListener {
             SearchableSetting(R.id.otherSettings, getString(R.string.pref_title_last_added_interval), null, false, R.id.action_mainSettingsFragment_to_otherSettingsFragment),
             SearchableSetting(R.id.otherSettings, getString(R.string.pref_header_advanced), null, true, R.id.action_mainSettingsFragment_to_otherSettingsFragment), // Category title
             SearchableSetting(R.id.otherSettings, getString(R.string.pref_filter_song_title), getString(R.string.pref_filter_song_summary), false, R.id.action_mainSettingsFragment_to_otherSettingsFragment),
-            SearchableSetting(R.id.otherSettings, getString(R.string.pref_keep_pause_on_zero_volume_title), getString(R.string.pref_keep_pause_on_zero_volume_summary), false, R.id.action_mainSettingsFragment_to_otherSettingsFragment),
             SearchableSetting(R.id.otherSettings, getString(R.string.pref_keep_screen_on_title), getString(R.string.pref_keep_screen_on_summary), false, R.id.action_mainSettingsFragment_to_otherSettingsFragment),
             SearchableSetting(R.id.otherSettings, getString(R.string.pref_show_when_locked_title), getString(R.string.pref_show_when_locked_summary), false, R.id.action_mainSettingsFragment_to_otherSettingsFragment),
             SearchableSetting(R.id.otherSettings, getString(R.string.pref_title_artist_delimiters), getString(R.string.pref_summary_artist_delimiters), false, R.id.action_mainSettingsFragment_to_otherSettingsFragment),
