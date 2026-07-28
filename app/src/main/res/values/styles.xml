@@ -231,9 +231,51 @@
         <item name="background">@color/transparent</item>
     </style>
 
-    <style name="FontThemeOverlay">
-        <item name="fontFamily">@font/manrope</item>
-        <item name="android:fontFamily">@font/manrope</item>
+    <style name="FontThemeOverlay.Anton">
+        <item name="fontFamily">@font/anton</item>
+        <item name="android:fontFamily">@font/anton</item>
+    </style>
+
+    <style name="FontThemeOverlay.Pacifico">
+        <item name="fontFamily">@font/pacifico</item>
+        <item name="android:fontFamily">@font/pacifico</item>
+    </style>
+
+    <style name="FontThemeOverlay.Bungee">
+        <item name="fontFamily">@font/bungee</item>
+        <item name="android:fontFamily">@font/bungee</item>
+    </style>
+
+    <!-- Retro & Pixel Styles -->
+    <style name="FontThemeOverlay.PressStart2P">
+        <item name="fontFamily">@font/press_start_2p</item>
+        <item name="android:fontFamily">@font/press_start_2p</item>
+    </style>
+
+    <style name="FontThemeOverlay.BitcountGridDouble">
+        <item name="fontFamily">@font/bitcount_grid_double</item>
+        <item name="android:fontFamily">@font/bitcount_grid_double</item>
+    </style>
+
+    <style name="FontThemeOverlay.Jersey10Charted">
+        <item name="fontFamily">@font/jersey_10_charted</item>
+        <item name="android:fontFamily">@font/jersey_10_charted</item>
+    </style>
+
+    <!-- Handwriting & Specialized Styles -->
+    <style name="FontThemeOverlay.EduVicWaNtHand">
+        <item name="fontFamily">@font/edu_vic_wa_nt_hand</item>
+        <item name="android:fontFamily">@font/edu_vic_wa_nt_hand</item>
+    </style>
+
+    <style name="FontThemeOverlay.PlaywriteNewZealandGuides">
+        <item name="fontFamily">@font/playwrite_nz_guides</item>
+        <item name="android:fontFamily">@font/playwrite_nz_guides</item>
+    </style>
+
+    <style name="FontThemeOverlay.BJCree">
+        <item name="fontFamily">@font/bjcree</item>
+        <item name="android:fontFamily">@font/bjcree</item>
     </style>
 
     <style name="CircleFABOverlay">
