@@ -3,6 +3,7 @@ package code.name.monkey.retromusic.fragments.player
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
+import android.view.LayoutInflater
 import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.core.view.isVisible
