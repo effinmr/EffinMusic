@@ -3,6 +3,7 @@ package code.name.monkey.retromusic.fragments.player
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
+import android.view.LayoutInflater
 import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.core.view.isVisible
@@ -186,6 +187,12 @@ class CoverLyricsFragment : AbsMusicServiceFragment(R.layout.fragment_cover_lyri
 
     private fun isLyricsLayoutVisible(): Boolean {
         return lyrics != null && lyrics!!.isSynchronized && lyrics!!.isValid
+    }
+
+    override fun onGetLayoutInflater(savedInstanceState: Bundle?): LayoutInflater {
+        val inflater = super.onGetLayoutInflater(savedInstanceState)
+        val contextThemeWrapper = android.view.ContextThemeWrapper(requireContext(), requireActivity().theme)
+        return inflater.cloneInContext(contextThemeWrapper)
     }
 
     private fun hideLyricsLayout() {

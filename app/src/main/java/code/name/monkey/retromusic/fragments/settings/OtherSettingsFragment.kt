@@ -33,7 +33,9 @@ import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import android.content.Context
 import android.content.Intent
 import androidx.navigation.fragment.findNavController
-import android.app.ProgressDialog
+import android.widget.LinearLayout
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.progressindicator.LinearProgressIndicator
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
@@ -111,24 +113,39 @@ class OtherSettingsFragment : AbsSettingsFragment(),
     }
 
     private fun scanCustomLibrary(force: Boolean = false) {
-        val progressDialog = ProgressDialog(requireContext()).apply {
-            setTitle("Scanning songs")
-            setMessage("Please wait...")
-            setProgressStyle(ProgressDialog.STYLE_HORIZONTAL)
-            setCancelable(false)
-            show()
+        val forceScan: Preference? = findPreference("rebuild_custom_library")
+        forceScan?.isEnabled = false
+
+        val padding = (16 * resources.displayMetrics.density).toInt()
+        val container = LinearLayout(requireContext()).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(padding, padding, padding, padding)
         }
-                
+
+        val progressBar = LinearProgressIndicator(requireContext()).apply {
+            isIndeterminate = false
+        }
+        container.addView(progressBar)
+
+        val dialog = MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Scanning songs")
+            .setView(container)
+            .setCancelable(false)
+            .show()
+
         libraryViewModel.startMetadataScan(
             requireContext(),
             force,
             onProgress = { songTitle, index, total ->
-                progressDialog.max = total
-                progressDialog.progress = index
+                lifecycleScope.launch(Dispatchers.Main) {
+                    dialog.setMessage("$index / $total")
+                    progressBar.max = total
+                    progressBar.progress = index
+                }
             },
             onComplete = {
                 lifecycleScope.launch(Dispatchers.Main) {
-                    progressDialog.dismiss()
+                    dialog.dismiss()
                     Toast.makeText(requireContext(), "Scan completed!, App will be Restarted", Toast.LENGTH_SHORT).show()
                     restartApp(requireContext())
                 }

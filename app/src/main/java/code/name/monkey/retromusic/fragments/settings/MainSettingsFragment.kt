@@ -50,7 +50,6 @@ class MainSettingsFragment : Fragment(), View.OnClickListener {
                 R.id.generalSettings -> R.id.action_mainSettingsFragment_to_themeSettingsFragment
                 R.id.audioSettings -> R.id.action_mainSettingsFragment_to_audioSettings
                 R.id.personalizeSettings -> R.id.action_mainSettingsFragment_to_personalizeSettingsFragment
-                R.id.imageSettings -> R.id.action_mainSettingsFragment_to_imageSettingFragment
                 R.id.otherSettings -> R.id.action_mainSettingsFragment_to_otherSettingsFragment
                 R.id.aboutSettings -> R.id.action_mainSettingsFragment_to_aboutActivity
                 R.id.nowPlayingSettings -> R.id.action_mainSettingsFragment_to_nowPlayingSettingsFragment
@@ -115,6 +114,7 @@ class MainSettingsFragment : Fragment(), View.OnClickListener {
             SearchableSetting(R.id.audioSettings, getString(R.string.pref_header_audio), getString(R.string.audio_settings_summary), true, R.id.action_mainSettingsFragment_to_audioSettings),
             SearchableSetting(R.id.audioSettings, getString(R.string.pref_title_audio_fade), getString(R.string.pref_summary_audio_fade), false, R.id.action_mainSettingsFragment_to_audioSettings),
             SearchableSetting(R.id.audioSettings, getString(R.string.pref_title_manage_audio_focus), getString(R.string.pref_summary_manage_audio_focus), false, R.id.action_mainSettingsFragment_to_audioSettings),
+            SearchableSetting(R.id.audioSettings, getString(R.string.pref_keep_pause_on_zero_volume_title), getString(R.string.pref_keep_pause_on_zero_volume_summary), false, R.id.action_mainSettingsFragment_to_audioSettings),
             SearchableSetting(R.id.audioSettings, getString(R.string.pref_title_cross_fade), getString(R.string.pref_summary_cross_fade), false, R.id.action_mainSettingsFragment_to_audioSettings),
             SearchableSetting(R.id.audioSettings, getString(R.string.pref_title_is_skip_to_previous), getString(R.string.pref_summary_is_skip_to_previous), false, R.id.action_mainSettingsFragment_to_audioSettings),
             SearchableSetting(R.id.audioSettings, getString(R.string.pref_title_gapless_playback), getString(R.string.pref_summary_gapless_playback), false, R.id.action_mainSettingsFragment_to_audioSettings),
@@ -153,13 +153,6 @@ class MainSettingsFragment : Fragment(), View.OnClickListener {
             SearchableSetting(R.id.personalizeSettings, getString(R.string.pref_title_show_cast_button), getString(R.string.pref_summary_show_cast_button), false, R.id.action_mainSettingsFragment_to_personalizeSettingsFragment),
             SearchableSetting(R.id.personalizeSettings, getString(R.string.keep_header_visible_title), getString(R.string.keep_header_visible_summary), false, R.id.action_mainSettingsFragment_to_personalizeSettingsFragment),
             SearchableSetting(R.id.personalizeSettings, getString(R.string.hide_header_title), getString(R.string.hide_header_summary), false, R.id.action_mainSettingsFragment_to_personalizeSettingsFragment),
-            SearchableSetting(R.id.personalizeSettings, getString(R.string.pref_header_now_playing), null, true, R.id.action_mainSettingsFragment_to_personalizeSettingsFragment), // Category title
-            SearchableSetting(R.id.personalizeSettings, getString(R.string.pref_title_tap_on_title), getString(R.string.pref_summary_tap_on_title), false, R.id.action_mainSettingsFragment_to_personalizeSettingsFragment),
-            SearchableSetting(R.id.personalizeSettings, getString(R.string.pref_title_tap_on_artist), getString(R.string.pref_summary_tap_on_artist), false, R.id.action_mainSettingsFragment_to_personalizeSettingsFragment),
-            SearchableSetting(R.id.personalizeSettings, getString(R.string.pref_title_mini_player_scrolling), getString(R.string.pref_summary_mini_player_scrolling), false, R.id.action_mainSettingsFragment_to_personalizeSettingsFragment),
-            SearchableSetting(R.id.personalizeSettings, getString(R.string.pref_title_mini_player_time), getString(R.string.pref_summary_mini_player_time), false, R.id.action_mainSettingsFragment_to_personalizeSettingsFragment),
-            SearchableSetting(R.id.personalizeSettings, getString(R.string.pref_title_auto_hide_mini_player), getString(R.string.pref_summary_auto_hide_mini_player), false, R.id.action_mainSettingsFragment_to_personalizeSettingsFragment),
-            SearchableSetting(R.id.personalizeSettings, getString(R.string.pref_title_double_tap_favorite), getString(R.string.pref_summary_double_tap_favorite), false, R.id.action_mainSettingsFragment_to_personalizeSettingsFragment),
             SearchableSetting(R.id.personalizeSettings, getString(R.string.notification), getString(R.string.notification_settings_summary), false, R.id.action_mainSettingsFragment_to_personalizeSettingsFragment),
             SearchableSetting(R.id.personalizeSettings, getString(R.string.pref_title_classic_notification), getString(R.string.pref_summary_classic_notification), false, R.id.action_mainSettingsFragment_to_personalizeSettingsFragment),
             SearchableSetting(R.id.personalizeSettings, getString(R.string.pref_title_colored_notification), getString(R.string.pref_summary_colored_notification), false, R.id.action_mainSettingsFragment_to_personalizeSettingsFragment),
@@ -167,11 +160,10 @@ class MainSettingsFragment : Fragment(), View.OnClickListener {
             SearchableSetting(R.id.personalizeSettings, getString(R.string.pref_title_album_art_on_lockscreen), getString(R.string.pref_summary_album_art_on_lockscreen), false, R.id.action_mainSettingsFragment_to_personalizeSettingsFragment),
             SearchableSetting(R.id.personalizeSettings, getString(R.string.pref_title_blurred_album_art), getString(R.string.pref_summary_blurred_album_art), false, R.id.action_mainSettingsFragment_to_personalizeSettingsFragment),
             SearchableSetting(R.id.personalizeSettings, getString(R.string.pref_title_lock_screen), getString(R.string.pref_summary_lock_screen), false, R.id.action_mainSettingsFragment_to_personalizeSettingsFragment),
-
-            // Image Settings (R.id.imageSettings)
-            SearchableSetting(R.id.imageSettings, getString(R.string.pref_header_images), getString(R.string.image_settings_summary), true, R.id.action_mainSettingsFragment_to_imageSettingFragment),
-            SearchableSetting(R.id.imageSettings, getString(R.string.pref_title_ignore_media_store_artwork), getString(R.string.pref_summary_ignore_media_store_artwork), false, R.id.action_mainSettingsFragment_to_imageSettingFragment),
-            SearchableSetting(R.id.imageSettings, getString(R.string.pref_title_auto_download_artist_images), null, false, R.id.action_mainSettingsFragment_to_imageSettingFragment),
+            SearchableSetting(R.id.personalizeSettings, getString(R.string.pref_header_images), getString(R.string.image_settings_summary), true, R.id.action_mainSettingsFragment_to_personalizeSettingsFragment),
+            SearchableSetting(R.id.personalizeSettings, getString(R.string.pref_title_ignore_media_store_artwork), getString(R.string.pref_summary_ignore_media_store_artwork), false, R.id.action_mainSettingsFragment_to_personalizeSettingsFragment),
+            SearchableSetting(R.id.personalizeSettings, getString(R.string.pref_title_auto_download_artist_images), null, false, R.id.action_mainSettingsFragment_to_personalizeSettingsFragment),
+            SearchableSetting(R.id.personalizeSettings, getString(R.string.pref_show_when_locked_title), getString(R.string.pref_show_when_locked_summary), false, R.id.action_mainSettingsFragment_to_personalizeSettingsFragment),
 
             // Other Settings (R.id.otherSettings)
             SearchableSetting(R.id.otherSettings, getString(R.string.others), getString(R.string.other_settings_summary), true, R.id.action_mainSettingsFragment_to_otherSettingsFragment),
@@ -181,9 +173,7 @@ class MainSettingsFragment : Fragment(), View.OnClickListener {
             SearchableSetting(R.id.otherSettings, getString(R.string.pref_title_last_added_interval), null, false, R.id.action_mainSettingsFragment_to_otherSettingsFragment),
             SearchableSetting(R.id.otherSettings, getString(R.string.pref_header_advanced), null, true, R.id.action_mainSettingsFragment_to_otherSettingsFragment), // Category title
             SearchableSetting(R.id.otherSettings, getString(R.string.pref_filter_song_title), getString(R.string.pref_filter_song_summary), false, R.id.action_mainSettingsFragment_to_otherSettingsFragment),
-            SearchableSetting(R.id.otherSettings, getString(R.string.pref_keep_pause_on_zero_volume_title), getString(R.string.pref_keep_pause_on_zero_volume_summary), false, R.id.action_mainSettingsFragment_to_otherSettingsFragment),
             SearchableSetting(R.id.otherSettings, getString(R.string.pref_keep_screen_on_title), getString(R.string.pref_keep_screen_on_summary), false, R.id.action_mainSettingsFragment_to_otherSettingsFragment),
-            SearchableSetting(R.id.otherSettings, getString(R.string.pref_show_when_locked_title), getString(R.string.pref_show_when_locked_summary), false, R.id.action_mainSettingsFragment_to_otherSettingsFragment),
             SearchableSetting(R.id.otherSettings, getString(R.string.pref_title_artist_delimiters), getString(R.string.pref_summary_artist_delimiters), false, R.id.action_mainSettingsFragment_to_otherSettingsFragment),
             SearchableSetting(R.id.otherSettings, getString(R.string.pref_title_offline_mode), getString(R.string.pref_summary_offline_mode), false, R.id.action_mainSettingsFragment_to_otherSettingsFragment),
             SearchableSetting(R.id.otherSettings, getString(R.string.pref_title_show_song_only), getString(R.string.pref_summary_show_song_only), false, R.id.action_mainSettingsFragment_to_otherSettingsFragment),
@@ -220,6 +210,13 @@ class MainSettingsFragment : Fragment(), View.OnClickListener {
             SearchableSetting(R.id.nowPlayingSettings, "Show 'Add to favorites' Button", null, false, R.id.action_mainSettingsFragment_to_nowPlayingSettingsFragment),
             SearchableSetting(R.id.nowPlayingSettings, "Show 'Now playing queue' Button", null, false, R.id.action_mainSettingsFragment_to_nowPlayingSettingsFragment),
             SearchableSetting(R.id.nowPlayingSettings, "Show 'More options' Menu", null, false, R.id.action_mainSettingsFragment_to_nowPlayingSettingsFragment),
+            SearchableSetting(R.id.nowPlayingSettings, getString(R.string.pref_header_now_playing), null, true, R.id.action_mainSettingsFragment_to_nowPlayingSettingsFragment), // Category title
+            SearchableSetting(R.id.nowPlayingSettings, getString(R.string.pref_title_tap_on_title), getString(R.string.pref_summary_tap_on_title), false, R.id.action_mainSettingsFragment_to_nowPlayingSettingsFragment),
+            SearchableSetting(R.id.nowPlayingSettings, getString(R.string.pref_title_tap_on_artist), getString(R.string.pref_summary_tap_on_artist), false, R.id.action_mainSettingsFragment_to_nowPlayingSettingsFragment),
+            SearchableSetting(R.id.nowPlayingSettings, getString(R.string.pref_title_mini_player_scrolling), getString(R.string.pref_summary_mini_player_scrolling), false, R.id.action_mainSettingsFragment_to_nowPlayingSettingsFragment),
+            SearchableSetting(R.id.nowPlayingSettings, getString(R.string.pref_title_mini_player_time), getString(R.string.pref_summary_mini_player_time), false, R.id.action_mainSettingsFragment_to_nowPlayingSettingsFragment),
+            SearchableSetting(R.id.nowPlayingSettings, getString(R.string.pref_title_auto_hide_mini_player), getString(R.string.pref_summary_auto_hide_mini_player), false, R.id.action_mainSettingsFragment_to_nowPlayingSettingsFragment),
+            SearchableSetting(R.id.nowPlayingSettings, getString(R.string.pref_title_double_tap_favorite), getString(R.string.pref_summary_double_tap_favorite), false, R.id.action_mainSettingsFragment_to_nowPlayingSettingsFragment),
 
             // Backup/Restore Settings (R.id.backup_restore_settings)
             SearchableSetting(R.id.backup_restore_settings, getString(R.string.backup_restore_title), getString(R.string.backup_restore_settings_summary), true, R.id.action_mainSettingsFragment_to_backupFragment),
@@ -232,7 +229,6 @@ class MainSettingsFragment : Fragment(), View.OnClickListener {
         binding.audioSettings.setOnClickListener(this)
         binding.nowPlayingSettings.setOnClickListener(this)
         binding.personalizeSettings.setOnClickListener(this)
-        binding.imageSettings.setOnClickListener(this)
         binding.otherSettings.setOnClickListener(this)
         binding.aboutSettings.setOnClickListener(this)
         binding.backupRestoreSettings.setOnClickListener(this)

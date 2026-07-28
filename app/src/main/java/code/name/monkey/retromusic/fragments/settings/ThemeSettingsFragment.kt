@@ -24,6 +24,7 @@ import code.name.monkey.appthemehelper.ACCENT_COLORS_SUB
 import code.name.monkey.appthemehelper.ThemeStore
 import code.name.monkey.appthemehelper.common.prefs.supportv7.ATEColorPreference
 import code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
+import code.name.monkey.appthemehelper.common.prefs.supportv7.ATEListPreference
 import code.name.monkey.appthemehelper.util.ColorUtil
 import code.name.monkey.appthemehelper.util.VersionUtils
 import code.name.monkey.retromusic.*
@@ -122,8 +123,10 @@ class ThemeSettingsFragment : AbsSettingsFragment() {
             restartActivity()
             true
         }
-        val customFont: ATESwitchPreference? = findPreference(CUSTOM_FONT)
-        customFont?.setOnPreferenceChangeListener { _, _ ->
+        
+        val fontPreference: ATEListPreference? = findPreference(SELECTED_FONT)
+        fontPreference?.setOnPreferenceChangeListener { preference, newValue ->
+            setSummary(preference, newValue)
             restartActivity()
             true
         }

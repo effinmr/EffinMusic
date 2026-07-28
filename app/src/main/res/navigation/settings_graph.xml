@@ -19,14 +19,6 @@
             app:popExitAnim="@anim/retro_fragment_close_exit" />
 
         <action
-            android:id="@+id/action_mainSettingsFragment_to_imageSettingFragment"
-            app:destination="@id/imageSettingFragment"
-            app:enterAnim="@anim/retro_fragment_open_enter"
-            app:exitAnim="@anim/retro_fragment_open_exit"
-            app:popEnterAnim="@anim/retro_fragment_close_enter"
-            app:popExitAnim="@anim/retro_fragment_close_exit" />
-
-        <action
             android:id="@+id/action_mainSettingsFragment_to_nowPlayingSettingsFragment"
             app:destination="@id/nowPlayingSettingsFragment"
             app:enterAnim="@anim/retro_fragment_open_enter"
@@ -81,11 +73,6 @@
         android:id="@+id/audioSettings"
         android:name="code.name.monkey.retromusic.fragments.settings.AudioSettings"
         android:label="Audio" />
-
-    <fragment
-        android:id="@+id/imageSettingFragment"
-        android:name="code.name.monkey.retromusic.fragments.settings.ImageSettingFragment"
-        android:label="Image" />
 
     <fragment
         android:id="@+id/notificationSettingsFragment"

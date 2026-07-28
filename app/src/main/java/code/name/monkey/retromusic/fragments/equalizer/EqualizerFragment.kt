@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.slider.Slider
+import com.google.android.material.transition.MaterialFadeThrough
 import code.name.monkey.retromusic.R
 import code.name.monkey.retromusic.databinding.FragmentEqualizerBinding
 import code.name.monkey.retromusic.helper.MusicPlayerRemote
@@ -22,6 +23,12 @@ class EqualizerFragment : Fragment(R.layout.fragment_equalizer) {
     private var selectedPresetIndex = 0
 
     private var destinationListener: androidx.navigation.NavController.OnDestinationChangedListener? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enterTransition = MaterialFadeThrough()
+        exitTransition = MaterialFadeThrough()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

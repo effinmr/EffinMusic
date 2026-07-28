@@ -197,6 +197,12 @@ class LyricsFragment : AbsMainActivityFragment(R.layout.fragment_lyrics),
         }
     }
 
+    override fun onGetLayoutInflater(savedInstanceState: Bundle?): LayoutInflater {
+        val inflater = super.onGetLayoutInflater(savedInstanceState)
+        val contextThemeWrapper = android.view.ContextThemeWrapper(requireContext(), requireActivity().theme)
+        return inflater.cloneInContext(contextThemeWrapper)
+    }
+
     private fun setupWakelock() {
         requireActivity().window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
