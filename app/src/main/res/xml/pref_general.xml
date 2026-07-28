@@ -32,7 +32,7 @@
         <code.name.monkey.appthemehelper.common.prefs.supportv7.ATEListPreference
             android:key="selected_font"
             android:title="App Font"
-            android:defaultValue="anton"
+            android:defaultValue="default"
             android:layout="@layout/list_item_view"
             android:entries="@array/font_entries"
             android:entryValues="@array/font_values" />
