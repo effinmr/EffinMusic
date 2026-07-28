@@ -292,6 +292,14 @@
             android:layout="@layout/list_item_view_switch"
             android:summary="@string/pref_summary_lock_screen"
             android:title="@string/pref_title_lock_screen" />
+
+        <code.name.monkey.appthemehelper.common.prefs.supportv7.ATESwitchPreference
+            android:defaultValue="false"
+            android:key="show_when_locked"
+            android:layout="@layout/list_item_view_switch"
+            android:summary="@string/pref_show_when_locked_summary"
+            android:title="@string/pref_show_when_locked_title"
+            app:icon="@drawable/ic_screen_lock_portrait" />
     </code.name.monkey.appthemehelper.common.prefs.supportv7.ATEPreferenceCategory>
 
     <code.name.monkey.appthemehelper.common.prefs.supportv7.ATEPreferenceCategory
