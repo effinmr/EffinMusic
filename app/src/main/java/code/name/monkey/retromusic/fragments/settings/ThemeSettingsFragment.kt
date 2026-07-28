@@ -122,8 +122,10 @@ class ThemeSettingsFragment : AbsSettingsFragment() {
             restartActivity()
             true
         }
-        val customFont: ATESwitchPreference? = findPreference(CUSTOM_FONT)
-        customFont?.setOnPreferenceChangeListener { _, _ ->
+        
+        val fontPreference: ATEListPreference? = findPreference(SELECTED_FONT)
+        fontPreference?.setOnPreferenceChangeListener { preference, newValue ->
+            setSummary(preference, newValue)
             restartActivity()
             true
         }
