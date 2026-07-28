@@ -252,6 +252,11 @@
     <style name="FontThemeOverlay.PressStart2P">
         <item name="fontFamily">@font/press_start_2p</item>
         <item name="android:fontFamily">@font/press_start_2p</item>
+        <item name="textAppearanceBody1">@style/PressStartBody1</item>
+    </style>
+
+    <style name="PressStartBody1" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:textSize">12sp</item>
     </style>
 
     <style name="FontThemeOverlay.BitcountGridDouble">
@@ -262,6 +267,11 @@
     <style name="FontThemeOverlay.Jersey10Charted">
         <item name="fontFamily">@font/jersey_10_charted</item>
         <item name="android:fontFamily">@font/jersey_10_charted</item>
+        <item name="textAppearanceBody1">@style/JerseyBody1</item>
+    </style>
+
+    <style name="JerseyBody1" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:textSize">16sp</item>
     </style>
 
     <style name="FontThemeOverlay.EduVicWaNtHand">
