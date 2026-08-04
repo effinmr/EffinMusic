@@ -48,7 +48,6 @@ abstract class AbsThemeActivity : ATHToolbarActivity(), Runnable {
         updateTheme()
         hideStatusBar()
         super.onCreate(savedInstanceState)
-        updateTheme()
         setEdgeToEdgeOrImmersive()
         maybeSetScreenOn()
         maybeShowWhenLocked()
@@ -85,7 +84,7 @@ abstract class AbsThemeActivity : ATHToolbarActivity(), Runnable {
         }
 
         fontStyleRes?.let { theme.applyStyle(it, true) }
-        theme.applyStyle(sizeStyleRes, true)
+        setTheme(sizeStyleRes)
     }
 
     private fun updateLocale() {
