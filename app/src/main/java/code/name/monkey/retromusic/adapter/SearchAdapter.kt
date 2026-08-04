@@ -92,6 +92,19 @@ class SearchAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
+        val songTextSize = PreferenceUtil.songTextSize.toFloat() + when (PreferenceUtil.fontSize) {
+            "large" -> 4f
+            "small" -> -4f
+            else -> 0f
+        }
+        
+        val artistTextSize = PreferenceUtil.artistTextSize.toFloat() + when (PreferenceUtil.fontSize) {
+            "large" -> 4f
+            "small" -> -4f
+            else -> 0f
+        }
+        
         when (getItemViewType(position)) {
             ALBUM -> {
                 val album = dataSet[position] as Album
