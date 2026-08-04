@@ -96,14 +96,6 @@ abstract class AbsThemeActivity : ATHToolbarActivity(), Runnable {
         }
     }
 
-    private fun updateLocale() {
-        val localeCode = PreferenceUtil.languageCode
-        if (PreferenceUtil.isLocaleAutoStorageEnabled) {
-            AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(localeCode))
-            PreferenceUtil.isLocaleAutoStorageEnabled = true
-        }
-    }
-
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
         if (hasFocus) {
