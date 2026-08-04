@@ -14,7 +14,7 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:padding="8dp"
-        android:textAppearance="@style/TextViewHeadline6"
+        android:textAppearance="?attr/TextViewHeadline6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

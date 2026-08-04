@@ -42,7 +42,7 @@
         android:layout_marginTop="@dimen/mi_baseline"
         android:fontFamily="sans-serif-medium"
         android:gravity="center"
-        android:textAppearance="@style/TextViewHeadline5"
+        android:textAppearance="?attr/TextViewHeadline5"
         tools:ignore="UnusedAttribute"
         tools:text="Lorem ipsum" />
 
@@ -52,7 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/mi_baseline"
         android:gravity="center"
-        android:textAppearance="@style/TextViewSubtitle1"
+        android:textAppearance="?attr/TextViewSubtitle1"
         tools:text="Lorem ipsum dolor sit amet, consectetur, adipisci velit, …" />
 
 </com.heinrichreimersoftware.materialintro.view.parallax.ParallaxLinearLayout>

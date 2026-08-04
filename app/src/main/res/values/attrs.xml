@@ -11,5 +11,19 @@
         <attr name="url_link" format="string" />
     </declare-styleable>
 
+    <attr name="TextViewHeadline2" format="reference" />
+    <attr name="TextViewHeadline3" format="reference" />
+    <attr name="TextViewHeadline4" format="reference" />
+    <attr name="TextViewHeadline5" format="reference" />
+    <attr name="TextViewHeadline6" format="reference" />
+    <attr name="TextViewSubtitle1" format="reference" />
+    <attr name="TextViewSubtitle2" format="reference" />
+    <attr name="TextViewBody1" format="reference" />
+    <attr name="TextViewBody2" format="reference" />
+    <attr name="TextViewCaption" format="reference" />
+    <attr name="TextViewButton" format="reference" />
+    <attr name="TextViewOverline" format="reference" />
+    <attr name="TextViewNormal" format="reference" />
+    <attr name="TextViewSubhead" format="reference" />
 
 </resources>

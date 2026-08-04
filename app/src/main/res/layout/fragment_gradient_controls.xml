@@ -39,7 +39,7 @@
             android:gravity="center"
             android:marqueeRepeatLimit="marquee_forever"
             android:singleLine="true"
-            android:textAppearance="@style/TextViewHeadline6"
+            android:textAppearance="?attr/TextViewHeadline6"
             android:textColor="@color/md_white_1000"
             android:textStyle="bold"
             tools:text="@tools:sample/lorem/random"

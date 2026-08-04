@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/nothing_to_see"
-            android:textAppearance="@style/TextViewHeadline5"
+            android:textAppearance="?attr/TextViewHeadline5"
             android:textColor="?android:attr/textColorSecondary"
             tools:visibility="visible" />
     </LinearLayout>

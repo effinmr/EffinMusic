@@ -35,7 +35,7 @@
         android:gravity="center_vertical"
         android:paddingHorizontal="16dp"
         android:singleLine="true"
-        android:textAppearance="@style/TextViewNormal"
+        android:textAppearance="?attr/TextViewNormal"
         android:textColor="?android:attr/textColorPrimary"
         android:textSize="@dimen/md_listitem_textsize"
         tools:text="Item" />

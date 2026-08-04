@@ -154,7 +154,7 @@
             android:ellipsize="end"
             android:gravity="center"
             android:maxLines="1"
-            android:textAppearance="@style/TextViewHeadline5"
+            android:textAppearance="?attr/TextViewHeadline5"
             android:textColor="@color/md_white_1000"
             android:textStyle="bold"
             tools:text="@tools:sample/lorem/random" />
@@ -166,7 +166,7 @@
             android:ellipsize="end"
             android:gravity="center"
             android:maxLines="1"
-            android:textAppearance="@style/TextViewHeadline6"
+            android:textAppearance="?attr/TextViewHeadline6"
             android:textColor="@color/md_grey_200"
             tools:text="@tools:sample/lorem/random" />
     </LinearLayout>

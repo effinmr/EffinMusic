@@ -42,7 +42,7 @@
         android:id="@android:id/title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/TextViewSubtitle1"
+        android:textAppearance="?attr/TextViewSubtitle1"
         app:layout_constrainedWidth="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

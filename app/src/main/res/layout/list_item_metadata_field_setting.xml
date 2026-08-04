@@ -35,7 +35,7 @@
         android:maxLines="1"
         android:paddingTop="16dp"
         android:paddingBottom="16dp"
-        android:textAppearance="@style/TextViewSubhead"
+        android:textAppearance="?attr/TextViewSubhead"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/switchWidget"
         app:layout_constraintStart_toStartOf="parent"

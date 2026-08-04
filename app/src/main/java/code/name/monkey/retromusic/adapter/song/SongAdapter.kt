@@ -105,10 +105,19 @@ open class SongAdapter(
         holder.itemView.isActivated = isChecked
         holder.menu?.isGone = isChecked
         holder.title?.text = getSongTitle(song)
-        // Apply text size preference
-        holder.title?.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, PreferenceUtil.songTextSize.toFloat())
+        val songTextSize = PreferenceUtil.songTextSize.toFloat() + when (PreferenceUtil.fontSize) {
+            "large" -> 4f
+            "small" -> -4f
+            else -> 0f
+        }
+        holder.title?.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, songTextSize)
         holder.text?.text = getSongText(song)
-        holder.text?.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, PreferenceUtil.artistTextSize.toFloat())
+        val artistTextSize = PreferenceUtil.artistTextSize.toFloat() + when (PreferenceUtil.fontSize) {
+            "large" -> 4f
+            "small" -> -4f
+            else -> 0f
+        }
+        holder.text?.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, artistTextSize)
         holder.text2?.text = String.format("%s • %s", getTrackNumber(song).toString(), getSongText2(song))
 
         if (PreferenceUtil.showCoversInSongsTab) {

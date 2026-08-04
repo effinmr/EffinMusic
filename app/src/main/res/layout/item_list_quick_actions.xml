@@ -29,7 +29,7 @@
         android:layout_weight="1"
         android:paddingVertical="10dp"
         android:text="@string/action_play_all"
-        android:textAppearance="@style/TextViewButton"
+        android:textAppearance="?attr/TextViewButton"
         android:textColor="?android:attr/textColorPrimary"
         app:backgroundTint="?attr/colorSurface"
         app:icon="@drawable/ic_play_arrow" />
@@ -43,7 +43,7 @@
         android:layout_weight="1"
         android:paddingVertical="10dp"
         android:text="@string/shuffle"
-        android:textAppearance="@style/TextViewButton"
+        android:textAppearance="?attr/TextViewButton"
         app:icon="@drawable/ic_shuffle" />
 
 </LinearLayout>

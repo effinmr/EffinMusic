@@ -46,7 +46,11 @@ class SimpleSongAdapter(
         holder.imageText?.text = if (fixedTrackNumber > 0) fixedTrackNumber.toString() else "-"
         holder.time?.text = String.format("%s | %s", fixedTrackNumber, MusicUtil.getReadableDurationString(dataSet[position].duration))
 
-        val songTextSize = PreferenceUtil.songTextSize.toFloat()
+        val songTextSize = PreferenceUtil.songTextSize.toFloat() + when (PreferenceUtil.fontSize) {
+                "large" -> 4f
+                "small" -> -4f
+                else -> 0f
+        }
         holder.title?.setTextSize(TypedValue.COMPLEX_UNIT_SP, songTextSize)
 
         if (PreferenceUtil.showArtistInSongs) {
@@ -61,8 +65,12 @@ class SimpleSongAdapter(
             }
             holder.artist?.text = allArtists.joinToString(", ")
             holder.artist?.isVisible = true
-            val artistTextSize = PreferenceUtil.artistTextSize.toFloat()
-            holder.artist?.setTextSize(TypedValue.COMPLEX_UNIT_SP, artistTextSize) // Slightly smaller for artist
+            val artistTextSize = PreferenceUtil.artistTextSize.toFloat() + when (PreferenceUtil.fontSize) {
+                "large" -> 4f
+                "small" -> -4f
+                else -> 0f
+            }
+            holder.artist?.setTextSize(TypedValue.COMPLEX_UNIT_SP, artistTextSize) 
         } else {
             holder.artist?.isVisible = false
         }

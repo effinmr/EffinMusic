@@ -92,13 +92,26 @@ class SearchAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        
+        val songTextSize = PreferenceUtil.songTextSize.toFloat() + when (PreferenceUtil.fontSize) {
+            "large" -> 4f
+            "small" -> -4f
+            else -> 0f
+        }
+        
+        val artistTextSize = PreferenceUtil.artistTextSize.toFloat() + when (PreferenceUtil.fontSize) {
+            "large" -> 4f
+            "small" -> -4f
+            else -> 0f
+        }
+        
         when (getItemViewType(position)) {
             ALBUM -> {
                 val album = dataSet[position] as Album
                 holder.title?.text = album.title
                 holder.text?.text = album.albumArtist
-                holder.title?.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, PreferenceUtil.songTextSize.toFloat())
-                holder.text?.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, PreferenceUtil.artistTextSize.toFloat())
+                holder.title?.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, songTextSize)
+                holder.text?.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, artistTextSize)
                 if (!PreferenceUtil.showCoversInSongsTab) {
                     holder.image?.isGone = true
                     holder.imageTextContainer?.isGone = true
@@ -114,8 +127,8 @@ class SearchAdapter(
                 val artist = dataSet[position] as Artist
                 holder.title?.text = artist.name
                 holder.text?.text = MusicUtil.getArtistInfoString(activity, artist)
-                holder.title?.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, PreferenceUtil.songTextSize.toFloat())
-                holder.text?.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, PreferenceUtil.artistTextSize.toFloat())
+                holder.title?.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, songTextSize)
+                holder.text?.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, artistTextSize)
                 if (!PreferenceUtil.showCoversInSongsTab) {
                     holder.image?.isGone = true
                     holder.imageTextContainer?.isGone = true
@@ -131,8 +144,8 @@ class SearchAdapter(
                 val song = dataSet[position] as Song
                 holder.title?.text = song.title
                 holder.text?.text = song.albumName
-                holder.title?.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, PreferenceUtil.songTextSize.toFloat())
-                holder.text?.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, PreferenceUtil.artistTextSize.toFloat())
+                holder.title?.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, songTextSize)
+                holder.text?.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, artistTextSize)
                 if (!PreferenceUtil.showCoversInSongsTab) {
                     holder.image?.isGone = true
                     holder.imageTextContainer?.isGone = true
@@ -154,14 +167,14 @@ class SearchAdapter(
                         R.string.song
                     )
                 )
-                holder.title?.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, PreferenceUtil.songTextSize.toFloat())
-                holder.text?.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, PreferenceUtil.artistTextSize.toFloat())
+                holder.title?.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, songTextSize)
+                holder.text?.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, artistTextSize)
             }
 
             PLAYLIST -> {
                 val playlist = dataSet[position] as PlaylistWithSongs
                 holder.title?.text = playlist.playlistEntity.playlistName
-                holder.title?.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, PreferenceUtil.songTextSize.toFloat())
+                holder.title?.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, songTextSize)
                 //holder.text?.text = MusicUtil.playlistInfoString(activity, playlist.songs)
                 if (!PreferenceUtil.showCoversInSongsTab) {
                     holder.image?.isGone = true
@@ -183,8 +196,8 @@ class SearchAdapter(
                 val artist = dataSet[position] as Artist
                 holder.title?.text = artist.name
                 holder.text?.text = MusicUtil.getArtistInfoString(activity, artist)
-                holder.title?.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, PreferenceUtil.songTextSize.toFloat())
-                holder.text?.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, PreferenceUtil.artistTextSize.toFloat())
+                holder.title?.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, songTextSize)
+                holder.text?.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, artistTextSize)
                 if (!PreferenceUtil.showCoversInSongsTab) {
                     holder.imageTextContainer?.isGone = true
                 } else {
@@ -198,7 +211,7 @@ class SearchAdapter(
             else -> {
                 holder.title?.text = dataSet[position].toString()
                 holder.title?.setTextColor(ThemeStore.accentColor(activity))
-                holder.title?.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, PreferenceUtil.songTextSize.toFloat())
+                holder.title?.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, songTextSize)
             }
         }
     }

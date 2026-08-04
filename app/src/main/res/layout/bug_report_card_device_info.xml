@@ -22,7 +22,7 @@
             android:paddingTop="24dp"
             android:paddingRight="16dp"
             android:text="@string/device_info"
-            android:textAppearance="@style/TextViewOverline" />
+            android:textAppearance="?attr/TextViewOverline" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/airTextDeviceInfo"
@@ -31,7 +31,7 @@
             android:background="?rectSelector"
             android:lineSpacingExtra="8dp"
             android:padding="16dp"
-            android:textAppearance="@style/TextViewBody1"
+            android:textAppearance="?attr/TextViewBody1"
             tools:text="@tools:sample/lorem/random" />
 
     </LinearLayout>

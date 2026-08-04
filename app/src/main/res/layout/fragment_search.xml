@@ -37,7 +37,7 @@
                     android:inputType="text|textAutoComplete"
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp"
-                    android:textAppearance="@style/TextViewSubtitle1">
+                    android:textAppearance="?attr/TextViewSubtitle1">
 
                     <requestFocus />
                 </com.google.android.material.textfield.TextInputEditText>
@@ -148,7 +148,7 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:text="@string/no_results"
-        android:textAppearance="@style/TextViewHeadline6"
+        android:textAppearance="?attr/TextViewHeadline6"
         android:visibility="gone"
         tools:visibility="visible" />
 

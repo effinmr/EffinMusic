@@ -9,6 +9,6 @@
     android:layout_marginEnd="@dimen/toolbar_margin_horizontal"
     android:gravity="start"
     android:paddingVertical="12dp"
-    android:textAppearance="@style/TextViewOverline"
+    android:textAppearance="?attr/TextViewOverline"
     android:textStyle="bold"
     tools:text="@tools:sample/full_names" />

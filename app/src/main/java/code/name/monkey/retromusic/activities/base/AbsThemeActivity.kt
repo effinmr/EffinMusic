@@ -48,7 +48,6 @@ abstract class AbsThemeActivity : ATHToolbarActivity(), Runnable {
         updateTheme()
         hideStatusBar()
         super.onCreate(savedInstanceState)
-        updateTheme()
         setEdgeToEdgeOrImmersive()
         maybeSetScreenOn()
         maybeShowWhenLocked()
@@ -65,6 +64,12 @@ abstract class AbsThemeActivity : ATHToolbarActivity(), Runnable {
             setDefaultNightMode(getNightMode())
         }
 
+        val sizeStyleRes = when (PreferenceUtil.fontSize) {
+            "small" -> R.style.FontSizeSmall
+            "large" -> R.style.FontSizeLarge
+            else -> R.style.FontSizeNormal
+        }
+
         val fontStyleRes = when (PreferenceUtil.selectedFont) {
             "anton" -> R.style.FontThemeOverlay_Anton
             "pacifico" -> R.style.FontThemeOverlay_Pacifico
@@ -78,7 +83,8 @@ abstract class AbsThemeActivity : ATHToolbarActivity(), Runnable {
             else -> null
         }
 
-        fontStyleRes?.let { theme.applyStyle(it, true) }
+        fontStyleRes?.let { setTheme(it) }
+        setTheme(sizeStyleRes)
     }
 
     private fun updateLocale() {

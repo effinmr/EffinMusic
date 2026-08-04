@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:text="@string/playlist_is_empty"
-            android:textAppearance="@style/TextViewHeadline3" />
+            android:textAppearance="?attr/TextViewHeadline3" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/emptyText"
@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/no_songs"
-            android:textAppearance="@style/TextViewHeadline5"
+            android:textAppearance="?attr/TextViewHeadline5"
             android:textColor="?android:attr/textColorSecondary"
             tools:visibility="visible" />
 

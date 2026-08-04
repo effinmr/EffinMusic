@@ -315,4 +315,16 @@
         <item>playwrite_nz_guides</item>
         <item>bjcree</item>
     </string-array>
+
+    <string-array name="font_size_entries">
+        <item>Small</item>
+        <item>Normal</item>
+        <item>Large</item>
+    </string-array>
+
+    <string-array name="font_size_values">
+        <item>small</item>
+        <item>normal</item>
+        <item>large</item>
+    </string-array>
 </resources>

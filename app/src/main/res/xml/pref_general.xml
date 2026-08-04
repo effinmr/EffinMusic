@@ -37,6 +37,14 @@
             android:entries="@array/font_entries"
             android:entryValues="@array/font_values" />
 
+        <code.name.monkey.appthemehelper.common.prefs.supportv7.ATEListPreference
+            android:key="font_size"
+            android:title="Font Size"
+            android:defaultValue="normal"
+            android:layout="@layout/list_item_view"
+            android:entries="@array/font_size_entries"
+            android:entryValues="@array/font_size_values" />
+
         <code.name.monkey.appthemehelper.common.prefs.supportv7.ATESeekBarPreference
             android:key="song_text_size"
             android:title="@string/pref_title_song_text_size"

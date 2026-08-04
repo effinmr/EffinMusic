@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="@string/empty"
-        android:textAppearance="@style/TextViewNormal"
+        android:textAppearance="?attr/TextViewNormal"
         android:textColor="?colorOnSecondary"
         android:visibility="gone"
         tools:visibility="visible" />
@@ -42,6 +42,6 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:text="@string/clear_playing_queue"
-        android:textAppearance="@style/TextViewHeadline6"
+        android:textAppearance="?attr/TextViewHeadline6"
         app:icon="@drawable/ic_clear_all" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

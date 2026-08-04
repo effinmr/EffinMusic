@@ -131,6 +131,13 @@ class ThemeSettingsFragment : AbsSettingsFragment() {
             true
         }
 
+        val fontSizePreference: ATEListPreference? = findPreference(FONT_SIZE)
+        fontSizePreference?.setOnPreferenceChangeListener { preference, newValue ->
+            setSummary(preference, newValue)
+            restartActivity()
+            true
+        }
+
         val adaptiveColor: ATESwitchPreference? = findPreference(ADAPTIVE_COLOR_APP)
         adaptiveColor?.isEnabled =
             PreferenceUtil.nowPlayingScreen in listOf(Normal, Material, Flat)

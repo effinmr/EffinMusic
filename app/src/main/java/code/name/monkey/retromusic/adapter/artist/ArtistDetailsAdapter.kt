@@ -326,7 +326,11 @@ class ArtistDetailsAdapter(
         fun bind(item: ArtistItem.SongItem) {
             song = item.song
             binding.songTitle.text = song.title
-            val songTextSize = PreferenceUtil.songTextSize.toFloat()
+            val songTextSize = PreferenceUtil.songTextSize.toFloat() + when (PreferenceUtil.fontSize) {
+                "large" -> 4f
+                "small" -> -4f
+                else -> 0f
+            }
             binding.songTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, songTextSize)
             
             if (PreferenceUtil.showArtistInSongs) {
@@ -341,7 +345,11 @@ class ArtistDetailsAdapter(
                     song.artistNames?.split(",")?.map { it.trim() } ?: emptyList()
                 }
                 binding.artist.text = allArtists.joinToString(", ")
-                val artistTextSize = PreferenceUtil.artistTextSize.toFloat()
+                val artistTextSize = PreferenceUtil.artistTextSize.toFloat() + when (PreferenceUtil.fontSize) {
+                    "large" -> 4f
+                    "small" -> -4f
+                    else -> 0f
+                }
                 binding.artist.setTextSize(TypedValue.COMPLEX_UNIT_SP, artistTextSize)
             } else {
                 binding.artist.isVisible = false
