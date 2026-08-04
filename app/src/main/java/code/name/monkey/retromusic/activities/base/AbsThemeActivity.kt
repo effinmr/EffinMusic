@@ -83,7 +83,7 @@ abstract class AbsThemeActivity : ATHToolbarActivity(), Runnable {
             else -> null
         }
 
-        fontStyleRes?.let { theme.applyStyle(it, true) }
+        fontStyleRes?.let { setTheme(it) }
         setTheme(sizeStyleRes)
     }
 
