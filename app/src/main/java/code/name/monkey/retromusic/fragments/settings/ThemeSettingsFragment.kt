@@ -132,7 +132,7 @@ class ThemeSettingsFragment : AbsSettingsFragment() {
         }
 
         val fontSizePreference: ATEListPreference? = findPreference(FONT_SIZE)
-        fontPreference?.setOnPreferenceChangeListener { preference, newValue ->
+        fontSizePreference?.setOnPreferenceChangeListener { preference, newValue ->
             setSummary(preference, newValue)
             restartActivity()
             true
