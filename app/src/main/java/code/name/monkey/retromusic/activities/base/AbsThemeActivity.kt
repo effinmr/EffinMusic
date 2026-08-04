@@ -65,6 +65,12 @@ abstract class AbsThemeActivity : ATHToolbarActivity(), Runnable {
             setDefaultNightMode(getNightMode())
         }
 
+        val sizeStyleRes = when (PreferenceUtil.fontSize) {
+            "small" -> R.style.FontSizeSmall
+            "large" -> R.style.FontSizeLarge
+            else -> R.style.FontSizeNormal
+        }
+
         val fontStyleRes = when (PreferenceUtil.selectedFont) {
             "anton" -> R.style.FontThemeOverlay_Anton
             "pacifico" -> R.style.FontThemeOverlay_Pacifico
@@ -79,6 +85,15 @@ abstract class AbsThemeActivity : ATHToolbarActivity(), Runnable {
         }
 
         fontStyleRes?.let { theme.applyStyle(it, true) }
+        theme.applyStyle(sizeStyleRes, true)
+    }
+
+    private fun updateLocale() {
+        val localeCode = PreferenceUtil.languageCode
+        if (PreferenceUtil.isLocaleAutoStorageEnabled) {
+            AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(localeCode))
+            PreferenceUtil.isLocaleAutoStorageEnabled = true
+        }
     }
 
     private fun updateLocale() {
