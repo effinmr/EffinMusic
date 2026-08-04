@@ -104,7 +104,21 @@
         <item name="TextViewNormal">@style/TextViewNormal.Small</item>
     </style>
 
-    <style name="FontSizeNormal" />
+    <style name="FontSizeNormal">
+        <item name="TextViewHeadline2">@style/TextViewHeadline2</item>
+        <item name="TextViewHeadline3">@style/TextViewHeadline3</item>
+        <item name="TextViewHeadline4">@style/TextViewHeadline4</item>
+        <item name="TextViewHeadline5">@style/TextViewHeadline5</item>
+        <item name="TextViewHeadline6">@style/TextViewHeadline6</item>
+        <item name="TextViewSubtitle1">@style/TextViewSubtitle1</item>
+        <item name="TextViewSubtitle2">@style/TextViewSubtitle2</item>
+        <item name="TextViewBody1">@style/TextViewBody1</item>
+        <item name="TextViewBody2">@style/TextViewBody2</item>
+        <item name="TextViewCaption">@style/TextViewCaption</item>
+        <item name="TextViewButton">@style/TextViewButton</item>
+        <item name="TextViewOverline">@style/TextViewOverline</item>
+        <item name="TextViewNormal">@style/TextViewNormal</item>
+    </style>
 
     <style name="FontSizeLarge">
         <item name="TextViewHeadline2">@style/TextViewHeadline2.Large</item>
