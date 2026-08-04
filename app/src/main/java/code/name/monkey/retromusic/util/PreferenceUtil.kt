@@ -750,11 +750,13 @@ object PreferenceUtil {
     val materialYou
         get() = sharedPreferences.getBoolean(MATERIAL_YOU, VersionUtils.hasS())
 
-    const val SELECTED_FONT = "selected_font"
-
     var selectedFont: String
         get() = sharedPreferences.getString(SELECTED_FONT, "default") ?: "default"
         set(value) = sharedPreferences.edit().putString(SELECTED_FONT, value).apply()
+
+    var fontSize: String
+        get() = sharedPreferences.getString(FONT_SIZE, "normal") ?: "normal"
+        set(value) = sharedPreferences.edit().putString(FONT_SIZE, value).apply()
 
     val isSnowFalling
         get() = sharedPreferences.getBoolean(SNOWFALL, false)
