@@ -58,7 +58,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:maxLines="2"
-                    android:textAppearance="@style/TextViewSubtitle2"
+                    android:textAppearance="?attr/TextViewSubtitle2"
                     android:textStyle="bold"
                     tools:text="@tools:sample/full_names" />
 

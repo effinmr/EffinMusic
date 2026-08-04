@@ -102,7 +102,7 @@
                 android:marqueeRepeatLimit="marquee_forever"
                 android:scrollHorizontally="true"
                 android:singleLine="true"
-                android:textAppearance="@style/TextViewHeadline6"
+                android:textAppearance="?attr/TextViewHeadline6"
                 android:textColor="?android:attr/textColorPrimary"
                 android:textStyle="bold"
                 tools:text="@tools:sample/lorem[5]" />
@@ -116,7 +116,7 @@
                 android:ellipsize="end"
                 android:focusable="true"
                 android:maxLines="1"
-                android:textAppearance="@style/TextViewBody1"
+                android:textAppearance="?attr/TextViewBody1"
                 android:textColor="?android:attr/textColorSecondary"
                 tools:text="@tools:sample/full_names[0]" />
 

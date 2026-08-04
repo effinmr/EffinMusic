@@ -13,7 +13,7 @@
         android:paddingHorizontal="16dp"
         android:paddingBottom="16dp"
         android:text="@string/albums"
-        android:textAppearance="@style/TextViewHeadline6"
+        android:textAppearance="?attr/TextViewHeadline6"
         android:textColor="?android:attr/textColorPrimary"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"

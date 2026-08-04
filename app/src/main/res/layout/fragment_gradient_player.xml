@@ -103,7 +103,7 @@
                 android:ellipsize="end"
                 android:gravity="center_vertical"
                 android:maxLines="1"
-                android:textAppearance="@style/TextViewSubtitle1"
+                android:textAppearance="?attr/TextViewSubtitle1"
                 app:layout_constraintBottom_toBottomOf="@id/queueIcon"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHeight_default="wrap"

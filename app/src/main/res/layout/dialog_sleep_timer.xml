@@ -13,7 +13,7 @@
         android:layout_marginStart="8dp"
         android:paddingHorizontal="16dp"
         android:paddingVertical="16dp"
-        android:textAppearance="@style/TextViewHeadline6" />
+        android:textAppearance="?attr/TextViewHeadline6" />
 
     <androidx.appcompat.widget.AppCompatSeekBar
         android:id="@+id/seekBar"
@@ -32,6 +32,6 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:text="@string/finish_last_song"
-        android:textAppearance="@style/TextViewSubtitle1" />
+        android:textAppearance="?attr/TextViewSubtitle1" />
 
 </LinearLayout>

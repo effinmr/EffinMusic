@@ -49,7 +49,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
-                    android:textAppearance="@style/TextViewSubtitle1"
+                    android:textAppearance="?attr/TextViewSubtitle1"
                     android:textStyle="bold"
                     tools:text="@tools:sample/full_names" />
 

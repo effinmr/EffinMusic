@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="16dp"
-            android:textAppearance="@style/TextViewHeadline6"
+            android:textAppearance="?attr/TextViewHeadline6"
             android:textStyle="bold"
             tools:text="@tools:sample/full_names" />
 

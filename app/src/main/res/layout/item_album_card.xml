@@ -39,7 +39,7 @@
             android:ellipsize="end"
             android:maxLines="2"
             android:padding="8dp"
-            android:textAppearance="@style/TextViewBody1"
+            android:textAppearance="?attr/TextViewBody1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

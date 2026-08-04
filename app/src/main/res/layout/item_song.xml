@@ -30,7 +30,7 @@
             android:gravity="center"
             android:maxLines="1"
             android:minHeight="40dp"
-            android:textAppearance="@style/TextViewNormal"
+            android:textAppearance="?attr/TextViewNormal"
             android:textColor="?android:attr/textColorSecondary"
             tools:text="@tools:sample/date/hhmm" />
 
@@ -52,7 +52,7 @@
         android:layout_weight="1"
         android:maxLines="1"
         android:layout_marginHorizontal="8dp"
-        android:textAppearance="@style/TextViewBody1"
+        android:textAppearance="?attr/TextViewBody1"
         app:layout_constraintBottom_toTopOf="@+id/artist"
         app:layout_constraintEnd_toStartOf="@+id/time"
         app:layout_constraintHorizontal_bias="0.5"
@@ -69,7 +69,7 @@
         android:maxLines="1"
         android:layout_marginTop="4dp"
         android:layout_marginHorizontal="8dp"
-        android:textAppearance="@style/TextViewBody2"
+        android:textAppearance="?attr/TextViewBody2"
         android:textColor="?android:attr/textColorSecondary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/time"
@@ -85,7 +85,7 @@
         android:layout_weight="0"
         android:layout_marginTop="4dp"
         android:layout_marginHorizontal="8dp"
-        android:textAppearance="@style/TextViewCaption"
+        android:textAppearance="?attr/TextViewCaption"
         app:layout_constraintEnd_toStartOf="@id/menu"
         app:layout_constraintTop_toBottomOf="@id/title"
         tools:text="@tools:sample/date/hhmm" />

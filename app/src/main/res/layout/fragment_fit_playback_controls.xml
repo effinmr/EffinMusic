@@ -81,7 +81,7 @@
             android:paddingEnd="16dp"
             android:scrollHorizontally="true"
             android:singleLine="true"
-            android:textAppearance="@style/TextViewHeadline6"
+            android:textAppearance="?attr/TextViewHeadline6"
             android:textStyle="bold"
             tools:text="@tools:sample/lorem/random" />
     </LinearLayout>
@@ -98,7 +98,7 @@
         android:paddingStart="16dp"
         android:paddingTop="8dp"
         android:paddingEnd="16dp"
-        android:textAppearance="@style/TextViewBody1"
+        android:textAppearance="?attr/TextViewBody1"
         android:textColor="?android:attr/textColorSecondary"
         app:layout_constraintBottom_toTopOf="@+id/songInfo"
         app:layout_constraintEnd_toEndOf="parent"

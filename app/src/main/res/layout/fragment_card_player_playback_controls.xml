@@ -100,7 +100,7 @@
                 android:marqueeRepeatLimit="marquee_forever"
                 android:scrollHorizontally="true"
                 android:singleLine="true"
-                android:textAppearance="@style/TextViewHeadline6"
+                android:textAppearance="?attr/TextViewHeadline6"
                 android:textStyle="bold"
                 tools:text="@tools:sample/lorem/random" />
 

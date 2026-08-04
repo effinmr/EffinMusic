@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:paddingHorizontal="16dp"
         android:text="@string/songs"
-        android:textAppearance="@style/TextViewHeadline6"
+        android:textAppearance="?attr/TextViewHeadline6"
         android:textColor="?android:attr/textColorPrimary"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"

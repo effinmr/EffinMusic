@@ -35,7 +35,7 @@
             android:ellipsize="end"
             android:maxLines="2"
             android:padding="8dp"
-            android:textAppearance="@style/TextViewBody1"
+            android:textAppearance="?attr/TextViewBody1"
             android:textColor="@color/md_white_1000"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"

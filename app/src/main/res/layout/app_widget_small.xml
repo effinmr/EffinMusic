@@ -82,7 +82,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:singleLine="true"
-            android:textAppearance="@style/TextViewBody2"
+            android:textAppearance="?attr/TextViewBody2"
             android:textColor="?android:attr/textColorPrimary"
             tools:text="Title" />
 
@@ -94,7 +94,7 @@
             android:paddingLeft="4dp"
             android:paddingRight="4dp"
             android:singleLine="true"
-            android:textAppearance="@style/TextViewBody1"
+            android:textAppearance="?attr/TextViewBody1"
             android:textColor="?android:attr/textColorPrimary"
             tools:ignore="HardcodedText"
             tools:text="•" />
@@ -105,7 +105,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:singleLine="true"
-            android:textAppearance="@style/TextViewBody1"
+            android:textAppearance="?attr/TextViewBody1"
             android:textColor="?android:attr/textColorSecondary"
             tools:text="Text" />
 

@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:padding="16dp"
         android:text="@string/biography"
-        android:textAppearance="@style/TextViewHeadline6"
+        android:textAppearance="?attr/TextViewHeadline6"
         android:textColor="?android:attr/textColorPrimary"
         android:visibility="gone"
         android:textStyle="bold"
