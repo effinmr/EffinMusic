@@ -80,7 +80,7 @@
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:singleLine="true"
-            android:textAppearance="?attr/TextViewHeadline6"
+            android:textAppearance="@style/TextViewHeadline6"
             android:textColor="@color/ate_primary_text_dark"
             tools:text="Title" />
 
@@ -91,7 +91,7 @@
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:singleLine="true"
-            android:textAppearance="?attr/TextViewSubtitle1"
+            android:textAppearance="@style/TextViewSubtitle1"
             android:textColor="@color/ate_secondary_text_dark"
             tools:text="Text" />
 
