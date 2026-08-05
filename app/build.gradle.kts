@@ -21,8 +21,8 @@ android {
         }
 
         applicationId = "code.effinmr.music"
-        versionCode = 100000
-        versionName = "1.0.0"
+        versionCode = 100001
+        versionName = "1.0.1"
 
         buildConfigField("String", "GOOGLE_PLAY_LICENSING_KEY", "\"${getProperty(getProperties("../public.properties"), "GOOGLE_PLAY_LICENSE_KEY")}\"")
     }
