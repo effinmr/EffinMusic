@@ -8,6 +8,20 @@ plugins {
     alias(libs.plugins.google.devtools.ksp)
 }
 
+fun getProperties(fileName: String): Properties? {
+    val properties = Properties()
+    val file = rootProject.file(fileName)
+    return if (file.exists()) {
+        file.inputStream().use { properties.load(it) }
+        properties
+    } else {
+        null
+    }
+}
+
+fun getProperty(properties: Properties?, name: String): String =
+    properties?.getProperty(name) ?: "$name missing"
+
 android {
     compileSdk = 35
     namespace = "code.name.monkey.retromusic"
@@ -21,21 +35,22 @@ android {
         }
 
         applicationId = "code.effinmr.music"
-        versionCode = 100001
-        versionName = "1.0.1"
+        versionCode = 100002
+        versionName = "1.0.2"
 
         buildConfigField("String", "GOOGLE_PLAY_LICENSING_KEY", "\"${getProperty(getProperties("../public.properties"), "GOOGLE_PLAY_LICENSE_KEY")}\"")
     }
-    val signingProperties = getProperties("retro.properties")
-    val theSigningConfig = if (signingProperties != null) {
-        signingConfigs.create("release") {
-            storeFile = file(getProperty(signingProperties, "storeFile"))
-            keyAlias = getProperty(signingProperties, "keyAlias")
-            storePassword = getProperty(signingProperties, "storePassword")
-            keyPassword = getProperty(signingProperties, "keyPassword")
+
+    signingConfigs {
+        val signingProperties = getProperties("retro.properties")
+        if (signingProperties != null) {
+            create("release") {
+                storeFile = file(getProperty(signingProperties, "storeFile"))
+                keyAlias = getProperty(signingProperties, "keyAlias")
+                storePassword = getProperty(signingProperties, "storePassword")
+                keyPassword = getProperty(signingProperties, "keyPassword")
+            }
         }
-    } else {
-        signingConfigs.getByName("debug")
     }
 
     buildTypes {
@@ -46,10 +61,11 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            signingConfig = theSigningConfig
+            val releaseConfig = signingConfigs.findByName("release")
+            signingConfig = releaseConfig ?: signingConfigs.getByName("debug")
         }
         getByName("debug") {
-            signingConfig = theSigningConfig
+            signingConfig = signingConfigs.getByName("debug")
             applicationIdSuffix = ".debug"
             versionNameSuffix = " DEBUG"
         }
@@ -98,7 +114,6 @@ android {
     }
 }
 
-
 dependencies {
     implementation(project(":appthemehelper"))
     implementation(libs.gridLayout)
@@ -112,9 +127,7 @@ dependencies {
     implementation(libs.androidx.palette.ktx)
 
     implementation(libs.androidx.mediarouter)
-    //Cast Dependencies
     "normalImplementation"(libs.google.play.services.cast.framework)
-    //WebServer by NanoHttpd
     "normalImplementation"(libs.nanohttpd)
 
     implementation(libs.androidx.navigation.runtime.ktx)
@@ -134,7 +147,6 @@ dependencies {
     "normalImplementation"(libs.google.feature.delivery)
     "normalImplementation"(libs.google.play.review)
     "normalImplementation"(libs.google.play.billing)
-
 
     implementation(libs.android.material)
 
@@ -157,14 +169,10 @@ dependencies {
     implementation(libs.glide.okhttp3.integration)
 
     implementation(libs.advrecyclerview)
-
     implementation(libs.fadingedgelayout)
-
     implementation(libs.keyboardvisibilityevent)
     implementation(libs.jetradarmobile.android.snowfall)
-
     implementation(libs.chrisbanes.insetter)
-
 
     implementation(libs.org.eclipse.egit.github.core)
     implementation(libs.jaudiotagger)
@@ -175,25 +183,10 @@ dependencies {
     implementation(libs.tankery.circularSeekBar)
 
     implementation(libs.androidx.exoplayer)
+    implementation(libs.afollestad.material.dialogs.lifecycle)
 
-   implementation(libs.afollestad.material.dialogs.lifecycle)
+    implementation("io.coil-kt:coil:2.4.0")
+    implementation(files("libs/taglib-release.aar"))
 
-   implementation("io.coil-kt:coil:2.4.0")
-   implementation(files("libs/taglib-release.aar"))
-
-   "normalImplementation"(libs.android.lab.library)
+    "normalImplementation"(libs.android.lab.library)
 }
-
-fun getProperties(fileName: String): Properties? {
-    val properties = Properties()
-    val file = rootProject.file(fileName)
-    if (file.exists()) {
-        file.inputStream().use { properties.load(it) }
-    } else {
-        return null
-    }
-    return properties
-}
-
-fun getProperty(properties: Properties?, name: String): String =
-    properties?.getProperty(name) ?: "$name missing"
