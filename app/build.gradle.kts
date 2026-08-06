@@ -157,7 +157,6 @@ dependencies {
     implementation(libs.androidx.core.splashscreen)
 
     "normalImplementation"(libs.google.feature.delivery)
-    "normalImplementation"(libs.google.play.review)
 
     implementation(libs.android.material)
 
