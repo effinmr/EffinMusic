@@ -292,7 +292,7 @@
 
     <string-array name="font_entries">
         <item>Default</item>
-        <item>Anton</item>
+        <item>Google Sans Flex</item>
         <item>Pacifico</item>
         <item>Bungee</item>
         <item>Press Start 2P</item>
@@ -305,7 +305,7 @@
 
     <string-array name="font_values">
         <item>default</item>
-        <item>anton</item>
+        <item>google_sans_flex</item>
         <item>pacifico</item>
         <item>bungee</item>
         <item>press_start_2p</item>
