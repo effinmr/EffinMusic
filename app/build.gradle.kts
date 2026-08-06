@@ -71,7 +71,7 @@ android {
     applicationVariants.all {
         if (buildType.name == "debug") {
             outputs.all {
-                val output = this as com.android.build.gradle.internal.api.BaseVariantOutputImpl
+                val output = this as com.android.build.gradle.api.ApkVariantOutput
                 output.versionCodeOverride = (System.currentTimeMillis() / 1000).toInt()
             }
         }
