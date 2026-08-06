@@ -356,9 +356,9 @@
 
     <style name="FontThemeOverlay" />
 
-    <style name="FontThemeOverlay.Anton">
-        <item name="fontFamily">@font/anton</item>
-        <item name="android:fontFamily">@font/anton</item>
+    <style name="FontThemeOverlay.Google_Sans_Flex">
+        <item name="fontFamily">@font/google_sans_flex</item>
+        <item name="android:fontFamily">@font/google_sans_flex</item>
     </style>
 
     <style name="FontThemeOverlay.Pacifico">

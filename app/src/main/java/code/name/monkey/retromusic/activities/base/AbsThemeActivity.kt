@@ -71,7 +71,7 @@ abstract class AbsThemeActivity : ATHToolbarActivity(), Runnable {
         }
 
         val fontStyleRes = when (PreferenceUtil.selectedFont) {
-            "anton" -> R.style.FontThemeOverlay_Anton
+            "google_sans_flex" -> R.style.FontThemeOverlay_Google_Sans_Flex
             "pacifico" -> R.style.FontThemeOverlay_Pacifico
             "bungee" -> R.style.FontThemeOverlay_Bungee
             "press_start_2p" -> R.style.FontThemeOverlay_PressStart2P
