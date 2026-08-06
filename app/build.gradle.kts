@@ -8,8 +8,22 @@ plugins {
     alias(libs.plugins.google.devtools.ksp)
 }
 
+fun getProperties(fileName: String): Properties? {
+    val properties = Properties()
+    val file = rootProject.file(fileName)
+    return if (file.exists()) {
+        file.inputStream().use { properties.load(it) }
+        properties
+    } else {
+        null
+    }
+}
+
+fun getProperty(properties: Properties?, name: String): String =
+    properties?.getProperty(name) ?: "$name missing"
+
 android {
-    compileSdk = 35
+    compileSdk = 36
     namespace = "code.name.monkey.retromusic"
 
     defaultConfig {
@@ -21,21 +35,20 @@ android {
         }
 
         applicationId = "code.effinmr.music"
-        versionCode = 100001
-        versionName = "1.0.1"
+        versionCode = 100200
+        versionName = "1.0.2"
 
         buildConfigField("String", "GOOGLE_PLAY_LICENSING_KEY", "\"${getProperty(getProperties("../public.properties"), "GOOGLE_PLAY_LICENSE_KEY")}\"")
     }
-    val signingProperties = getProperties("retro.properties")
-    val theSigningConfig = if (signingProperties != null) {
-        signingConfigs.create("release") {
-            storeFile = file(getProperty(signingProperties, "storeFile"))
-            keyAlias = getProperty(signingProperties, "keyAlias")
-            storePassword = getProperty(signingProperties, "storePassword")
-            keyPassword = getProperty(signingProperties, "keyPassword")
+
+    signingConfigs {
+        create("release") {
+            storeFile = file("release-keystore.p12")
+            storePassword = System.getenv("KEYSTORE_PASSWORD")
+            keyAlias = System.getenv("KEY_ALIAS")
+            keyPassword = System.getenv("KEY_PASSWORD")
+            storeType = "PKCS12"
         }
-    } else {
-        signingConfigs.getByName("debug")
     }
 
     buildTypes {
@@ -46,12 +59,21 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            signingConfig = theSigningConfig
+            signingConfig = signingConfigs.getByName("release")
         }
         getByName("debug") {
-            signingConfig = theSigningConfig
+            signingConfig = signingConfigs.getByName("debug")
             applicationIdSuffix = ".debug"
-            versionNameSuffix = " DEBUG"
+            versionNameSuffix = "-debug"
+        }
+    }
+
+    applicationVariants.all {
+        if (buildType.name == "debug") {
+            outputs.all {
+                val output = this as com.android.build.gradle.api.ApkVariantOutput
+                output.versionCodeOverride = (System.currentTimeMillis() / 1000).toInt()
+            }
         }
     }
 
@@ -69,6 +91,7 @@ android {
         viewBinding = true
         buildConfig = true
     }
+
     packaging {
         resources {
             excludes += listOf(
@@ -78,26 +101,30 @@ android {
             )
         }
     }
+
     lint {
         abortOnError = true
         warning.addAll(listOf("ImpliedQuantity", "Instantiatable", "MissingQuantity", "MissingTranslation", "StringFormatInvalid"))
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_21
         targetCompatibility = JavaVersion.VERSION_21
     }
+
     kotlinOptions {
         jvmTarget = "21"
     }
+
     dependenciesInfo {
         includeInApk = false
         includeInBundle = false
     }
+
     configurations.configureEach {
         resolutionStrategy.force("com.google.code.findbugs:jsr305:1.3.9")
     }
 }
-
 
 dependencies {
     implementation(project(":appthemehelper"))
@@ -112,9 +139,7 @@ dependencies {
     implementation(libs.androidx.palette.ktx)
 
     implementation(libs.androidx.mediarouter)
-    //Cast Dependencies
     "normalImplementation"(libs.google.play.services.cast.framework)
-    //WebServer by NanoHttpd
     "normalImplementation"(libs.nanohttpd)
 
     implementation(libs.androidx.navigation.runtime.ktx)
@@ -132,9 +157,6 @@ dependencies {
     implementation(libs.androidx.core.splashscreen)
 
     "normalImplementation"(libs.google.feature.delivery)
-    "normalImplementation"(libs.google.play.review)
-    "normalImplementation"(libs.google.play.billing)
-
 
     implementation(libs.android.material)
 
@@ -144,6 +166,7 @@ dependencies {
 
     implementation(libs.afollestad.material.dialogs.core)
     implementation(libs.afollestad.material.dialogs.input)
+    implementation(libs.afollestad.material.dialogs.lifecycle)
     implementation(libs.afollestad.material.dialogs.color)
     implementation(libs.afollestad.material.cab)
 
@@ -157,43 +180,21 @@ dependencies {
     implementation(libs.glide.okhttp3.integration)
 
     implementation(libs.advrecyclerview)
-
     implementation(libs.fadingedgelayout)
-
     implementation(libs.keyboardvisibilityevent)
     implementation(libs.jetradarmobile.android.snowfall)
-
     implementation(libs.chrisbanes.insetter)
 
+    implementation(libs.androidx.exoplayer)
 
-    implementation(libs.org.eclipse.egit.github.core)
+    implementation("io.coil-kt:coil:2.4.0")
+    implementation(files("libs/taglib-release.aar"))
+
     implementation(libs.jaudiotagger)
+    "normalImplementation"(libs.android.lab.library)
     implementation(libs.slidableactivity)
     implementation(libs.material.intro)
     implementation(libs.fastscroll.library)
     implementation(libs.customactivityoncrash)
     implementation(libs.tankery.circularSeekBar)
-
-    implementation(libs.androidx.exoplayer)
-
-   implementation(libs.afollestad.material.dialogs.lifecycle)
-
-   implementation("io.coil-kt:coil:2.4.0")
-   implementation(files("libs/taglib-release.aar"))
-
-   "normalImplementation"(libs.android.lab.library)
 }
-
-fun getProperties(fileName: String): Properties? {
-    val properties = Properties()
-    val file = rootProject.file(fileName)
-    if (file.exists()) {
-        file.inputStream().use { properties.load(it) }
-    } else {
-        return null
-    }
-    return properties
-}
-
-fun getProperty(properties: Properties?, name: String): String =
-    properties?.getProperty(name) ?: "$name missing"

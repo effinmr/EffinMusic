@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:singleLine="true"
-            android:textAppearance="?attr/TextViewBody1"
+            android:textAppearance="@style/TextViewBody1"
             android:textColor="?android:attr/textColorPrimary"
             tools:text="Title" />
 
@@ -44,7 +44,7 @@
             android:layout_marginTop="4dp"
             android:gravity="center_vertical"
             android:singleLine="true"
-            android:textAppearance="?attr/TextViewCaption"
+            android:textAppearance="@style/TextViewCaption"
             android:textColor="?android:attr/textColorSecondary"
             tools:text="Text" />
 

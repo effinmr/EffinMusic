@@ -33,7 +33,6 @@ import code.name.monkey.retromusic.model.CategoryInfo
 import code.name.monkey.retromusic.model.Song
 import code.name.monkey.retromusic.repository.PlaylistSongsLoader
 import code.name.monkey.retromusic.service.MusicService
-import code.name.monkey.retromusic.util.AppRater
 import code.name.monkey.retromusic.util.PreferenceUtil
 import code.name.monkey.retromusic.util.logE
 import kotlinx.coroutines.Dispatchers.IO
@@ -53,11 +52,9 @@ class MainActivity : AbsCastActivity(), IMiniPlayerExpanded {
         setTaskDescriptionColorAuto()
         hideStatusBar()
         updateTabs()
-        AppRater.appLaunched(this)
 
         setupNavigationController()
 
-        // Restore navigation state if present
         savedInstanceState?.getBundle("nav_state")?.let {
             findNavController(R.id.fragment_container).restoreState(it)
         }

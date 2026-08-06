@@ -102,6 +102,7 @@
         <item name="TextViewButton">@style/TextViewButton.Small</item>
         <item name="TextViewOverline">@style/TextViewOverline.Small</item>
         <item name="TextViewNormal">@style/TextViewNormal.Small</item>
+        <item name="TextViewSubhead">@style/TextViewSubhead.Small</item>
     </style>
 
     <style name="FontSizeNormal">
@@ -118,6 +119,7 @@
         <item name="TextViewButton">@style/TextViewButton</item>
         <item name="TextViewOverline">@style/TextViewOverline</item>
         <item name="TextViewNormal">@style/TextViewNormal</item>
+        <item name="TextViewSubhead">@style/TextViewSubhead</item>
     </style>
 
     <style name="FontSizeLarge">
@@ -134,6 +136,7 @@
         <item name="TextViewButton">@style/TextViewButton.Large</item>
         <item name="TextViewOverline">@style/TextViewOverline.Large</item>
         <item name="TextViewNormal">@style/TextViewNormal.Large</item>
+        <item name="TextViewSubhead">@style/TextViewSubhead.Large</item>
     </style>
 
     <!-- Base Text Styles (Explicit Original Sizes + Offsets) -->
@@ -209,13 +212,17 @@
     <style name="TextViewOverline.Small" parent="TextViewOverline"><item name="android:textSize">6sp</item></style>
     <style name="TextViewOverline.Large" parent="TextViewOverline"><item name="android:textSize">14sp</item></style>
 
-    <style name="TextViewNormal" parent="TextAppearance.MaterialComponents.Body1">
+    <style name="TextViewNormal" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="TextViewNormal.Small" parent="TextViewNormal"><item name="android:textSize">10sp</item></style>
+    <style name="TextViewNormal.Large" parent="TextViewNormal"><item name="android:textSize">18sp</item></style>
+
+    <style name="TextViewSubhead" parent="TextAppearance.AppCompat.Subhead">
         <item name="android:textSize">16sp</item>
     </style>
-    <style name="TextViewNormal.Small" parent="TextViewNormal"><item name="android:textSize">12sp</item></style>
-    <style name="TextViewNormal.Large" parent="TextViewNormal"><item name="android:textSize">20sp</item></style>
-
-    <style name="TextViewSubhead" parent="TextAppearance.AppCompat.Subhead" />
+    <style name="TextViewSubhead.Small" parent="TextViewSubhead"><item name="android:textSize">12sp</item></style>
+    <style name="TextViewSubhead.Large" parent="TextViewSubhead"><item name="android:textSize">20sp</item></style>
 
     <style name="TextViewNormalCompress" parent="TextAppearance.MaterialComponents.Caption">
         <item name="android:textSize">14sp</item>
