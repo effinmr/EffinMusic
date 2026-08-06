@@ -13,10 +13,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
 
       - name: Set up JDK
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: 21
@@ -38,7 +38,7 @@ jobs:
           KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
 
       - name: Upload APK
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v4
         with:
           name: app-signed-${{ matrix.variant }}-${{ github.run_number }}.apk
           path: |
