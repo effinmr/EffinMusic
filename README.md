@@ -60,13 +60,17 @@
 
 ---
 
+> ⭐ Like this app? Consider giving it a star! Community interest drives future updates and development.
+
+---
+
 ## ✨ Features
 
 ### ⚡ Performance
 Fast, lightweight, and optimized for smooth playback with critical bug fixes.
 
 ### 🎵 Music & Playback
-- Youtube Shorts like Samples
+- YouTube Shorts-like Samples
 - ReplayGain for consistent volume  
 - Built-in equalizer  
 - LRCLIB lyrics integration  
@@ -89,7 +93,6 @@ Fast, lightweight, and optimized for smooth playback with critical bug fixes.
 
 ### 🚀 Extras
 - Pro features included  
-- Based on Retro Music Player features  
 
 ---
 
@@ -110,3 +113,9 @@ Feature requests:
 
 Effin Music Player is licensed under the GNU General Public License v3.0 (GPLv3).  
 See the [LICENSE](LICENSE.md) file for details.
+
+---
+
+## 🤝 Credits
+
+Built upon Retro Music Player by Hemanth Savarla.
