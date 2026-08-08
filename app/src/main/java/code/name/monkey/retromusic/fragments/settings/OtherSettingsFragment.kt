@@ -138,7 +138,6 @@ class OtherSettingsFragment : AbsSettingsFragment(),
             force,
             onProgress = { songTitle, index, total ->
                 lifecycleScope.launch(Dispatchers.Main) {
-                    dialog.setMessage("$index / $total")
                     progressBar.max = total
                     progressBar.progress = index
                 }
@@ -146,8 +145,8 @@ class OtherSettingsFragment : AbsSettingsFragment(),
             onComplete = {
                 lifecycleScope.launch(Dispatchers.Main) {
                     dialog.dismiss()
-                    Toast.makeText(requireContext(), "Scan completed!, App will be Restarted", Toast.LENGTH_SHORT).show()
-                    restartApp(requireContext())
+                    Toast.makeText(requireContext(), "Scan completed!", Toast.LENGTH_SHORT).show()
+                    updateForceScan()
                 }
             }
         )

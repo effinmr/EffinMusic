@@ -57,6 +57,8 @@ interface SongRepository {
     fun song(cursor: Cursor?): Song
 
     fun song(songId: Long): Song
+
+    fun clearMetadataCache()
 }
 
 class RealSongRepository(private val context: Context) : SongRepository {
@@ -64,6 +66,10 @@ class RealSongRepository(private val context: Context) : SongRepository {
     private val metadataDao: SongMetadataDao = RetroDatabase.getInstance(context).songMetadataDao()
 
     private var metadataMap: Map<Long, SongMetadataEntity>? = null
+
+    override fun clearMetadataCache() {
+        metadataMap = null
+    }
 
     override fun songs(hideDuplicates: Boolean): List<Song> {
         val allSongs = sortedSongs(makeSongCursor(null, null))

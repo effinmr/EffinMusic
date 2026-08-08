@@ -164,8 +164,13 @@ class LibraryViewModel(
                 onProgress(title, idx, total)
             }
             scanProgress.postValue("Scan complete")
-            onComplete()
+            
+            repository.clearMetadataCache()
             reloadTabs()
+
+            withContext(Dispatchers.Main) {
+                onComplete()
+            }
         }
     }
 
