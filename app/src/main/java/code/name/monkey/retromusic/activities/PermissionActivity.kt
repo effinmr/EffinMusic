@@ -172,10 +172,15 @@ class PermissionActivity : AbsMusicServiceActivity() {
             },
             onComplete = {
                 lifecycleScope.launch(Dispatchers.Main) {
-                    dialog.dismiss()
-                    Toast.makeText(this@PermissionActivity, "Scan completed!, App will be Restarted", Toast.LENGTH_SHORT).show()
                     PreferenceUtil.fixYear = true
-                    restartApp(this@PermissionActivity)
+                    dialog.dismiss()
+                    Toast.makeText(this@PermissionActivity, "Scan completed!", Toast.LENGTH_SHORT).show()
+                    startActivity(
+                        Intent(this@PermissionActivity, MainActivity::class.java).addFlags(
+                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        )
+                    )
+                    finish()
                 }
             }
         )
