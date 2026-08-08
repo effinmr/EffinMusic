@@ -67,7 +67,7 @@ class RealSongRepository(private val context: Context) : SongRepository {
 
     private var metadataMap: Map<Long, SongMetadataEntity>? = null
 
-    fun clearMetadataCache() {
+    override fun clearMetadataCache() {
         metadataMap = null
     }
 
