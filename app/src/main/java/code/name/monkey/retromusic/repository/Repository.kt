@@ -98,6 +98,7 @@ interface Repository {
     fun checkPlaylistExists(playListId: Long): LiveData<Boolean>
     fun getPlaylist(playlistId: Long): LiveData<PlaylistWithSongs>
     suspend fun updatePlaylists(playlists: List<PlaylistEntity>)
+    fun clearMetadataCache()
 }
 
 class RealRepository(
@@ -114,6 +115,10 @@ class RealRepository(
     private val roomRepository: RoomRepository,
     private val localDataRepository: LocalDataRepository,
 ) : Repository {
+
+    override fun clearMetadataCache() {
+        songRepository.clearMetadataCache()
+    }
 
     override suspend fun deleteSongs(songs: List<Song>) = roomRepository.deleteSongs(songs)
 
