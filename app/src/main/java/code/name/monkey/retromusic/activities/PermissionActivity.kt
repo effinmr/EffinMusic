@@ -140,7 +140,6 @@ class PermissionActivity : AbsMusicServiceActivity() {
         val container = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             setPadding(padding, padding, padding, padding)
-            gravity = android.view.Gravity.CENTER_HORIZONTAL
         }
 
         val statusText = android.widget.TextView(this).apply {
@@ -165,7 +164,6 @@ class PermissionActivity : AbsMusicServiceActivity() {
             force,
             onProgress = { songTitle, index, total ->
                 lifecycleScope.launch(Dispatchers.Main) {
-                    statusText.text = "$index / $total"
                     progressBar.max = total
                     progressBar.progress = index
                 }
