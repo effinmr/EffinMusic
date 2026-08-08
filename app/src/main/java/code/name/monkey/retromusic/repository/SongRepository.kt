@@ -57,6 +57,8 @@ interface SongRepository {
     fun song(cursor: Cursor?): Song
 
     fun song(songId: Long): Song
+
+    fun clearMetadataCache()
 }
 
 class RealSongRepository(private val context: Context) : SongRepository {
