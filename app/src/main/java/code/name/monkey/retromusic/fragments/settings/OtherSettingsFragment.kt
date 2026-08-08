@@ -138,7 +138,6 @@ class OtherSettingsFragment : AbsSettingsFragment(),
             force,
             onProgress = { songTitle, index, total ->
                 lifecycleScope.launch(Dispatchers.Main) {
-                    dialog.setMessage("$index / $total")
                     progressBar.max = total
                     progressBar.progress = index
                 }
