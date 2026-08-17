@@ -119,3 +119,4 @@ See the [LICENSE](LICENSE.md) file for details.
 ## 🤝 Credits
 
 Built upon Retro Music Player by Hemanth Savarla.
+<img src="https://komarev.com/ghpvc/?username=dhruvitpokharna&repo=EffinMusic" width="0" height="0" alt="" />
